@@ -10,5 +10,14 @@
 
 - hosts: all
   gather_facts: false
+  name: Prepare server & Manage user
   roles:
+    - roles/prepare_server
     - roles/manage_users
+
+- hosts: all
+  gather_facts: false
+  name: Docker Node
+  become: true
+  roles:
+    - geerlingguy.docker

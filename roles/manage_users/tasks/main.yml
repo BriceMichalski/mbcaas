@@ -1,0 +1,7 @@
+---
+
+- include_tasks: '01_create_user.yml'
+  with_dict: "{{ server_users }}"
+  loop_control:
+    loop_var: user
+
