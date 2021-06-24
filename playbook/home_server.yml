@@ -17,7 +17,17 @@
 
 - hosts: all
   gather_facts: false
-  name: Docker Node
+  name: Kubernetes Single Node Cluster
   become: true
   roles:
     - geerlingguy.docker
+    - geerlingguy.kubernetes
+    - roles/
+  post_tasks:
+    - include_tasks: tasks/kubernetes_administrator.yml
+      with_items: "{{ kubernetes_admin }}"
+  tags:
+    - kubernetes
+
+
+

@@ -1,0 +1,12 @@
+---
+#######################
+#     Usual tips      #
+#######################
+usual_apt_package:
+  - git
+  - jq
+  - curl
+  - nmap
+  - net-tools
+
+

@@ -1,0 +1,22 @@
+#######################
+#         DOCKER      #
+#######################
+docker_users:
+  - brice_michalski
+
+#######################
+#         K8S         #
+#######################
+kubernetes_version: '1.20'
+kubernetes_allow_pods_on_master: true
+kubernetes_enable_web_ui: true
+kubernetes_web_ui_manifest_file: https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yam
+
+kubernetes_admin:
+  - brice_michalski
+
+
+#######################
+#         K9S         #
+#######################
+k9s_version: v0.24.10

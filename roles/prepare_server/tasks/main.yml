@@ -1,6 +1,18 @@
 ---
 
 #######################
+#      TIMEZONE       #
+#######################
+
+- name: Set timezone to Europe/Paris
+  become: true
+  timezone:
+    name: Europe/Paris
+  tags:
+    - prepare_server
+    - prepare_server::timezone
+
+#######################
 #         APT         #
 #######################
 - name: Apt operation
@@ -24,19 +36,6 @@
   tags:
     - prepare_server
     - prepare_server::upgrade
-
-
-#######################
-#      TIMEZONE       #
-#######################
-
-- name: Set timezone to Europe/Paris
-  become: true
-  timezone:
-    name: Europe/Paris
-  tags:
-    - prepare_server
-    - prepare_server::timezone
 
 #######################
 #         SWAP        #
@@ -76,3 +75,43 @@
   tags:
     - prepare_server
     - prepare_server::swap
+
+#######################
+#     Usual tips      #
+#######################
+
+- name: Install usual package
+  become: true
+  block:
+    - name: Install usual apt package
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ usual_apt_package }}"
+  tags:
+    - prepare_server
+    - prepare_server::usual
+    - prepare_server::usual::package
+
+- name: Install k9s
+  become: true
+  block:
+    - name: Download k9s tarball
+      get_url:
+        url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
+        dest: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
+      register: k9s_archive
+
+    - name: Unarchive k9s
+      unarchive:
+        src: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
+        dest: "/usr/local/bin"
+        mode: 0755
+        remote_src: true
+      when: k9s_archive.changed
+  tags:
+    - prepare_server
+    - prepare_server::usual
+    - prepare_server::usual::k9s
+
+
