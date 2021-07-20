@@ -1,7 +1,11 @@
 ---
-
-- include_tasks: '01_create_user.yml'
-  with_dict: "{{ server_users }}"
-  loop_control:
-    loop_var: user
+- name: "manage users"
+  block:
+    - include_tasks: '01_create_user.yml'
+      with_dict: "{{ server_users }}"
+      loop_control:
+        loop_var: user
+  when :
+   - server_users is defined
+   - server_users != null
 

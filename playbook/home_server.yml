@@ -22,7 +22,7 @@
   roles:
     - geerlingguy.docker
     - geerlingguy.kubernetes
-    - roles/
+    - roles/kubernetes_configuration
   post_tasks:
     - include_tasks: tasks/kubernetes_administrator.yml
       with_items: "{{ kubernetes_admin }}"

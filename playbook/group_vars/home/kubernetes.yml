@@ -9,11 +9,54 @@ docker_users:
 #######################
 kubernetes_version: '1.20'
 kubernetes_allow_pods_on_master: true
-kubernetes_enable_web_ui: true
+kubernetes_enable_web_ui: false
 kubernetes_web_ui_manifest_file: https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yam
 
 kubernetes_admin:
   - brice_michalski
+
+ingress_controller_manifest:
+  role: Ingress Controller
+  method: apply
+  src:  https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
+
+metallb_namespace_manifest:
+  role: MetalLb Namespace
+  method: apply
+  src: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
+
+metallb_install_manifest:
+  role: MetalLb Installation
+  method: apply
+  src: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml
+
+metallb_config:
+  ip_range:
+    from: 192.168.1.210
+    to: 192.168.1.240
+
+external_dns:
+  enable: false 
+  version: v0.8.0
+  api_key: !vault |
+           $ANSIBLE_VAULT;1.1;AES256
+           34656666656238623932393530653930336363346131623265613464613436616164613064303332
+           3138356435336538383735376532623865623062633433650a346231616230663534613766333662
+           64626638346137623562616565613433623461623833646465393562636139383463663136323038
+           6530623862643133390a323034643135643361393233373730346431636664313736303539393564
+           66636465333533383536333865376261396537336164313830663733323539623231373866613935
+           3431653666636165356365353833363235356233356530633366
+  cloudflare_email: !vault |
+                    $ANSIBLE_VAULT;1.1;AES256
+                    61303361306330623537343663363566303362396263636134333038386564363430333732356634
+                    6637366138613961666463656164363361633636666330360a326561323231363738663130623339
+                    38336661613465613834393266326465366565656536646662313365356261343564636665623665
+                    3838313638323633330a663066306131653036653632316432363134323038633266306630316164
+                    62653731336339646533633833663637363438643734386463636339363731623162
+
+dashboard:
+  enable: true 
+  hostname: dashboard.mbcaas.com
 
 
 #######################

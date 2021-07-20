@@ -1,3 +1,4 @@
 *.retry
 roles/*.*
 *.vault
+kubeconfig
