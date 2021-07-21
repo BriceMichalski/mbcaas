@@ -1,0 +1,40 @@
+---
+- name: " {{manifest.method }} {{ manifest.role }}"
+  become: true
+  block:
+    - name: Copy {{ manifest.role }} manifest
+      template: 
+        src: "{{ manifest.src }}.j2"
+        dest: "{{ custom_manifest_location }}/{{ manifest.src }}"
+        owner: root
+        group: root
+        mode: 0600
+      when: manifest.src is not match("http.*") 
+
+    #  FOR TEMPLATE Manifest
+    - name: Create {{ manifest.role }} manifest
+      command: kubectl create -f {{ manifest.src }}
+      when: 
+        - manifest.method == "create"
+        - manifest.src is not match("http.*")
+      
+
+    - name: Apply {{ manifest.role }} manifest
+      command: kubectl apply -f {{ manifest.src }}
+      when:  
+        - manifest.method == "apply"
+        - manifest.src is not match("http.*") 
+
+    #  FOR Online FILE
+    - name: Create {{ manifest.role }} manifest
+      command: kubectl create -f {{ manifest.src }}
+      when: 
+        - manifest.method == "create"
+        - manifest.src is match("http.*") 
+      
+
+    - name: Apply {{ manifest.role }} manifest
+      command: kubectl apply -f {{ manifest.src }}
+      when:  
+        - manifest.method == "apply"
+        - manifest.src is match("http.*") 

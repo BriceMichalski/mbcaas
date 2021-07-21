@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ app.name | lower }}
+  namespace: {{ app.name | lower if app.use_namespace else "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ app.name | lower }}
+  {% if app.replicas is defined -%}    
+  replicas: {{ app.replicas }}
+  {% endif -%}
+  template:
+    metadata:
+      labels:
+        app: {{ app.name | lower }}
+        name: {{ app.name | lower }}-deployment
+    spec:
+      containers:
+        {% for container in app.containers -%}
+        - name: {{ container.name | lower }}
+          image: {{ container.image }}
+          {% if container.ports is defined -%}
+          ports:
+            {% for port in container.ports -%}
+            - containerPort: {{ port }}
+            {% endfor -%}
+          {% endif -%}
+        {% endfor %}
+        

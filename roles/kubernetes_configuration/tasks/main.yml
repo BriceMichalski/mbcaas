@@ -1,0 +1,91 @@
+---
+- name: Install MetalLb
+  become: true
+  block:
+    - name: Check if strictARP is enable
+      shell: "kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e 's/strictARP: false/strictARP: true/' | kubectl diff -f - -n kube-system"
+      failed_when: false
+      changed_when: false
+      register: strict_arp_enable
+
+    - name: Apply strict ARP
+      shell: "kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e 's/strictARP: false/strictARP: true/' | kubectl apply -f - -n kube-system"
+      when: strict_arp_enable.rc != 0
+
+    - name: Create MetalLB namespace
+      include_tasks: apply_manifest.yml
+      vars:
+        manifest: "{{ metallb_namespace_manifest }}"
+
+    - name: Check if MetalLB deployement already exists.
+      shell: kubectl get deploy --namespace metallb-system | grep -q controller
+      changed_when: false
+      failed_when: false
+      register: metallb_deployement
+
+    - name: MetalLB Installation
+      include_tasks: apply_manifest.yml
+      vars:
+        manifest: "{{ metallb_install_manifest }}"
+      when: metallb_deployement.rc != 0
+
+    - name: Create custom manifest dir
+      file:
+        path: /etc/kubernetes/custom_manifests
+        state: directory
+
+    - name: Deploy MetalLB configuration
+      template:
+        src: "matallb-config.yaml.j2"
+        dest: /etc/kubernetes/custom_manifests/metallb-config.yaml
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Check if MetalLB configuration already exists.
+      shell: kubectl get configmap -n metallb-system | grep -q config
+      changed_when: false
+      failed_when: false
+      register: metallb_configuration
+
+    - name: Apply MetalLB configuration
+      include_tasks: apply_manifest.yml
+      vars:
+        manifest:
+          role: MetalLB configuration
+          src: /etc/kubernetes/custom_manifests/metallb-config.yaml
+          method: create
+      when: metallb_configuration.rc != 0
+
+  tags:
+    - kubernetes
+    - kubernetes::metallb
+
+- name: Create ingress controller
+  include_tasks: apply_manifest.yml
+  vars:
+    manifest: "{{ ingress_controller_manifest }}"
+
+- name: Install external dns
+  include_tasks: apply_manifest.yml
+  vars:
+    manifest:
+      role: External-dns Installation
+      src: external-dns.yaml
+      method: apply
+  when: external_dns.enable
+  tags:
+    - kubernetes
+    - kubernetes::external-dns
+
+- name: Install kubernetes dashboard
+  include_tasks: apply_manifest.yml
+  vars:
+    manifest:
+      role: kubernetes dashboard
+      src: dashboard.yaml
+      method: apply
+  when: dashboard.enable
+  tags:
+    - kubernetes
+    - kubernetes::dashboard

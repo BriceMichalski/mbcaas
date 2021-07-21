@@ -28,6 +28,13 @@
       with_items: "{{ kubernetes_admin }}"
   tags:
     - kubernetes
+    - kubernetes::cluster
 
-
-
+- hosts: all
+  gather_facts: false
+  name: Deploy applications
+  roles:
+    - roles/kubernetes_applications
+  tags:
+    - kubernetes 
+    - kubernetes::apps

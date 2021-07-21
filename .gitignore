@@ -2,3 +2,4 @@
 roles/*.*
 *.vault
 kubeconfig
+token

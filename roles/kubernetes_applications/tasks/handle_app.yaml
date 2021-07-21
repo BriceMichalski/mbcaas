@@ -1,0 +1,119 @@
+---
+
+# 
+#  DEPLOY APPLICATION
+# 
+- name: "Deploy {{ app.name }}"
+  become: true
+  block:
+    # folder
+    - name: "{{ app.name | upper }} : Create manifest folders"
+      file:
+        path: "{{ apps_manifest_location }}/{{ app.name | lower }}"
+        state: directory
+        mode: "0755"
+
+    # namespace
+    - name: "{{ app.name | upper }} - NAMESPACE : Generate manifest"
+      template:
+        src: namespace.yaml.j2
+        dest: "{{ apps_manifest_location }}/{{ app.name | lower }}/namespace.yaml"
+        mode: "0755"
+      when: app.use_namespace
+
+    - name: "{{ app.name | upper }} - NAMESPACE : Apply manifest"
+      command: kubectl apply -f "{{ apps_manifest_location }}/{{ app.name | lower }}/namespace.yaml"
+      when: app.use_namespace
+
+    # deployment
+    - name: "{{ app.name | upper }} - DEPLOYMENT : Generate manifest"
+      template:
+        src: deployment.yaml.j2
+        dest: "{{ apps_manifest_location }}/{{ app.name | lower }}/deployment.yaml"
+        mode: "0755"
+
+    - name: "{{ app.name | upper }} - DEPLOYMENT : Apply manifest"
+      command: kubectl apply -f "{{ apps_manifest_location }}/{{ app.name | lower }}/deployment.yaml"
+
+    # services
+    - name: "{{ app.name | upper }} - SERVICE : Generate manifest"
+      template:
+        src: service.yaml.j2
+        dest: "{{ apps_manifest_location }}/{{ app.name | lower }}/service.yaml"
+        mode: "0755"
+
+    - name: "{{ app.name | upper }} - SERVICE : Apply manifest"
+      command: kubectl apply -f "{{ apps_manifest_location }}/{{ app.name | lower }}/service.yaml"
+    
+    # ingress
+    - name: "{{ app.name | upper }} - INGRESS : Generate manifest"
+      template:
+        src: ingress.yaml.j2
+        dest: "{{ apps_manifest_location }}/{{ app.name | lower }}/ingress.yaml"
+        mode: "0755"
+      when: 
+        - app.ingresses is defined
+
+    - name: "{{ app.name | upper }} - INGRESS : Apply  manifest"
+      command: kubectl apply -f "{{ apps_manifest_location }}/{{ app.name | lower }}/ingress.yaml"
+      when:
+        - app.ingresses is defined
+
+    # cloudflare dns
+    - name: "{{ app.name | upper }} - CLOUDFLARE : Create CNAME record(s)"
+      community.general.cloudflare_dns:
+        zone: "{{ item.hostname.split('.')[-2:] | join('.') }}"
+        type: CNAME
+        record: "{{ item.hostname }}"
+        value: "{{ item.hostname.split('.')[-2:] | join('.') }}"
+        account_email: "{{ cloudflare_email }}"
+        account_api_key: "{{ cloudflare_api_key }}"
+        proxied: yes
+        state: present
+      with_items: "{{ app.ingresses }}"
+      when:
+        - app.ingresses is defined
+  when: 
+    - app.deployed
+
+# 
+#  DELETE APPLICATION
+# 
+
+- name: "Delete {{ app.name }}"
+  become: true
+  block:
+    # cloudflare dns
+    - name: "{{ app.name | upper }} : Delete CNAME record(s) in Cloudflare"
+      community.general.cloudflare_dns:
+        zone: "{{ item.hostname.split('.')[-2:] | join('.') }}"
+        type: CNAME
+        record: "{{ item.hostname }}"
+        value: "{{ item.hostname.split('.')[-2:] | join('.') }}"
+        account_email: "{{ cloudflare_email }}"
+        account_api_key: "{{ cloudflare_api_key }}"
+        proxied: yes
+        state: absent
+      with_items: "{{ app.ingresses }}"
+      when:
+        - app.ingresses is defined
+
+    # Delete all manifest
+    - name: "{{ app.name | upper }} : Find all manifest for {{ app.name }}"
+      find:
+        paths: "{{ apps_manifest_location }}/{{ app.name | lower }}"
+        patterns: '*.yml,*.yaml'
+      register: manifests
+
+    - name: "{{ app.name | upper }} : Kubectl delete all manifest"
+      command: "kubectl delete -f {{ item.path }}"
+      with_items: "{{ manifests.files }}"
+
+    # Delete manifest folder
+    - name: "{{ app.name | upper }} : Create manifest folders"
+      file:
+        path: "{{ apps_manifest_location }}/{{ app.name | lower }}"
+        state: absent
+        
+  when: 
+    - not app.deployed

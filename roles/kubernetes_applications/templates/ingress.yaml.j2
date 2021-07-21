@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ app.name | lower }}
+  namespace: {{ app.name | lower if app.use_namespace else "default" }}
+spec:
+  rules:
+    {% for ingress in app.ingresses -%}
+    - host: {{ ingress.hostname }}
+      http:
+        paths:
+        - path: {{ ingress.path }}
+          pathType: {{ ingress.path_type }}
+          backend:
+            service:
+              name: {{ app.name | lower }}-service
+              port:
+                number: {{ app.service.expose }}
+    {% endfor %}
