@@ -1,0 +1,82 @@
+---
+
+# 
+#  DEPLOY APPLICATION
+# 
+- name: "Deploy {{ app.name }}"
+  delegate_to: localhost
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+  block:
+    - name: "k8s configmap"
+      delegate_to: localhost
+      k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'configmap.yml.j2') }}"
+      when: app.configmap_data | default(false)
+
+    - name: "k8s pvc"
+      delegate_to: localhost
+      k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'pvc.yml.j2') }}"
+      when: app.pvc | default(false)
+
+    - name: "k8s deployment"
+      delegate_to: localhost
+      k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'deployment.yml.j2') }}"
+      when: app.containers | default(false)
+
+    - name: "k8s cronjob"
+      delegate_to: localhost
+      k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'cronjob.yml.j2') }}"
+      when: app.cronjob_containers | default(false)
+
+    - name: "k8s service"
+      delegate_to: localhost
+      k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'service.yml.j2') }}"
+      when: app.service_ports | default(false)
+
+    - name: "k8s ingress"
+      delegate_to: localhost
+      k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'ingress.yml.j2') }}"
+      when: app.ingress_rules | default(false)
+  when: 
+    - app.deployed
+
+# 
+#  DELETE APPLICATION
+# 
+- name: "Delete {{ app.name }}"
+  block:
+    # cloudflare dns
+    - name: "{{ app.name | upper }} : Delete CNAME record(s) in Cloudflare"
+      community.general.cloudflare_dns:
+        zone: "{{ item.hostname.split('.')[-2:] | join('.') }}"
+        type: CNAME
+        record: "{{ item.hostname }}"
+        value: "{{ item.hostname.split('.')[-2:] | join('.') }}"
+        account_email: "{{ cloudflare_email }}"
+        account_api_key: "{{ cloudflare_api_key }}"
+        proxied: yes
+        state: absent
+      with_items: "{{ app.ingresses.rules }}"
+      when:
+        - app.ingresses is defined
+
+  when: 
+    - not app.deployed

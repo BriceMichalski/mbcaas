@@ -7,5 +7,4 @@
         loop_var: user
   when :
    - server_users is defined
-   - server_users != null
 

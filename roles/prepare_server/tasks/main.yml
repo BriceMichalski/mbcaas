@@ -13,6 +13,19 @@
     - prepare_server::timezone
 
 #######################
+#     Hard drives     #
+#######################
+
+- name: Manage declared disks
+  include_tasks: disk.yml
+  loop: "{{ hard_drives }}"
+  loop_control:
+    loop_var: hard_drive
+  tags:
+    - prepare_server
+    - prepare_server::disk
+
+#######################
 #         APT         #
 #######################
 - name: Apt operation
@@ -22,7 +35,7 @@
       apt:
         update_cache: yes
 
-    - name: Upgrade the OS (apt-get full-upgrade)
+    - name: Upgrade packet (apt-get full-upgrade)
       apt:
         upgrade: full
 
@@ -88,10 +101,18 @@
         name: "{{ item }}"
         state: present
       with_items: "{{ usual_apt_package }}"
+
+    - name: Install usual python package
+      pip:
+        name: "{{ item }}"
+        state: present
+        executable: pip3
+      with_items: "{{ usual_pip_package }}" 
   tags:
     - prepare_server
     - prepare_server::usual
     - prepare_server::usual::package
+
 
 - name: Install k9s
   become: true

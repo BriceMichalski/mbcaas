@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: "{{ volume.name }}"
+spec:
+  capacity:
+    storage: "{{ volume.size }}"
+  # le champ volumeMode requiert l'activation de la "feature gate" Alpha BlockVolume
+  volumeMode: "{{ volume.mode }}"
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: "{{ volume.reclaim_policy }}"
+  local:
+    path: "{{ volume.path }}"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - "{{ ansible_fqdn }}"
