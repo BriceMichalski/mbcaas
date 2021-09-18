@@ -19,11 +19,16 @@
         src: namespace.yaml.j2
         dest: "{{ apps_manifest_location }}/{{ app.name | lower }}/namespace.yaml"
         mode: "0755"
-      when: app.use_namespace
+      when: app.namespace is defined and app.namespace is not false
 
     - name: "{{ app.name | upper }} - NAMESPACE : Apply manifest"
       command: kubectl apply -f "{{ apps_manifest_location }}/{{ app.name | lower }}/namespace.yaml"
-      when: app.use_namespace
+      when: app.namespace is defined and app.namespace is not false
+
+    # Secrets
+    # - name: "{{ app.name | upper }} - SECRETS : Defined github pull sceret"
+    #   command: kubectl -n {{ app.namespace }} create secret docker-registry github-pull-secret --docker-server=ghcr.io --docker-username=BriceMichalski --docker-password={{ github_token }} --docker-email={{ github_email }}
+    #   when: app.from_private_github is defined and app.from_private_github is not false
 
     # deployment
     - name: "{{ app.name | upper }} - DEPLOYMENT : Generate manifest"
@@ -70,7 +75,7 @@
         account_api_key: "{{ cloudflare_api_key }}"
         proxied: yes
         state: present
-      with_items: "{{ app.ingresses }}"
+      with_items: "{{ app.ingresses.rules }}"
       when:
         - app.ingresses is defined
   when: 
@@ -94,7 +99,7 @@
         account_api_key: "{{ cloudflare_api_key }}"
         proxied: yes
         state: absent
-      with_items: "{{ app.ingresses }}"
+      with_items: "{{ app.ingresses.rules }}"
       when:
         - app.ingresses is defined
 
@@ -110,7 +115,7 @@
       with_items: "{{ manifests.files }}"
 
     # Delete manifest folder
-    - name: "{{ app.name | upper }} : Create manifest folders"
+    - name: "{{ app.name | upper }} : Delete manifest folders"
       file:
         path: "{{ apps_manifest_location }}/{{ app.name | lower }}"
         state: absent

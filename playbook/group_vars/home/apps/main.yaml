@@ -1,2 +1,4 @@
 kubernetes_applications:
   - "{{ test_app }}"
+  - "{{ thesis }}"
+  - "{{ stakhanov }}"

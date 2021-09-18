@@ -3,12 +3,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ app.name | lower }}
-  namespace: {{ app.name | lower if app.use_namespace else "default" }}
+  namespace: {{ app.namespace | lower if app.namespace is defined and  app.namespace is not false else "default" }}
 spec:
   selector:
     matchLabels:
       app: {{ app.name | lower }}
-  {% if app.replicas is defined -%}    
+  {% if app.replicas is defined -%}
   replicas: {{ app.replicas }}
   {% endif -%}
   template:
@@ -17,6 +17,10 @@ spec:
         app: {{ app.name | lower }}
         name: {{ app.name | lower }}-deployment
     spec:
+      {% if app.from_private_github is defined and app.from_private_github is not false -%}
+      imagePullSecrets:
+        - name: github-pull-secret
+      {% endif -%}
       containers:
         {% for container in app.containers -%}
         - name: {{ container.name | lower }}
@@ -25,7 +29,15 @@ spec:
           ports:
             {% for port in container.ports -%}
             - containerPort: {{ port }}
-            {% endfor -%}
-          {% endif -%}
+            {% endfor %}
+          {% endif %}
+
+          {% if container.env is defined and container.env is not false -%}
+          env:
+            {% for var in container.env -%}
+            - name: {{ var.name }}
+              value: {{ var.value }}
+            {% endfor %}
+          {% endif %}
         {% endfor %}
         

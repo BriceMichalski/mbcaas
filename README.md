@@ -1,4 +1,4 @@
-# home-server Project
+# home-caas Project
 
 Ansible project for my home server installation & configuration
 
@@ -20,6 +20,12 @@ Launch playbook `home-server.yml`:
 
 ```bash
 ansible-playbook --inventory inventories/home playbook/home_server.yml --vault-pass-file ./pwd.vault
+```
+
+App only:
+
+```bash
+ansible-playbook --inventory inventories/home/hosts playbook/home_server.yml --vault-pass-file ./pwd.vault --tags kubernetes::apps
 ```
 
 ## what does the playbook home_server.yml do ?

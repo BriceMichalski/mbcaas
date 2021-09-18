@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ app.name | lower }}
+  name: {{ app.namespace | lower if app.namespace is defined and  app.namespace is not false else "default" }}
   labels:
     app: {{ app.name }}
     name: {{ app.name | lower }}-namespace

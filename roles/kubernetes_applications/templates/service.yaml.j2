@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ app.name }}-service
-  namespace: {{ app.name | lower if app.use_namespace else "default"}}
+  namespace: {{ app.namespace | lower if app.namespace is defined and  app.namespace is not false else "default" }}
   labels:
     app: {{ app.name }}
     name: {{ app.name }}-service

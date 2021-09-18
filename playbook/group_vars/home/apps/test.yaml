@@ -1,6 +1,6 @@
 test_app:
   deployed: true
-  use_namespace: true
+  namespace: false
   name: web-test
   replicas: 1
   labels: 
@@ -16,10 +16,12 @@ test_app:
     target: 80 # container port
     name: http
   ingresses:
-    - hostname: test.mbcaas.com
-      path: /
-      path_type: Prefix
-    - hostname: test.michalski.fr
-      path: /
-      path_type: Prefix
+    rewrite: false
+    rules:
+      - hostname: test.mbcaas.com
+        path: /
+        path_type: Prefix
+      - hostname: test.michalski.fr
+        path: /
+        path_type: Prefix
 

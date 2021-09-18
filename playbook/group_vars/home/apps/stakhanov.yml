@@ -1,0 +1,31 @@
+stakhanov:
+  deployed: false
+  namespace: xmr-mine
+  name: xmr-mine
+  replicas: 4
+  from_private_github: true
+  labels: 
+    app: xmr-mine
+    type: personnal
+  containers: 
+    - name: xmr-miner
+      image: ghcr.io/themoneybin/xmr-miner:master
+      ports: 
+        - 8080
+      env:
+        - name: RIG_ID
+          value: "stakhanov"
+        - name: HTTP_PASS
+          value: ""
+        - name: HTTP_LOGIN
+          value: ""
+  service: 
+    expose: 80 # exposed port 
+    target: 8080 # container port
+    name: http
+  ingresses:
+    rewrite: /
+    rules:  
+      - hostname: stakhanov.mbcaas.com
+        path: /
+        path_type: Prefix

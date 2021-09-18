@@ -1,0 +1,27 @@
+thesis:
+  deployed: true
+  namespace: false
+  name: master-thesis
+  replicas: 1
+  labels: 
+    app: master-thesis
+    type: personnal
+  containers: 
+    - name: thesis
+      image: ghcr.io/bricemichalski/thesis:master
+      ports: 
+        - 80
+  service: 
+    expose: 80 # exposed port 
+    target: 80 # container port
+    name: http
+  ingresses:
+    rewrite: /
+    rules:  
+      - hostname: brice.michalski.fr
+        path: /memoire
+        path_type: Exact
+      - hostname: memoire.brice.michalski.fr
+        path: /memoire
+        path_type: Exact
+

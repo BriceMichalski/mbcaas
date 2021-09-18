@@ -2,10 +2,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ app.name | lower }}
-  namespace: {{ app.name | lower if app.use_namespace else "default" }}
+  namespace: {{ app.namespace | lower if app.namespace is defined and  app.namespace is not false else "default" }}
+  {% if app.ingresses.rewrite != false -%}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: {{ app.ingresses.rewrite }}
+  {% endif %}
+
 spec:
   rules:
-    {% for ingress in app.ingresses -%}
+    {% for ingress in app.ingresses.rules -%}
     - host: {{ ingress.hostname }}
       http:
         paths:
