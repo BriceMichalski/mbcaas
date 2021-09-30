@@ -6,5 +6,8 @@ metadata:
   namespace: "{{ app.namespace }}"
   annotations:
     external-dns.alpha.kubernetes.io/target: '{{ cloudflare_record_target }}'
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: "nginx"
 spec:
+  tls: {{ app.tls | to_json }}
   rules: {{ app.ingress_rules | to_json }}

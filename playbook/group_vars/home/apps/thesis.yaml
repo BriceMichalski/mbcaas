@@ -4,7 +4,7 @@ thesis:
   #
   name: thesis
   namespace: default
-  deployed: True
+  deployed: true
 
   #
   # App
@@ -23,6 +23,11 @@ thesis:
       targetPort: 80
       name: http
   
+  tls: 
+    - hosts:
+      - brice.michalski.fr
+      secretName: thesis-cert
+
   ingress_rules:
     - host: brice.michalski.fr
       http:

@@ -71,3 +71,6 @@ Bought on [ovh](https://www.ovh.com/fr/domaines/) and managed by [cloudflare](ht
 - [External-dns with Cloudflare](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/cloudflare.md)
 - [Cloudflare token generation](https://support.cloudflare.com/hc/fr-fr/articles/200167836-Gestion-des-jetons-et-cl%C3%A9s-de-l-API#12345680)
 - [Force External-dns to target my internet box public IP](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md#are-other-ingress-controllers-supported)
+- [Cert Manager install](https://cert-manager.io/docs/installation/)
+- [Cert Manager LetsEncrypt ACME](https://cert-manager.io/docs/configuration/acme/)
+- [Cert Manager DNS01 Challenge with cloudflare](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
