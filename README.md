@@ -1,8 +1,6 @@
-# home-caas Project
+# Home-caas project
 
 Ansible project for my home server installation, configuration and software deploiment
-
----
 
 ## Playbook
 
@@ -30,23 +28,21 @@ To run only a part of the playbook, see the tag list.
 
 |Tag Name| Usage |
 |---|---|
-| prepare_server | Configuration and customization of my server before installing kubernetes |
-| prepare_server::disk | Part of **prepare_server** : mount and prepare my external hard drives |
-| prepare_server::swap | Part of **prepare_server**: disable swap (kubernetes prerequisite) |
-| prepare_server::timezone | Part of **prepare_server**: set the timezone to Europe/Paris |
-| prepare_server::upgrade | Part of **prepare_server**: Updating packages and removing unnecessary ones |
-| prepare_server::usual | Part of **prepare_server**: Installing utilities that I frequently use |
-| prepare_server::usual::k9s | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
-| prepare_server::usual::package | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
-| kubernetes | Installation and configuration of the kubernetes (single-node) cluster, deployment of hosted applications |
-| kubernetes::cluster | Part of **kubernetes** : Installation of docker and the kubernetes cluster itself |
-| kubernetes::external-dns | Part of **kubernetes**: Configuring `external-dns` tool for dynamic declaration of hosted application dns |
-| kubernetes::ingress-controller | Part of **kubernetes**: Installation of an ingress controller (`nginx`) for application exposure outside the cluster |
-| kubernetes::metallb | Part of **kubernetes**: Installation of `metallb`, a load-balancer implementation for bare metal Kubernetes clusters, using standard routing protocols. |
-| kubernetes::volumes | Part of **kubernetes**: Creation of local persistent volumes for the provision of disk space to hosted applications |
-| kubernetes::apps | Part of **kubernetes**: Hosted Application Deployment |
-
----
+| **prepare_server** | Configuration and customization of my server before installing kubernetes |
+| **prepare_server::disk** | Part of **prepare_server** : mount and prepare my external hard drives |
+| **prepare_server::swap** | Part of **prepare_server**: disable swap (kubernetes prerequisite) |
+| **prepare_server::timezone** | Part of **prepare_server**: set the timezone to Europe/Paris |
+| **prepare_server::upgrade** | Part of **prepare_server**: Updating packages and removing unnecessary ones |
+| **prepare_server::usual** | Part of **prepare_server**: Installing utilities that I frequently use |
+| **prepare_server::usual::k9s** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
+| **prepare_server::usual::package** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
+| **kubernetes** | Installation and configuration of the kubernetes (single-node) cluster, deployment of hosted applications |
+| **kubernetes::cluster** | Part of **kubernetes** : Installation of docker and the kubernetes cluster itself |
+| **kubernetes::external-dns** | Part of **kubernetes**: Configuring `external-dns` tool for dynamic declaration of hosted application dns |
+| **kubernetes::ingress-controller** | Part of **kubernetes**: Installation of an ingress controller (`nginx`) for application exposure outside the cluster |
+| **kubernetes::metallb** | Part of **kubernetes**: Installation of `metallb`, a load-balancer implementation for bare metal Kubernetes clusters, using standard routing protocols. |
+| **kubernetes::volumes** | Part of **kubernetes**: Creation of local persistent volumes for the provision of disk space to hosted applications |
+| **kubernetes::apps** | Part of **kubernetes**: Hosted Application Deployment |
 
 ## Home server spécification
 
@@ -66,4 +62,4 @@ My home server is a mini pc bought on amazon : [amazon link](https://www.amazon.
 - michalski.fr
 - mbcaas.com
 
-Bought on [ovh](https://www.ovh.com/fr/domaines/) and managed by [cloudflare](https://www.cloudflare.com/)
+Bought on [ovh](https://www.ovh.com/fr/domaines/) and managed by [cloudflare](https://www.cloudflare.com/).
