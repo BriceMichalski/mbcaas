@@ -4,5 +4,7 @@ kind: Ingress
 metadata:
   name: '{{ app.name }}'
   namespace: "{{ app.namespace }}"
+  annotations:
+    external-dns.alpha.kubernetes.io/target: '{{ cloudflare_record_target }}'
 spec:
   rules: {{ app.ingress_rules | to_json }}
