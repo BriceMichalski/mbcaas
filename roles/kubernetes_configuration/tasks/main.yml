@@ -1,4 +1,17 @@
 ---
+- name: Create Local Persistant Volume
+  become: true 
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'pv.yaml.j2') }}"
+  loop: "{{ kubernetes_local_volumes }}"
+  loop_control:
+    loop_var: volume
+  tags:
+    - kubernetes
+    - kubernetes::volumes
+
 - name: Install MetalLb
   become: true
   block:
@@ -12,80 +25,82 @@
       shell: "kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e 's/strictARP: false/strictARP: true/' | kubectl apply -f - -n kube-system"
       when: strict_arp_enable.rc != 0
 
-    - name: Create MetalLB namespace
-      include_tasks: apply_manifest.yml
-      vars:
-        manifest: "{{ metallb_namespace_manifest }}"
-
-    - name: Check if MetalLB deployement already exists.
-      shell: kubectl get deploy --namespace metallb-system | grep -q controller
-      changed_when: false
-      failed_when: false
-      register: metallb_deployement
-
-    - name: MetalLB Installation
-      include_tasks: apply_manifest.yml
-      vars:
-        manifest: "{{ metallb_install_manifest }}"
-      when: metallb_deployement.rc != 0
-
     - name: Create custom manifest dir
       file:
         path: /etc/kubernetes/custom_manifests
         state: directory
+        
+    - name: Download MetalLB namespace manifest
+      get_url:
+        url: "{{ metallb.namespace }}"
+        dest: "{{ custom_manifest_location }}/metallb-namespace.yaml"
+        mode: '0664'
+
+    - name: Apply MetalLB namespace manifest to the cluster.
+      k8s:
+        state: present
+        src: "{{ custom_manifest_location }}/metallb-namespace.yaml"
+
+    - name: Download MetalLB manifest
+      get_url:
+        url: "{{ metallb.install}}"
+        dest: "{{ custom_manifest_location }}/metallb.yaml"
+        mode: '0664'
+
+    - name: Apply MetalLB manifest to the cluster.
+      k8s:
+        state: present
+        src: "{{ custom_manifest_location }}/metallb.yaml"
 
     - name: Deploy MetalLB configuration
       template:
         src: "matallb-config.yaml.j2"
-        dest: /etc/kubernetes/custom_manifests/metallb-config.yaml
+        dest: "{{ custom_manifest_location }}/metallb-config.yaml"
         owner: root
         group: root
         mode: 0600
 
-    - name: Check if MetalLB configuration already exists.
-      shell: kubectl get configmap -n metallb-system | grep -q config
-      changed_when: false
-      failed_when: false
-      register: metallb_configuration
-
-    - name: Apply MetalLB configuration
-      include_tasks: apply_manifest.yml
-      vars:
-        manifest:
-          role: MetalLB configuration
-          src: /etc/kubernetes/custom_manifests/metallb-config.yaml
-          method: create
-      when: metallb_configuration.rc != 0
-
+    - name: Apply MetalLB config manifest to the cluster.
+      k8s:
+        state: present
+        src: "{{ custom_manifest_location }}/metallb-config.yaml"
   tags:
     - kubernetes
     - kubernetes::metallb
 
-- name: Create ingress controller
-  include_tasks: apply_manifest.yml
-  vars:
-    manifest: "{{ ingress_controller_manifest }}"
+
+- name: Install nginx ingress controller
+  become: true
+  block:
+    - name: Download nginx ingress controller manifest
+      get_url:
+        url: "{{ nginx_ingress_controller }}"
+        dest: "{{ custom_manifest_location }}/nginx-ingress-controller.yaml"
+        mode: '0664'
+
+    - name: Apply nginx ingress controller manifest to the cluster.
+      k8s:
+        state: present
+        src: "{{ custom_manifest_location }}/nginx-ingress-controller.yaml"
+  tags:
+    - kubernetes
+    - kubernetes::ingress-controller
 
 - name: Install external dns
-  include_tasks: apply_manifest.yml
-  vars:
-    manifest:
-      role: External-dns Installation
-      src: external-dns.yaml
-      method: apply
-  when: external_dns.enable
+  become: true
+  block:
+    - name: Deploy external dns manifest
+      template:
+        src: "external-dns.yaml.j2"
+        dest: "{{ custom_manifest_location }}/external-dns.yaml"
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Apply external dns manifest to the cluster.
+      k8s:
+        state: present
+        src: "{{ custom_manifest_location }}/external-dns.yaml"
   tags:
     - kubernetes
     - kubernetes::external-dns
-
-- name: Install kubernetes dashboard
-  include_tasks: apply_manifest.yml
-  vars:
-    manifest:
-      role: kubernetes dashboard
-      src: dashboard.yaml
-      method: apply
-  when: dashboard.enable
-  tags:
-    - kubernetes
-    - kubernetes::dashboard

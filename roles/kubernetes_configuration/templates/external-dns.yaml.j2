@@ -1,31 +1,24 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: external-dns
-  labels:
-    app: externaldns
----    
+---  
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: external-dns
-  namespace: external-dns
+  namespace: kube-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: external-dns
 rules:
-- apiGroups: [""]
-  resources: ["services","endpoints","pods"]
-  verbs: ["get","watch","list"]
-- apiGroups: ["extensions","networking.k8s.io"]
-  resources: ["ingresses"] 
-  verbs: ["get","watch","list"]
-- apiGroups: [""]
-  resources: ["nodes"]
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources: ["services","endpoints","pods"]
+    verbs: ["get","watch","list"]
+  - apiGroups: ["extensions","networking.k8s.io"]
+    resources: ["ingresses"] 
+    verbs: ["get","watch","list"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -36,15 +29,15 @@ roleRef:
   kind: ClusterRole
   name: external-dns
 subjects:
-- kind: ServiceAccount
-  name: external-dns
-  namespace: default
+  - kind: ServiceAccount
+    name: external-dns
+    namespace: kube-system
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: external-dns
-  namespace: external-dns
+  namespace: kube-system
 spec:
   strategy:
     type: Recreate
@@ -64,43 +57,8 @@ spec:
         - --source=ingress # service is also possible
         - --provider=cloudflare
         - --cloudflare-proxied # (optional) enable the proxy feature of Cloudflare (DDOS protection, CDN...)
-        - --domain-filter=mbcaas.com
-        - --registry=txt
-        - --txt-owner-id=external-dns
-        - --log-level=debug
         env:
         - name: CF_API_KEY
-          value: "{{ external_dns.api_key }}"
+          value: "{{ cloudflare_api_key }}"
         - name: CF_API_EMAIL
-          value: "{{ external_dns.cloudflare_email }}"
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: web-test
-  annotations:
-    external-dns.alpha.kubernetes.io/target: mbcaas.com
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-  - host: michalski.fr
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: web-test
-            port:
-              number: 80
-        
-  - host: test.mbcaas.com        
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: web-test
-            port:
-              number: 80
+          value: "{{ cloudflare_email }}"
