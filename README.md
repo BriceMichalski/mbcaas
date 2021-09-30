@@ -37,6 +37,7 @@ To run only a part of the playbook, see the tag list.
 | **prepare_server::usual::k9s** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
 | **prepare_server::usual::package** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
 | **kubernetes** | Installation and configuration of the kubernetes (single-node) cluster, deployment of hosted applications |
+|**kubernetes::cert-manager**| Part of **kubernetes** : installation of cert-manager with letsencrypt acme and the dns01 cloudflare challenge for end-to-end encryption|
 | **kubernetes::cluster** | Part of **kubernetes** : Installation of docker and the kubernetes cluster itself |
 | **kubernetes::external-dns** | Part of **kubernetes**: Configuring `external-dns` tool for dynamic declaration of hosted application dns |
 | **kubernetes::ingress-controller** | Part of **kubernetes**: Installation of an ingress controller (`nginx`) for application exposure outside the cluster |
