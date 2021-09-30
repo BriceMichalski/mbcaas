@@ -37,6 +37,7 @@ To run only a part of the playbook, see the tag list.
 | **prepare_server::usual::k9s** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
 | **prepare_server::usual::package** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
 | **kubernetes** | Installation and configuration of the kubernetes (single-node) cluster, deployment of hosted applications |
+|**kubernetes::cert-manager**| Part of **kubernetes** : installation of cert-manager with letsencrypt acme and the dns01 cloudflare challenge for end-to-end encryption|
 | **kubernetes::cluster** | Part of **kubernetes** : Installation of docker and the kubernetes cluster itself |
 | **kubernetes::external-dns** | Part of **kubernetes**: Configuring `external-dns` tool for dynamic declaration of hosted application dns |
 | **kubernetes::ingress-controller** | Part of **kubernetes**: Installation of an ingress controller (`nginx`) for application exposure outside the cluster |
@@ -71,3 +72,6 @@ Bought on [ovh](https://www.ovh.com/fr/domaines/) and managed by [cloudflare](ht
 - [External-dns with Cloudflare](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/cloudflare.md)
 - [Cloudflare token generation](https://support.cloudflare.com/hc/fr-fr/articles/200167836-Gestion-des-jetons-et-cl%C3%A9s-de-l-API#12345680)
 - [Force External-dns to target my internet box public IP](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md#are-other-ingress-controllers-supported)
+- [Cert Manager install](https://cert-manager.io/docs/installation/)
+- [Cert Manager LetsEncrypt ACME](https://cert-manager.io/docs/configuration/acme/)
+- [Cert Manager DNS01 Challenge with cloudflare](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
