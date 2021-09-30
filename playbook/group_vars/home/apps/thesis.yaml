@@ -4,7 +4,7 @@ thesis:
   #
   name: thesis
   namespace: default
-  deployed: true
+  deployed: True
 
   #
   # App

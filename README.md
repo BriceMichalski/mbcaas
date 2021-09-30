@@ -1,4 +1,4 @@
-# Home-caas project
+# Home-caas
 
 Ansible project for my home server installation, configuration and software deploiment
 

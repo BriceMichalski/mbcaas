@@ -57,6 +57,7 @@ spec:
         - --source=ingress # service is also possible
         - --provider=cloudflare
         - --cloudflare-proxied # (optional) enable the proxy feature of Cloudflare (DDOS protection, CDN...)
+        # - --txt-prefix=externaldns
         env:
         - name: CF_API_KEY
           value: "{{ cloudflare_api_key }}"
