@@ -55,11 +55,19 @@ My home server is a mini pc bought on amazon : [amazon link](https://www.amazon.
 | Memory | 16Gb DDR4 - 2 x 8Gb |
 | OS | Ubuntu 20.04.3 LTS x86_64 |
 
----
-
 ## Domain
 
 - michalski.fr
 - mbcaas.com
 
 Bought on [ovh](https://www.ovh.com/fr/domaines/) and managed by [cloudflare](https://www.cloudflare.com/).
+
+## Usefull link
+
+- [Nginx Ingress controller](https://kubernetes.github.io/ingress-nginx/)
+- [Nginx ingress controller - baremetal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/)
+- [Metallb installation](https://metallb.universe.tf/installation/)
+- [External-dns](https://github.com/kubernetes-sigs/external-dns)
+- [External-dns with Cloudflare](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/cloudflare.md)
+- [Cloudflare token generation](https://support.cloudflare.com/hc/fr-fr/articles/200167836-Gestion-des-jetons-et-cl%C3%A9s-de-l-API#12345680)
+- [Force External-dns to target my internet box public IP](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md#are-other-ingress-controllers-supported)
