@@ -12,8 +12,8 @@
   gather_facts: false
   name: Prepare server & Manage user
   roles:
-    - roles/users
     - roles/hardening
+    - roles/users
   tags: 
     - hardening
 

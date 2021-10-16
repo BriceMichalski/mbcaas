@@ -34,11 +34,11 @@ To run only a part of the playbook, see the tag list.
 | **hardening::timezone** | Part of **hardening**: set the timezone to Europe/Paris |
 | **hardening::upgrade** | Part of **hardening**: Updating packages and removing unnecessary ones |
 | **hardening::usual** | Part of **hardening**: Installing utilities that I frequently use |
-| **hardening::usual::k9s** | Part of **hardening::usual**: Installing k9s (kubernetes cli tools) |
 | **hardening::usual::package** | Part of **hardening::usual**: Installing k9s (kubernetes cli tools) |
 | **kubernetes** | Installation and configuration of the kubernetes (single-node) cluster, deployment of hosted applications |
 |**kubernetes::cert-manager**| Part of **kubernetes** : installation of cert-manager with letsencrypt acme and the dns01 cloudflare challenge for end-to-end encryption|
 | **kubernetes::cluster** | Part of **kubernetes** : Installation of docker and the kubernetes cluster itself |
+| **kubernetes::k9s** | Part of **kubernetes**: Installing k9s (kubernetes cli tools) |
 | **kubernetes::external-dns** | Part of **kubernetes**: Configuring `external-dns` tool for dynamic declaration of hosted application dns |
 | **kubernetes::ingress-controller** | Part of **kubernetes**: Installation of an ingress controller (`nginx`) for application exposure outside the cluster |
 | **kubernetes::metallb** | Part of **kubernetes**: Installation of `metallb`, a load-balancer implementation for bare metal Kubernetes clusters, using standard routing protocols. |
