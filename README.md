@@ -1,6 +1,6 @@
-# Home-caas
+# Home
 
-Ansible project for my home server installation, configuration and software deploiment
+Ansible project for my home servers installation and configuration
 
 ## Playbook
 
