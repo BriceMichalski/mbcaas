@@ -12,12 +12,12 @@
   gather_facts: false
   name: Prepare server & Manage user
   roles:
-    - roles/prepare_server
-    - roles/manage_users
+    - roles/users
+    - roles/hardening
   tags: 
-    - prepare_server
+    - hardening
 
-- hosts: all
+- hosts: caas
   gather_facts: false
   name: Kubernetes Single Node Cluster
   become: true
@@ -32,7 +32,7 @@
     - kubernetes
     - kubernetes::cluster
 
-- hosts: all
+- hosts: caas
   gather_facts: false
   name: Deploy applications
   roles:

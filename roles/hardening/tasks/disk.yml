@@ -49,5 +49,5 @@
         passno: '2'
         state: mounted
   tags:
-    - prepare_server
-    - prepare_server::disk
+    - hardening
+    - hardening::disk

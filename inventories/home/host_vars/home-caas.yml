@@ -1,0 +1,13 @@
+---
+#######################
+#    Drives & Disk    #
+#######################
+hard_drives:
+  - path: /dev/sda
+    mountpoint: /data
+
+#######################
+#  Kubernetes roles   #
+#######################
+kubernetes_role: master
+

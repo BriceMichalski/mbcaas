@@ -4,7 +4,7 @@ Ansible project for my home servers installation and configuration
 
 ## Playbook
 
-Only one playbook is used `playbook/home_server.yml`, it allows the configuration and deployment of my home kubernetes cluster.
+Only one playbook is used `playbook/home_servers.yml`, it allows the configuration and deployment of my home kubernetes cluster.
 
 ## Use
 
@@ -17,7 +17,7 @@ ansible-galaxy install -r requirements.yml
 Launch playbook:
 
 ```bash
-ansible-playbook --inventory inventories/home playbook/home_server.yml --vault-pass-file ./pwd.vault
+ansible-playbook --inventory inventories/home playbook/home_servers.yml --vault-pass-file ./pwd.vault
 ```
 
 To run only a part of the playbook, see the tag list.
@@ -28,14 +28,14 @@ To run only a part of the playbook, see the tag list.
 
 |Tag Name| Usage |
 |---|---|
-| **prepare_server** | Configuration and customization of my server before installing kubernetes |
-| **prepare_server::disk** | Part of **prepare_server** : mount and prepare my external hard drives |
-| **prepare_server::swap** | Part of **prepare_server**: disable swap (kubernetes prerequisite) |
-| **prepare_server::timezone** | Part of **prepare_server**: set the timezone to Europe/Paris |
-| **prepare_server::upgrade** | Part of **prepare_server**: Updating packages and removing unnecessary ones |
-| **prepare_server::usual** | Part of **prepare_server**: Installing utilities that I frequently use |
-| **prepare_server::usual::k9s** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
-| **prepare_server::usual::package** | Part of **prepare_server::usual**: Installing k9s (kubernetes cli tools) |
+| **hardening** | Configuration and customization of my server before installing kubernetes |
+| **hardening::disk** | Part of **hardening** : mount and prepare my external hard drives |
+| **hardening::swap** | Part of **hardening**: disable swap (kubernetes prerequisite) |
+| **hardening::timezone** | Part of **hardening**: set the timezone to Europe/Paris |
+| **hardening::upgrade** | Part of **hardening**: Updating packages and removing unnecessary ones |
+| **hardening::usual** | Part of **hardening**: Installing utilities that I frequently use |
+| **hardening::usual::k9s** | Part of **hardening::usual**: Installing k9s (kubernetes cli tools) |
+| **hardening::usual::package** | Part of **hardening::usual**: Installing k9s (kubernetes cli tools) |
 | **kubernetes** | Installation and configuration of the kubernetes (single-node) cluster, deployment of hosted applications |
 |**kubernetes::cert-manager**| Part of **kubernetes** : installation of cert-manager with letsencrypt acme and the dns01 cloudflare challenge for end-to-end encryption|
 | **kubernetes::cluster** | Part of **kubernetes** : Installation of docker and the kubernetes cluster itself |

@@ -1,12 +1,5 @@
 ---
 #######################
-#    Drives & Disk    #
-#######################
-hard_drives:
-  - path: /dev/sda
-    mountpoint: /data
-
-#######################
 #     Usual tips      #
 #######################
 usual_apt_package:

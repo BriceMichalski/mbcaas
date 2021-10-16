@@ -9,8 +9,8 @@
   timezone:
     name: Europe/Paris
   tags:
-    - prepare_server
-    - prepare_server::timezone
+    - hardening
+    - hardening::timezone
 
 #######################
 #     Hard drives     #
@@ -22,8 +22,8 @@
   loop_control:
     loop_var: hard_drive
   tags:
-    - prepare_server
-    - prepare_server::disk
+    - hardening
+    - hardening::disk
 
 #######################
 #         APT         #
@@ -47,8 +47,8 @@
       apt:
         autoremove: yes
   tags:
-    - prepare_server
-    - prepare_server::upgrade
+    - hardening
+    - hardening::upgrade
 
 #######################
 #         SWAP        #
@@ -86,8 +86,8 @@
         state: absent
       when: swap_file != ""
   tags:
-    - prepare_server
-    - prepare_server::swap
+    - hardening
+    - hardening::swap
 
 #######################
 #     Usual tips      #
@@ -109,9 +109,9 @@
         executable: pip3
       with_items: "{{ usual_pip_package }}" 
   tags:
-    - prepare_server
-    - prepare_server::usual
-    - prepare_server::usual::package
+    - hardening
+    - hardening::usual
+    - hardening::usual::package
 
 
 - name: Install k9s
@@ -131,8 +131,8 @@
         remote_src: true
       when: k9s_archive.changed
   tags:
-    - prepare_server
-    - prepare_server::usual
-    - prepare_server::usual::k9s
+    - hardening
+    - hardening::usual
+    - hardening::usual::k9s
 
 
