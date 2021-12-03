@@ -27,7 +27,7 @@ thesis:
     - hosts:
       - brice.michalski.fr
       secretName: thesis-cert
-
+      
   ingress_rules:
     - host: brice.michalski.fr
       http:
@@ -38,4 +38,11 @@ thesis:
             service:
               name: thesis
               port:
-                number: 80 
+                number: 80
+        - path: /memoire
+          pathType: Exact
+          backend:
+            service:
+              name: thesis
+              port:
+                number: 80
