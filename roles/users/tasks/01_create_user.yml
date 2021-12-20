@@ -14,9 +14,12 @@
   authorized_key:
     user: "{{ user.key }}"
     state: 'present'
-    key: "{{ user.value.public_key }}"
+    key: "{{ public_key }}"
     exclusive: true
-  when: user.value.public_key is defined
+  loop: user.value.public_keys
+  loop_control:
+    loop_var: public_key
+  when: user.value.public_keys is defined
   become: true
 
 - name: "Grant admin rights to {{ user.key }} via sudo without password"
