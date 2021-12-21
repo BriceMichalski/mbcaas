@@ -1,0 +1,29 @@
+---
+
+#######################
+#  K8S Customization  #
+#######################
+external_dns:
+  enable: true 
+  version: v0.8.0
+
+cert_manager:
+  install: https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+
+kubernetes_admin:
+  - brice_michalski
+#######################
+#     K8S  Volumes    #
+#######################
+kubernetes_local_volumes: 
+  - name: main-ssd
+    size: 900Gi
+    mode: Filesystem
+    path: /data
+    reclaim_policy: Delete
+
+#######################
+#     K8S  Network    #
+#######################
+kube_ip_range_start: 192.168.1.210
+kube_ip_range_end: 192.168.1.240

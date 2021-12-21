@@ -1,13 +1,20 @@
 ---
+- name: Create user group
+  group:
+    name: "{{ user.value.group }}"
+    gid: "{{ user.value.gid }}"
+    state: present
+  become: true
 
 - name: 'Create user accounts'
   user:
     name: "{{ user.key }}"
     append: true
-    group: "{{ user.value.group | default(omit) }}"
-    groups: "{{ user.value.groups | default(omit) }}"
-    uid: "{{ user.value.uid | default(omit) }}"
+    group: "{{ user.value.group }}"
+    groups: "{{ user.value.groups }}"
+    uid: "{{ user.value.uid }}"
     state: 'present'
+    shell: "/bin/bash"
   become: true
 
 - name: 'Put ssh key in user ssh folder'
@@ -15,8 +22,7 @@
     user: "{{ user.key }}"
     state: 'present'
     key: "{{ public_key }}"
-    exclusive: true
-  loop: user.value.public_keys
+  loop: "{{ user.value.public_keys }}"
   loop_control:
     loop_var: public_key
   when: user.value.public_keys is defined

@@ -3,3 +3,4 @@ roles/*.*
 *.vault
 kubeconfig
 token
+.vagrant

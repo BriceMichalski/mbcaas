@@ -1,0 +1,24 @@
+---
+
+#######################
+#  K8S Customization  #
+#######################
+kubernetes_admin:
+  - brice_michalski
+  - vagrant
+
+#######################
+#     K8S  Volumes    #
+#######################
+kubernetes_local_volumes: 
+  - name: main-ssd
+    size: 10Gi
+    mode: Filesystem
+    path: /data
+    reclaim_policy: Delete
+
+#######################
+#     K8S  Network    #
+#######################
+kube_ip_range_start: 192.168.50.20
+kube_ip_range_end: 192.168.50.30

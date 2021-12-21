@@ -1,7 +1,8 @@
 ---
 server_users:
   brice_michalski:
-    uid: 1000
+    uid: 1001
+    gid: 1001
     admin: true
     group: brice_michalski
     groups: adm,cdrom,sudo,dip,plugdev,lxd
