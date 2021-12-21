@@ -1,0 +1,20 @@
+---
+#######################
+#      Main vars      #
+#######################
+production_environment: false
+
+#######################
+#     Usual tips      #
+#######################
+usual_apt_package:
+  - git
+  - jq
+  - curl
+  - nmap
+  - net-tools
+  - python3-pip
+
+usual_pip_package:
+  - openshift
+  - PyYAML

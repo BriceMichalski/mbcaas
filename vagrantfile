@@ -1,0 +1,23 @@
+# FOR DEVELOPEMENT ONLY
+
+require 'yaml'
+
+# Read YAML file with box details
+settings = YAML.load_file('settings.yml')
+
+Vagrant.configure("2") do |config|
+    
+    config.vm.define settings['name'] do |master|
+        master.vm.box = settings['box'] 
+        master.vm.network "private_network", ip: settings['ip']
+        master.vm.hostname = settings['name'] 
+       
+        master.vm.provider "virtualbox" do |v|
+            v.name = settings['name']
+            v.memory = settings["memory"]
+            v.cpus = settings["cpu"] 
+        end
+        
+    end
+
+end

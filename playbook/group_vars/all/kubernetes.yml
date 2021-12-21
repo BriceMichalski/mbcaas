@@ -1,19 +1,20 @@
+---
 #######################
-#         DOCKER      #
+#       DOCKER        #
 #######################
 docker_users: []
 
 #######################
-#         K8S         #
+#     Kubernetes      #
 #######################
 kubernetes_version: '1.20'
 kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
 kubernetes_web_ui_manifest_file: https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yam
 
-kubernetes_admin:
-  - brice_michalski
-
+#######################
+#  K8S Customization  #
+#######################
 nginx_ingress_controller: https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
 
 metallb:
@@ -21,23 +22,8 @@ metallb:
   install: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml 
   config:
     ip_range:
-      from: 192.168.1.210
-      to: 192.168.1.240
-
-external_dns:
-  enable: true 
-  version: v0.8.0
-
-cert_manager:
-  install: https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
-
-
-kubernetes_local_volumes: 
-  - name: main-ssd
-    size: 900Gi
-    mode: Filesystem
-    path: /data
-    reclaim_policy: Delete
+      from: "{{ kube_ip_range_start }}"
+      to: "{{ kube_ip_range_end }}"
 
 #######################
 #         K9S         #

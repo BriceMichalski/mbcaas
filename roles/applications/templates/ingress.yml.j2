@@ -5,8 +5,10 @@ metadata:
   name: '{{ app.name }}'
   namespace: "{{ app.namespace }}"
   annotations:
+{% if production_environment %}
     external-dns.alpha.kubernetes.io/target: '{{ cloudflare_record_target }}'
     cert-manager.io/cluster-issuer: letsencrypt
+{% endif %}
     kubernetes.io/ingress.class: "nginx"
 spec:
   tls: {{ app.tls | to_json }}

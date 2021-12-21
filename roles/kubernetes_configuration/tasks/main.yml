@@ -86,56 +86,9 @@
     - kubernetes
     - kubernetes::ingress-controller
 
-- name: Install external dns
-  become: true
-  block:
-    - name: Deploy external dns manifest
-      template:
-        src: "external-dns.yaml.j2"
-        dest: "{{ custom_manifest_location }}/external-dns.yaml"
-        owner: root
-        group: root
-        mode: 0600
-
-    - name: Apply external dns manifest to the cluster.
-      k8s:
-        state: present
-        src: "{{ custom_manifest_location }}/external-dns.yaml"
-  tags:
-    - kubernetes
-    - kubernetes::external-dns
-
-- name: Install Cert-manager
-  become: true
-  block:
-    - name: Download cert-manager manifest
-      get_url:
-        url: "{{ cert_manager.install }}"
-        dest: "{{ custom_manifest_location }}/cert-manager.yaml"
-        mode: '0664'
-
-    - name: Apply cert-manager manifest to the cluster.
-      k8s:
-        state: present
-        src: "{{ custom_manifest_location }}/cert-manager.yaml"
-
-    - name: Deploy cert-manager cloudflare secret
-      k8s:
-        state: present
-        apply: yes
-        definition: "{{ lookup('template', 'cert-manager-cloudflare-secret.yaml.j2') }}"
-
-    - name: Deploy cert-manager cloudflare issuer
-      k8s:
-        state: present
-        apply: yes
-        definition: "{{ lookup('template', 'cert-manager-cloudflare-issuer.yaml.j2') }}"
-      retries: 3
-      delay: 5
-
-  tags:
-    - kubernetes
-    - kubernetes::cert-manager
+- name: Production spécific configuration
+  include_tasks: production.yml
+  when: "{{ production_environment }}"
 
 - name: Install k9s
   become: true

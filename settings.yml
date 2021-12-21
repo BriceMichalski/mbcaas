@@ -1,0 +1,5 @@
+name: home-dev
+box: bento/ubuntu-20.04
+ip: 192.168.50.10
+memory: 8096
+cpu: 4
