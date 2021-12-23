@@ -2,10 +2,13 @@
 #######################
 #    Drives & Disk    #
 #######################
-hard_drives:
-  - path: /dev/sda
+partitions: 
+  - device: /dev/sda
+    number: 1
     mountpoint: /data
-
+    fstype: ext4
+    size: 100%
+    
 #######################
 #  Kubernetes roles   #
 #######################

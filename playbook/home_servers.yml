@@ -17,12 +17,22 @@
   tags: 
     - hardening
 
+- hosts: nfs
+  gather_facts: false
+  name: NFS server
+  become: true
+  roles:
+    - geerlingguy.nfs
+  tags:
+    - nfs
+    
 - hosts: caas
   gather_facts: false
   name: Kubernetes Single Node Cluster
   become: true
   roles:
     - geerlingguy.docker
+    - geerlingguy.helm
     - geerlingguy.kubernetes
     - roles/kubernetes_configuration
   post_tasks:

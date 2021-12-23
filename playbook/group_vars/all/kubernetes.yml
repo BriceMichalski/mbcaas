@@ -13,7 +13,7 @@ kubernetes_enable_web_ui: false
 kubernetes_web_ui_manifest_file: https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yam
 
 #######################
-#  K8S Customization  #
+#   K8S Networking    #
 #######################
 nginx_ingress_controller: https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
 
@@ -24,6 +24,18 @@ metallb:
     ip_range:
       from: "{{ kube_ip_range_start }}"
       to: "{{ kube_ip_range_end }}"
+
+#######################
+#   K8S Monitoring    #
+#######################
+prometheus_operator_charts: https://github.com/prometheus-community/helm-charts/releases/download/prometheus-15.0.2/prometheus-15.0.2.tgz
+
+#######################
+#   K8S Storage       #
+#######################
+nfs_provisioner_enabled: true
+nfs_provisioner_version: 4.0.14
+nfs_provisioner_charts: "https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/releases/download/nfs-subdir-external-provisioner-{{ nfs_provisioner_version }}/nfs-subdir-external-provisioner-{{ nfs_provisioner_version }}.tgz"
 
 #######################
 #         K9S         #

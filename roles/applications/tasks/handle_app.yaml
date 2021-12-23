@@ -7,6 +7,7 @@
   environment:
     K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
   block:
+
     - name: "{{ app.name | upper }} CREATE | k8s configmap"
       k8s:
         state: present
@@ -55,9 +56,8 @@
 #  DELETE APPLICATION
 # 
 - name: "Delete {{ app.name }}"
-  delegate_to: localhost
   environment:
-    K8S_AUTH_KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+    K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
   block:
     - name: "{{ app.name | upper }} DELETE | k8s ingress"
       k8s:

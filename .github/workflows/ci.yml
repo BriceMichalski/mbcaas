@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Lint > run super linter
-        uses: github/super-linter@v3
+        uses: github/super-linter@v4
         env:
           VALIDATE_MARKDOWN: true
           VALIDATE_YAML: true

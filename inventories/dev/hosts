@@ -2,6 +2,10 @@ home-dev ansible_host=192.168.50.10 ansible_user=vagrant ansible_ssh_pass=vagran
 
 [dev:children]
 caas
+nfs
 
 [caas]
+home-dev
+
+[nfs]
 home-dev

@@ -12,15 +12,6 @@ cert_manager:
 
 kubernetes_admin:
   - brice_michalski
-#######################
-#     K8S  Volumes    #
-#######################
-kubernetes_local_volumes: 
-  - name: main-ssd
-    size: 900Gi
-    mode: Filesystem
-    path: /data
-    reclaim_policy: Delete
 
 #######################
 #     K8S  Network    #
