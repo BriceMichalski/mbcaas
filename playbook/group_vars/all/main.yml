@@ -6,8 +6,6 @@ usual_apt_package:
   - git
   - jq
   - curl
-  - nmap
-  - net-tools
   - python3-pip
 
 usual_pip_package:

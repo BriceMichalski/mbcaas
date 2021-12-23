@@ -2,7 +2,12 @@
 #######################
 #    Drives & Disk    #
 #######################
-hard_drives: []
+partitions: 
+  - device: /dev/sdb
+    number: 1
+    mountpoint: /data
+    fstype: ext4
+    size: 100%
 
 #######################
 #  Kubernetes roles   #

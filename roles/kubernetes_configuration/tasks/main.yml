@@ -1,111 +1,19 @@
 ---
-- name: Create Local Persistant Volume
-  become: true 
-  k8s:
-    state: present
-    apply: yes
-    definition: "{{ lookup('template', 'pv.yaml.j2') }}"
-  loop: "{{ kubernetes_local_volumes }}"
-  loop_control:
-    loop_var: volume
-  tags:
-    - kubernetes
-    - kubernetes::volumes
 
-- name: Install MetalLb
-  become: true
-  block:
-    - name: Check if strictARP is enable
-      shell: "kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e 's/strictARP: false/strictARP: true/' | kubectl diff -f - -n kube-system"
-      failed_when: false
-      changed_when: false
-      register: strict_arp_enable
+- name: Storage configuration
+  include_tasks: storage.yml
 
-    - name: Apply strict ARP
-      shell: "kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e 's/strictARP: false/strictARP: true/' | kubectl apply -f - -n kube-system"
-      when: strict_arp_enable.rc != 0
+- name: Networking configuration
+  include_tasks: networking.yml
 
-    - name: Create custom manifest dir
-      file:
-        path: /etc/kubernetes/custom_manifests
-        state: directory
-        
-    - name: Download MetalLB namespace manifest
-      get_url:
-        url: "{{ metallb.namespace }}"
-        dest: "{{ custom_manifest_location }}/metallb-namespace.yaml"
-        mode: '0664'
-
-    - name: Apply MetalLB namespace manifest to the cluster.
-      k8s:
-        state: present
-        src: "{{ custom_manifest_location }}/metallb-namespace.yaml"
-
-    - name: Download MetalLB manifest
-      get_url:
-        url: "{{ metallb.install}}"
-        dest: "{{ custom_manifest_location }}/metallb.yaml"
-        mode: '0664'
-
-    - name: Apply MetalLB manifest to the cluster.
-      k8s:
-        state: present
-        src: "{{ custom_manifest_location }}/metallb.yaml"
-
-    - name: Deploy MetalLB configuration
-      template:
-        src: "matallb-config.yaml.j2"
-        dest: "{{ custom_manifest_location }}/metallb-config.yaml"
-        owner: root
-        group: root
-        mode: 0600
-
-    - name: Apply MetalLB config manifest to the cluster.
-      k8s:
-        state: present
-        src: "{{ custom_manifest_location }}/metallb-config.yaml"
-  tags:
-    - kubernetes
-    - kubernetes::metallb
-
-
-- name: Install nginx ingress controller
-  become: true
-  block:
-    - name: Download nginx ingress controller manifest
-      get_url:
-        url: "{{ nginx_ingress_controller }}"
-        dest: "{{ custom_manifest_location }}/nginx-ingress-controller.yaml"
-        mode: '0664'
-
-    - name: Apply nginx ingress controller manifest to the cluster.
-      k8s:
-        state: present
-        src: "{{ custom_manifest_location }}/nginx-ingress-controller.yaml"
-  tags:
-    - kubernetes
-    - kubernetes::ingress-controller
+- name: Monitoring configuration
+  include_tasks: monitoring.yml
 
 - name: Production spécific configuration
   include_tasks: production.yml
-  when: "{{ production_environment }}"
+  when: production_environment
 
-- name: Install k9s
-  become: true
-  block:
-    - name: Download k9s tarball
-      get_url:
-        url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
-        dest: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
-      register: k9s_archive
-
-    - name: Unarchive k9s
-      unarchive:
-        src: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
-        dest: "/usr/local/bin"
-        mode: 0755
-        remote_src: true
-      when: k9s_archive.changed
-  tags:
-    - kubernetes
-    - kubernetes::k9s
+- name: Wait 3 minutes to allow time for the container to start
+  run_once: true
+  pause:
+    minutes: 3
