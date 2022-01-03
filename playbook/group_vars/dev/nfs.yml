@@ -3,7 +3,8 @@
 #  NFS Configuration  #
 #######################
 nfs_exports: 
-  - "/data 127.0.0.1(rw,sync,no_root_squash)"
+  - "/data/standard 127.0.0.1(rw,sync,no_root_squash)"
+  - "/data/premium 127.0.0.1(rw,sync,no_root_squash)"   
 
 nfs_provisioner_charts_value:
   nfs:
@@ -27,7 +28,7 @@ nfs_provisioner_charts_value:
     allowVolumeExpansion: true
 
     # Method used to reclaim an obsoleted volume
-    reclaimPolicy: Delete
+    reclaimPolicy: Retain
 
     # When set to false your PVs will not be archived by the provisioner upon deletion of the PVC.
     archiveOnDelete: true
