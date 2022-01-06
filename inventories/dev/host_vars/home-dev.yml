@@ -29,7 +29,7 @@ backups_script_dir: /var/backups
 backups:
   - name: premium_partition
     source: /data/premium/
-    destination: /data/backup
+    destination: /data/backup/premium
     logdir: /var/log/backups/
     rsync_option: "vd"
     cron:

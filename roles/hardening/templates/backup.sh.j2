@@ -12,3 +12,13 @@ echo "* CHECK of {{ backup.name }} backup needs at `date +"%Hh%M"`" >> $LOG_FILE
     $SOURCE_DIR \
     $DESTINATION_DIR/{{ backup.name | replace('-','_') }}_`date +"%Y_%m_%d"` \
     | sed 's/^/\t/'  >> $LOG_FILE
+
+folderToCompress=`find {{ backup.destination }} -maxdepth 1 -type d -ctime +1  | sed "s#{{ backup.destination }}##" | sed '/^$/d'`
+
+for folder in $folderToCompress
+do
+  echo "* lets create $folder.tar.gz archive"
+  tar -czf "$folder.tar.gz" "$folder/"
+  echo "* Remove $folder"$folder
+  rm -rf 
+done
