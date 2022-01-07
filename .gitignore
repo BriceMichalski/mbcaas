@@ -4,3 +4,4 @@ roles/*.*
 kubeconfig
 token
 .vagrant
+settings.yml

@@ -4,9 +4,12 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: {{ nfs_storage_class.name }}
+{% if nfs_storage_class.default %}
   annotations: 
-    storageclass.kubernetes.io/is-default-class: "{{ nfs_storage_class.default }}"
-provisioner: {{ nfs_storage_class }}-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+    storageclass.kubernetes.io/is-default-class: "true"
+{% endif %}
+provisioner: {{ nfs_storage_class.name }}-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+allowVolumeExpansion: true
 parameters:
   onDelete: "{{ nfs_storage_class.on_delete_option }}"
 {% endfor %}

@@ -17,8 +17,10 @@ folderToCompress=`find {{ backup.destination }} -maxdepth 1 -type d -ctime +1  |
 
 for folder in $folderToCompress
 do
-  echo "* lets create $folder.tar.gz archive"
+  echo "* COMPRESS $folder into $folder.tar.gz" >> $LOG_FILE
   tar -czf "$folder.tar.gz" "$folder/"
-  echo "* Remove $folder"$folder
-  rm -rf 
+  echo "* REMOVE $folder" >> $LOG_FILE
+  rm -rf $folder
 done
+
+echo "* END of backup script execution" >> $LOG_FILE
