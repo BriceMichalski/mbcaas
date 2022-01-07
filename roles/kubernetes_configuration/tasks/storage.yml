@@ -1,22 +1,20 @@
 ---
 
-- name: Install NFS storage provisionner
-  kubernetes.core.helm:
-    name: nfs-subdir-external-provisioner
-    chart_ref: "{{ nfs_provisioner_charts }}"
-    release_namespace: kube-system
-    values: "{{ nfs_provisioner_charts_value }}"
-  when: nfs_provisioner_enabled
+- name: NFS storage provisionner rbac
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'nfs-storage-rbac.yml.j2') }}"
+
+- name: NFS storage provisionner deployment
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'nfs-storage-deployment.yml.j2') }}"
 
 
-# - name: Create Local Persistant Volume
-#   k8s:
-#     state: present
-#     apply: yes
-#     definition: "{{ storage_class | from_yaml }}"
-#   loop: "{{ storage_classes }}"
-#   loop_control:
-#     loop_var: storage_class
-#   tags:
-#     - kubernetes
-#     - kubernetes::volumes
+- name: NFS storage provisionner storage class
+  k8s:
+    state: present
+    apply: yes
+    definition: "{{ lookup('template', 'nfs-storage-class.yml.j2') }}"

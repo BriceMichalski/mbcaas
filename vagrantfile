@@ -2,9 +2,9 @@ require 'yaml'
 require 'fileutils'
 
 SETTINGS = YAML.load_file('settings.yml')
-DISK_DIRECTORY = "/home/bricemichalski/.vagrantdisk"
+DISK_DIRECTORY = SETTINGS["disk_directory"]
 VAGRANT_CONTROLLER_NAME = "SATA Controller"
-VAGRANT_CONTROLLER_TYPE = "hdd"
+VAGRANT_CONTROLLER_TYPE = "sata"
 
 local_disks = SETTINGS["disks"]
 

@@ -1,0 +1,12 @@
+{% for nfs_storage_class in nfs_storage_classes %}   
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ nfs_storage_class.name }}
+  annotations: 
+    storageclass.kubernetes.io/is-default-class: "{{ nfs_storage_class.default }}"
+provisioner: {{ nfs_storage_class }}-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+parameters:
+  onDelete: "{{ nfs_storage_class.on_delete_option }}"
+{% endfor %}
