@@ -2,9 +2,6 @@
 #######################
 #  NFS Configuration  #
 #######################
-nfs_exports: 
-  - "/data/standard 127.0.0.1(rw,sync,no_root_squash)"
-  - "/data/premium 127.0.0.1(rw,sync,no_root_squash)"   
 
 nfs_storage_classes:
   - name: nfs-standard

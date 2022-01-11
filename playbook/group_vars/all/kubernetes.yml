@@ -28,7 +28,22 @@ metallb:
 #######################
 #   K8S Monitoring    #
 #######################
-prometheus_operator_charts: https://github.com/prometheus-community/helm-charts/releases/download/prometheus-15.0.2/prometheus-15.0.2.tgz
+prometheus_stack_version: 28.0.2
+prometheus_stack_charts: https://github.com/prometheus-community/helm-charts/releases/download/kube-prometheus-stack-{{ prometheus_stack_version }}/kube-prometheus-stack-{{ prometheus_stack_version }}.tgz
+
+monitoring:
+  namespace: "monitoring"
+  alertmanager:
+    domain: "alertmanager.mbcaas.com"
+  grafana:
+    domain: "grafana.mbcaas.com"
+    admin_password: !vault |
+                    $ANSIBLE_VAULT;1.1;AES256
+                    32623163343665346264386362633964636538376664303232326330616265336238623238336431
+                    3465343564663566623432396538363133356431666434390a313134663930653338663238303135
+                    33366331643934343164393736343338613537623239626239396333363561636134333561343936
+                    3262323161363839640a356439363334366639383032623336303639393237386134363639326334
+                    63323864303638333432613432636533616137626463366133366464356532396132
 
 #######################
 #   K8S Storage       #

@@ -4,17 +4,17 @@
   k8s:
     state: present
     apply: yes
-    definition: "{{ lookup('template', 'nfs-storage-rbac.yml.j2') }}"
+    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-rbac.yml.j2') }}"
 
 - name: NFS storage provisionner deployment
   k8s:
     state: present
     apply: yes
-    definition: "{{ lookup('template', 'nfs-storage-deployment.yml.j2') }}"
+    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-deployment.yml.j2') }}"
 
 
 - name: NFS storage provisionner storage class
   k8s:
     state: present
     apply: yes
-    definition: "{{ lookup('template', 'nfs-storage-class.yml.j2') }}"
+    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-class.yml.j2') }}"

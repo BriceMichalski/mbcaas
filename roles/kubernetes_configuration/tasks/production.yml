@@ -35,13 +35,13 @@
       k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'cert-manager-cloudflare-secret.yaml.j2') }}"
+        definition: "{{ lookup('template', 'cert-manager/cert-manager-cloudflare-secret.yaml.j2') }}"
 
     - name: Deploy cert-manager cloudflare issuer
       k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'cert-manager-cloudflare-issuer.yaml.j2') }}"
+        definition: "{{ lookup('template', 'cert-manager/cert-manager-cloudflare-issuer.yaml.j2') }}"
       retries: 3
       delay: 5
   tags:

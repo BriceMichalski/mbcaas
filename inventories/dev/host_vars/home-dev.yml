@@ -39,6 +39,11 @@ backups:
       month: "*"
       weekday: "*"
 
+
+nfs_exports: 
+  - "/data/standard 127.0.0.1(rw,sync,no_root_squash)"
+  - "/data/premium 127.0.0.1(rw,sync,no_root_squash)"   
+  
 #######################
 #  Kubernetes roles   #
 #######################
