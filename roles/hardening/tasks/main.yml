@@ -13,19 +13,6 @@
     - hardening::timezone
 
 #######################
-#     Hard drives     #
-#######################
-
-- name: Manage declared disks
-  include_tasks: partition.yml
-  loop: "{{ partitions }}"
-  loop_control:
-    loop_var: partition
-  tags:
-    - hardening
-    - hardening::partition
-
-#######################
 #         APT         #
 #######################
 - name: Apt operation
@@ -49,6 +36,28 @@
   tags:
     - hardening
     - hardening::upgrade
+
+#######################
+#    disk & backup    #
+#######################
+
+- name: Manage Partitions
+  include_tasks: partition.yml
+  loop: "{{ partitions }}"
+  loop_control:
+    loop_var: partition
+  tags:
+    - hardening
+    - hardening::partition
+
+- name: Manage Backup
+  include_tasks: backup.yml
+  loop: "{{ backups }}"
+  loop_control:
+    loop_var: backup
+  tags:
+    - hardening
+    - hardening::backup
 
 #######################
 #         SWAP        #
@@ -130,5 +139,6 @@
         remote_src: true
       when: k9s_archive.changed
   tags:
-    - kubernetes
-    - kubernetes::usual
+    - hardening
+    - hardening::usual
+    - hardening::usual::k9s

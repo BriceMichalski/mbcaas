@@ -5,13 +5,18 @@
     K8S_AUTH_KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
   block:
 
+    - debug:
+        msg: "Create partition {{ partition.device }}{{ partition.number }} with start at {{ partition.start }}{{ partitions_unit }} and end at {{ partition.start + partition.size }}{{ partitions_unit }}"
+
     - name: Partitions formatting
       parted:
         device: "{{ partition.device }}"
-        part_end: "{{ partition.size }}"
+        part_start: "{% if  partition.start != 0 %}{{ partition.start }}{{ partitions_unit }}{% else %}0%{% endif %}"
+        part_end: "{{ partition.start + partition.size }}{{ partitions_unit }}"
         resize: true
         number: "{{ partition.number }}"
         fs_type: "{{ partition.fstype }}"
+        unit: "{{ partitions_unit }}"
         state: present
 
     - name: Update filesystem

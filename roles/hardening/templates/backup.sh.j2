@@ -1,0 +1,26 @@
+#!/bin/bash
+
+SOURCE_DIR={{ backup.source }}
+DESTINATION_DIR={{ backup.destination }}
+LOG_DIR={{ backup.logdir }}
+LOG_FILE="$LOG_DIR/{{ backup.name | replace('-','_') }}_`date +"%Y_%m_%d"`.log"
+
+echo "* CHECK of {{ backup.name }} backup needs at `date +"%Hh%M"`" >> $LOG_FILE
+/usr/bin/rsync \
+    -a{{ backup.rsync_option | default(omit) }} \
+    --exclude "lost+found" \
+    $SOURCE_DIR \
+    $DESTINATION_DIR/{{ backup.name | replace('-','_') }}_`date +"%Y_%m_%d"` \
+    | sed 's/^/\t/'  >> $LOG_FILE
+
+folderToCompress=`find {{ backup.destination }} -maxdepth 1 -type d -ctime +1  | sed "s#{{ backup.destination }}##" | sed '/^$/d'`
+
+for folder in $folderToCompress
+do
+  echo "* COMPRESS $folder into $folder.tar.gz" >> $LOG_FILE
+  tar -czf "$folder.tar.gz" "$folder/"
+  echo "* REMOVE $folder" >> $LOG_FILE
+  rm -rf $folder
+done
+
+echo "* END of backup script execution" >> $LOG_FILE

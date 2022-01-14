@@ -1,8 +1,0 @@
-name: home-dev
-box: bento/ubuntu-20.04
-second_disk:
-  path: /home/bricemichalski/VirtualBox VMs/home-dev/second.vdi
-  size: 10
-ip: 192.168.50.10
-memory: 8096
-cpu: 4

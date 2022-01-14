@@ -13,12 +13,12 @@
 
     - name: Create custom manifest dir
       file:
-        path: /etc/kubernetes/custom_manifests
+        path: "{{ custom_manifest_location }}"
         state: directory
         
     - name: Download MetalLB namespace manifest
       get_url:
-        url: "{{ metallb.namespace }}"
+        url: "{{ metallb_namespace_url }}"
         dest: "{{ custom_manifest_location }}/metallb-namespace.yaml"
         mode: '0664'
 
@@ -29,7 +29,7 @@
 
     - name: Download MetalLB manifest
       get_url:
-        url: "{{ metallb.install}}"
+        url: "{{ metallb_manifest_url }}"
         dest: "{{ custom_manifest_location }}/metallb.yaml"
         mode: '0664'
 
@@ -40,7 +40,7 @@
 
     - name: Deploy MetalLB configuration
       template:
-        src: "matallb-config.yaml.j2"
+        src: "metallb-config.yaml.j2"
         dest: "{{ custom_manifest_location }}/metallb-config.yaml"
         owner: root
         group: root
