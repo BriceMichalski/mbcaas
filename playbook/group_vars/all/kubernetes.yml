@@ -7,43 +7,33 @@ docker_users: []
 #######################
 #     Kubernetes      #
 #######################
-kubernetes_version: '1.20'
+kubernetes_version: '1.23'
 kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
-kubernetes_web_ui_manifest_file: https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yam
 
 #######################
 #   K8S Networking    #
 #######################
 nginx_ingress_controller: https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
 
-metallb:
-  namespace: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
-  install: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml 
-  config:
-    ip_range:
-      from: "{{ kube_ip_range_start }}"
-      to: "{{ kube_ip_range_end }}"
+metallb_namespace_url: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
+metallb_manifest_url: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml 
+metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
+metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
 
 #######################
 #   K8S Monitoring    #
 #######################
-prometheus_stack_version: 28.0.2
-prometheus_stack_charts: https://github.com/prometheus-community/helm-charts/releases/download/kube-prometheus-stack-{{ prometheus_stack_version }}/kube-prometheus-stack-{{ prometheus_stack_version }}.tgz
-
-monitoring:
-  namespace: "monitoring"
-  alertmanager:
-    domain: "alertmanager.mbcaas.com"
-  grafana:
-    domain: "grafana.mbcaas.com"
-    admin_password: !vault |
-                    $ANSIBLE_VAULT;1.1;AES256
-                    32623163343665346264386362633964636538376664303232326330616265336238623238336431
-                    3465343564663566623432396538363133356431666434390a313134663930653338663238303135
-                    33366331643934343164393736343338613537623239626239396333363561636134333561343936
-                    3262323161363839640a356439363334366639383032623336303639393237386134363639326334
-                    63323864303638333432613432636533616137626463366133366464356532396132
+monitoring_namespace: "monitoring"
+moniorting_alertmanager_domain: "alertmanager.mbcaas.com"
+moniorting_grafana_domain: "grafana.mbcaas.com"
+moniorting_grafana_admin_password: !vault |
+                                    $ANSIBLE_VAULT;1.1;AES256
+                                    32623163343665346264386362633964636538376664303232326330616265336238623238336431
+                                    3465343564663566623432396538363133356431666434390a313134663930653338663238303135
+                                    33366331643934343164393736343338613537623239626239396333363561636134333561343936
+                                    3262323161363839640a356439363334366639383032623336303639393237386134363639326334
+                                    63323864303638333432613432636533616137626463366133366464356532396132
 
 #######################
 #   K8S Storage       #

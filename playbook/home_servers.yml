@@ -34,13 +34,22 @@
     - geerlingguy.docker
     - geerlingguy.helm
     - geerlingguy.kubernetes
-    - roles/kubernetes_configuration
   post_tasks:
     - include_tasks: tasks/kubernetes_administrator.yml
       with_items: "{{ kubernetes_admin }}"
   tags:
     - kubernetes
     - kubernetes::cluster
+
+- hosts: caas
+  gather_facts: false
+  name: Operable Kubernetes Cluster
+  become: true
+  roles:
+    - roles/kubernetes_configuration
+  tags:
+    - kubernetes
+    - kubernetes::operable
 
 - hosts: caas
   gather_facts: false
