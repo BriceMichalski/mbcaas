@@ -7,7 +7,7 @@ docker_users: []
 #######################
 #     Kubernetes      #
 #######################
-kubernetes_version: '1.23'
+kubernetes_version: '1.20'
 kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
 
