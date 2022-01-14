@@ -28,7 +28,7 @@
     
 - hosts: caas
   gather_facts: false
-  name: Kubernetes Single Node Cluster
+  name: Single node raw Kubernetes cluster
   become: true
   roles:
     - geerlingguy.docker
@@ -50,12 +50,3 @@
   tags:
     - kubernetes
     - kubernetes::operable
-
-- hosts: caas
-  gather_facts: false
-  name: Deploy applications
-  roles:
-    - roles/applications
-  tags:
-    - kubernetes 
-    - kubernetes::apps
