@@ -4,7 +4,8 @@ Ansible project for my home servers installation and configuration
 
 ## Playbook
 
-Only one playbook is used `playbook/home_servers.yml`, it allows the configuration and deployment of my home kubernetes cluster.
+- `playbook/infrastructure.yml`: it allows the configuration and deployment of my home kubernetes cluster.
+- `playbook/applications.yml`: deploy all my apps on kubernetes cluster
 
 ## Use
 
@@ -17,7 +18,8 @@ ansible-galaxy install -r requirements.yml
 Launch playbook:
 
 ```bash
-ansible-playbook --inventory inventories/home playbook/home_servers.yml --vault-pass-file ./pwd.vault
+ansible-playbook --inventory inventories/prod/hosts playbook/infrastructure.yml --vault-pass-file ./pwd.vault
+ansible-playbook --inventory inventories/prod/hosts playbook/applications.yml --vault-pass-file ./pwd.vault
 ```
 
 To run only a part of the playbook, see the tag list.
@@ -60,8 +62,9 @@ My home server is a mini pc bought on amazon : [amazon link](https://www.amazon.
 
 - michalski.fr
 - mbcaas.com
+- on-mange-quoi.com
 
-Bought on [ovh](https://www.ovh.com/fr/domaines/) and managed by [cloudflare](https://www.cloudflare.com/).
+Managed by [cloudflare](https://www.cloudflare.com/).
 
 ## Usefull link
 
