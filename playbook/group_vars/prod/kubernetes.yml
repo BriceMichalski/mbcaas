@@ -3,12 +3,6 @@
 #######################
 #  K8S Customization  #
 #######################
-external_dns:
-  enable: true 
-  version: v0.8.0
-
-cert_manager:
-  install: https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
 
 kubernetes_admin:
   - brice_michalski

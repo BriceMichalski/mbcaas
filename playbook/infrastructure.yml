@@ -37,6 +37,7 @@
   post_tasks:
     - include_tasks: tasks/kubernetes_administrator.yml
       with_items: "{{ kubernetes_admin }}"
+    - include_tasks: tasks/helm_diff.yml
   tags:
     - kubernetes
     - kubernetes::cluster
@@ -46,7 +47,7 @@
   name: Operable Kubernetes Cluster
   become: true
   roles:
-    - roles/kubernetes_configuration
+    - roles/kube-operable
   tags:
     - kubernetes
     - kubernetes::operable

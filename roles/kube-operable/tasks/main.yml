@@ -1,5 +1,13 @@
 ---
 
+- name: Create kube-operable namespace
+  kubernetes.core.k8s:
+    name: "{{ kube_operable_namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+    wait: true
+
 - name: Storage configuration
   include_tasks: storage.yml
 
@@ -12,8 +20,3 @@
 - name: Production spécific configuration
   include_tasks: production.yml
   when: production_environment
-
-- name: Wait 3 minutes to allow time for the container to start
-  run_once: true
-  pause:
-    minutes: 3

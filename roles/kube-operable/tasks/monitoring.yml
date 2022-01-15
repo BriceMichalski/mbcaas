@@ -4,7 +4,7 @@
 #   become: true
 #   block:
 #     - name: Create monitoring namespace
-#       kubernetes.core.k8s:
+#       kubernetes.core.kubernetes.core.k8s:
 #         name: "{{ monitoring.namespace }}"
 #         api_version: v1
 #         kind: Namespace

@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authsecret
+  namespace: "{{ kube_operable_namespace }}"
+data:
+  users: |2
+    YnJpY2VfbWljaGFsc2tpOiRhcHIxJFVxQ2k1N3l2JFprSHFwMWdvTC9CT01ERUF6
+    cld0RjAKCg==
+---
+# Declaring the user list
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basic-auth
+  namespace: "{{ kube_operable_namespace }}"
+spec:
+  basicAuth:
+    secret: authsecret
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+  namespace: "{{ kube_operable_namespace }}"
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`{{ traefik_dashboard_domain }}`)
+      kind: Rule
+      middlewares:
+        - name: basic-auth
+          namespace: {{ kube_operable_namespace }}
+      services:
+        - name: api@internal
+          kind: TraefikService
