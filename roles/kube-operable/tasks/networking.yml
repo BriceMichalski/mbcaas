@@ -36,6 +36,7 @@
         name: traefik
         chart_ref: traefik/traefik
         release_namespace: "{{ kube_operable_namespace }}"
+        values: "{{ lookup('template', 'traefik/config.yaml.j2') | from_yaml }}"
         wait: yes
     
     - name: Deploy traefik dashboard

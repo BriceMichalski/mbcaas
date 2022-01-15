@@ -8,6 +8,13 @@ kubernetes_admin:
   - brice_michalski
 
 #######################
+#      TRAEFIK        #
+#######################
+traefik_log_level: INFO
+traefik_access_log: false
+traefik_web_secure_enable_tls: true
+
+#######################
 #     K8S  Network    #
 #######################
 

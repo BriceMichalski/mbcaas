@@ -9,6 +9,13 @@ kubernetes_admin:
   - vagrant
 
 #######################
+#      TRAEFIK        #
+#######################
+traefik_log_level: DEBUG
+traefik_access_log: true
+traefik_web_secure_enable_tls: false
+
+#######################
 #     K8S  Network    #
 #######################
 

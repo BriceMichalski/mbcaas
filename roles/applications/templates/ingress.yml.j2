@@ -8,8 +8,11 @@ metadata:
 {% if production_environment %}
     external-dns.alpha.kubernetes.io/target: '{{ cloudflare_record_target }}'
     cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+{% else %}
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 {% endif %}
-    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+
     kubernetes.io/ingress.class: "traefik"
 spec:
   tls: {{ app.tls | to_json }}

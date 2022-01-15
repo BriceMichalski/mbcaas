@@ -27,7 +27,7 @@ bobineshowroom:
   tls: 
     - hosts:
       - bobineshowroom.mbcaas.com
-      secretName: bobine-showroom-cert
+      secretName: bobineshowroom.mbcaas.com-tls
 
   ingress_rules:
     - host: bobineshowroom.mbcaas.com

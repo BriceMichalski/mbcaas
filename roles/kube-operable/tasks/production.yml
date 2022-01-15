@@ -23,9 +23,6 @@
         name: jetstack
         repo_url: "{{ cert_manager_charts_url }}"
 
-    - debug:
-        msg: "{{ lookup('url', cert_manager_crds_url ) }}"
-
     - name: Install Cert-Manager helm charts
       kubernetes.core.helm:
         name: cert-manager
