@@ -1,23 +1,21 @@
 ---
 
-# - name: Install prometheus opérator
-#   become: true
-#   block:
-#     - name: Create monitoring namespace
-#       kubernetes.core.kubernetes.core.k8s:
-#         name: "{{ monitoring.namespace }}"
-#         api_version: v1
-#         kind: Namespace
-#         state: present
-#         wait: true
+- name: Install Prometheus Stack
+  become: true
+  block:
 
-#     - name: Apply prometheus operator charts to the cluster.
-#       kubernetes.core.helm:
-#         name: prometheus-community
-#         chart_ref: "{{ prometheus_stack_charts }}"
-#         values: "{{ lookup('template', 'prometheus-stack-value.yaml.j2') | from_yaml }}"
-#         release_namespace: "{{ monitoring.namespace }}"
+    - name: Install prometheus stack repository
+      kubernetes.core.helm_repository:
+        name: prometheus-community
+        repo_url: "{{ prometheus_stack_charts_url }}"
 
-#   tags:
-#     - kubernetes
-#     - kubernetes::monitoring
+    - name: Install prometheus stack charts
+      kubernetes.core.helm:
+        name: prometheus-stack
+        chart_ref: prometheus-community/kube-prometheus-stack
+        release_namespace: "{{ kube_operable_namespace }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::monitoring
