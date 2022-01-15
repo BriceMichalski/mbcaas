@@ -1,48 +1,46 @@
 ---
 #######################
-#       DOCKER        #
+#       VERSION       #
 #######################
-docker_users: []
+
+kubernetes_version: '1.23'
+external_dns_version: 'v0.10.2'
+cert_manager_version: 'v1.6.1'
+nfs_provisioner_version: '4.0.14'
+k9s_version: v0.25.18
 
 #######################
 #     Kubernetes      #
 #######################
-kubernetes_version: '1.20'
+
 kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
 
 #######################
 #   K8S Networking    #
 #######################
-nginx_ingress_controller: https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
+kube_operable_namespace: kube-operable
 
-metallb_namespace_url: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
-metallb_manifest_url: https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml 
+#######################
+#   K8S Networking    #
+#######################
+
+metallb_charts_url: https://metallb.github.io/metallb
 metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
 metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
+
+traefik_charts_url: https://helm.traefik.io/traefik
+traefik_dashboard_domain: traefik.mbcaas.com
+
+cert_manager_charts_url: https://charts.jetstack.io
+cert_manager_crds_url: https://github.com/jetstack/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml
 
 #######################
 #   K8S Monitoring    #
 #######################
-monitoring_namespace: "monitoring"
-moniorting_alertmanager_domain: "alertmanager.mbcaas.com"
-moniorting_grafana_domain: "grafana.mbcaas.com"
-moniorting_grafana_admin_password: !vault |
-                                    $ANSIBLE_VAULT;1.1;AES256
-                                    32623163343665346264386362633964636538376664303232326330616265336238623238336431
-                                    3465343564663566623432396538363133356431666434390a313134663930653338663238303135
-                                    33366331643934343164393736343338613537623239626239396333363561636134333561343936
-                                    3262323161363839640a356439363334366639383032623336303639393237386134363639326334
-                                    63323864303638333432613432636533616137626463366133366464356532396132
 
 #######################
 #   K8S Storage       #
 #######################
 nfs_provisioner_enabled: true
-nfs_provisioner_version: 4.0.14
 nfs_provisioner_charts: "https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/releases/download/nfs-subdir-external-provisioner-{{ nfs_provisioner_version }}/nfs-subdir-external-provisioner-{{ nfs_provisioner_version }}.tgz"
-
-#######################
-#         K9S         #
-#######################
-k9s_version: v0.24.10

@@ -9,42 +9,42 @@
   block:
 
     - name: "{{ app.name | upper }} CREATE | k8s configmap"
-      k8s:
+      kubernetes.core.k8s:
         state: present
         apply: yes
         definition: "{{ lookup('template', 'configmap.yml.j2') }}"
       when: app.configmap_data | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s pvc"
-      k8s:
+      kubernetes.core.k8s:
         state: present
         apply: yes
         definition: "{{ lookup('template', 'pvc.yml.j2') }}"
       when: app.pvc | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s deployment"
-      k8s:
+      kubernetes.core.k8s:
         state: present
         apply: yes
         definition: "{{ lookup('template', 'deployment.yml.j2') }}"
       when: app.containers | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s cronjob"
-      k8s:
+      kubernetes.core.k8s:
         state: present
         apply: yes
         definition: "{{ lookup('template', 'cronjob.yml.j2') }}"
       when: app.cronjob_containers | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s service"
-      k8s:
+      kubernetes.core.k8s:
         state: present
         apply: yes
         definition: "{{ lookup('template', 'service.yml.j2') }}"
       when: app.service_ports | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s ingress"
-      k8s:
+      kubernetes.core.k8s:
         state: present
         apply: yes
         definition: "{{ lookup('template', 'ingress.yml.j2') }}"
@@ -60,34 +60,34 @@
     K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
   block:
     - name: "{{ app.name | upper }} DELETE | k8s ingress"
-      k8s:
+      kubernetes.core.k8s:
         state: absent
         definition: "{{ lookup('template', 'ingress.yml.j2') }}"
       when: app.ingress_rules | default(false)
 
     - name: "{{ app.name | upper }} DELETE | k8s service"
-      k8s:
+      kubernetes.core.k8s:
         state: absent
         apply: yes
         definition: "{{ lookup('template', 'service.yml.j2') }}"
       when: app.service_ports | default(false)   
     
     - name: "{{ app.name | upper }} DELETE | k8s deployment"
-      k8s:
+      kubernetes.core.k8s:
         state: absent
         apply: yes
         definition: "{{ lookup('template', 'deployment.yml.j2') }}"
       when: app.containers | default(false)
 
     - name: "{{ app.name | upper }} DELETE | k8s cronjob"
-      k8s:
+      kubernetes.core.k8s:
         state: absent
         apply: yes
         definition: "{{ lookup('template', 'cronjob.yml.j2') }}"
       when: app.cronjob_containers | default(false)
 
     - name: "{{ app.name | upper }} DELETE | k8s configmap"
-      k8s:
+      kubernetes.core.k8s:
         state: absent
         apply: yes
         definition: "{{ lookup('template', 'configmap.yml.j2') }}"
@@ -101,7 +101,7 @@
         - app.pvc | default(false)
 
     - name: "{{ app.name | upper }} DELETE | k8s pvc"
-      k8s:
+      kubernetes.core.k8s:
         state: absent
         apply: yes
         definition: "{{ lookup('template', 'pvc.yml.j2') }}"

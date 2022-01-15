@@ -1,4 +1,14 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-key-secret
+  namespace: "{{ kube_operable_namespace }}"
+type: Opaque
+stringData:
+  api-key: "{{ cloudflare_api_key }}"
+
+---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:

@@ -9,7 +9,8 @@ metadata:
     external-dns.alpha.kubernetes.io/target: '{{ cloudflare_record_target }}'
     cert-manager.io/cluster-issuer: letsencrypt
 {% endif %}
-    kubernetes.io/ingress.class: "nginx"
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    kubernetes.io/ingress.class: "traefik"
 spec:
   tls: {{ app.tls | to_json }}
   rules: {{ app.ingress_rules | to_json }}

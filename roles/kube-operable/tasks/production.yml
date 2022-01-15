@@ -1,0 +1,48 @@
+---
+
+- name: Install Externaldns
+  become: true
+  block:
+
+    - name: Apply externaldns manifest to the cluster.
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('template', 'external-dns.yaml.j2') }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::external-dns
+
+- name: Install Cert-Manager
+  become: true
+  block:
+
+    - name: Install Cert-Manager helm repository
+      kubernetes.core.helm_repository:
+        name: jetstack
+        repo_url: "{{ cert_manager_charts_url }}"
+
+    - debug:
+        msg: "{{ lookup('url', cert_manager_crds_url ) }}"
+
+    - name: Install Cert-Manager helm charts
+      kubernetes.core.helm:
+        name: cert-manager
+        chart_ref: jetstack/cert-manager
+        chart_version: "{{ cert_manager_version }}"
+        release_namespace: "{{ kube_operable_namespace }}"
+        values:
+          installCRDs: true
+        wait: yes
+
+    - name: Deploy cert-manager configuration
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'cert-manager-config.yaml.j2') }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::cert-manager
