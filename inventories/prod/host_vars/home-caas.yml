@@ -4,21 +4,21 @@
 #######################
 partitions_unit: "%"
 partitions: 
-  - device: /dev/sdb
+  - device: /dev/sda
     number: 1
     mountpoint: /data/standard
     fstype: ext4
     start: 0
     size: 75
 
-  - device: /dev/sdb
+  - device: /dev/sda
     number: 2
     mountpoint: /data/backup
     fstype: ext4
     start: 75
     size: 25
   
-  - device: /dev/sda
+  - device: /dev/sdb
     number: 1
     mountpoint: /data/premium
     fstype: ext4
