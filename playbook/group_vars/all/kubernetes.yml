@@ -7,7 +7,7 @@ kubernetes_version: '1.23'
 external_dns_version: 'v0.10.2'
 cert_manager_version: 'v1.6.1'
 nfs_provisioner_version: '4.0.14'
-k9s_version: v0.25.18
+k9s_version: 'v0.25.18'
 
 #######################
 #     Kubernetes      #
@@ -33,7 +33,6 @@ traefik_charts_url: https://helm.traefik.io/traefik
 traefik_dashboard_domain: traefik.mbcaas.com
 
 cert_manager_charts_url: https://charts.jetstack.io
-cert_manager_crds_url: https://github.com/jetstack/cert-manager/releases/download/{{ cert_manager_version }}/cert-manager.crds.yaml
 
 #######################
 #   K8S Monitoring    #
