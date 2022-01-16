@@ -1,4 +1,3 @@
 applications:
   - "{{ thesis }}"
   - "{{ bobineshowroom }}"
-  - "{{ whoami }}"

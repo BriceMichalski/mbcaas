@@ -1,25 +1,25 @@
 ---
 
-- name: Create kube-operable namespace
-  kubernetes.core.k8s:
-    name: "{{ kube_operable_namespace }}"
-    api_version: v1
-    kind: Namespace
-    state: present
-    wait: true
+# - name: Create kube-operable namespace
+#   kubernetes.core.k8s:
+#     name: "{{ kube_operable_namespace }}"
+#     api_version: v1
+#     kind: Namespace
+#     state: present
+#     wait: true
 
-- name: Storage configuration
-  include_tasks: storage.yml
+# - name: Storage configuration
+#   include_tasks: storage.yml
 
-- name: Networking configuration
-  include_tasks: networking.yml
+# - name: Networking configuration
+#   include_tasks: networking.yml
 
-- name: Monitoring configuration
-  include_tasks: monitoring.yml
+# - name: Monitoring configuration
+#   include_tasks: monitoring.yml
 
-- name: Production spécific configuration
-  include_tasks: production.yml
-  when: production_environment
+# - name: Production spécific configuration
+#   include_tasks: production.yml
+#   when: production_environment
 
 - name: Deploy exploitation tools
   include_tasks: exploitation.yml

@@ -27,7 +27,6 @@ metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
 metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
 
 traefik_charts_url: https://helm.traefik.io/traefik
-traefik_dashboard_domain: router.mbcaas.com
 
 cert_manager_charts_url: https://charts.jetstack.io
 
@@ -36,7 +35,16 @@ cert_manager_charts_url: https://charts.jetstack.io
 #######################
 
 prometheus_stack_charts_url: https://prometheus-community.github.io/helm-charts
+
+#######################
+#     K8S operable    #
+#######################
+
+portal_domain: mbcaas.com
+traefik_dashboard_domain: router.mbcaas.com
+alertmanager_domain: alert.mbcaas.com
 grafana_domain: grafana.mbcaas.com
+request_debug_domain: whoami.mbcaas.com
 grafana_admin_password: !vault |
                         $ANSIBLE_VAULT;1.1;AES256
                         62626161653064393861323962626336376134333465316139303632336537363930316432383039
@@ -44,7 +52,7 @@ grafana_admin_password: !vault |
                         39323935383137353465316632353632363532396461303063356636366336333235323936346335
                         3838323466666332640a366366636531393765316263616162633039386163353531363535343637
                         39343662633239393633363830336538663365626161353033313330313261356661
-alertmanager_domain: alert.mbcaas.com
+
 
 #######################
 #   K8S Storage       #
