@@ -26,7 +26,7 @@ metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
 metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
 
 traefik_charts_url: https://helm.traefik.io/traefik
-traefik_dashboard_domain: traefik.mbcaas.com
+traefik_dashboard_domain: router.mbcaas.com
 
 cert_manager_charts_url: https://charts.jetstack.io
 

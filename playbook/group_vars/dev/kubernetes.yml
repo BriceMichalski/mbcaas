@@ -21,3 +21,9 @@ traefik_web_secure_enable_tls: false
 
 kube_ip_range_start: 192.168.50.20
 kube_ip_range_end: 192.168.50.30
+
+#######################
+#     K8S operable    #
+#######################
+
+enable_cloudflare_ip_whitelist: false

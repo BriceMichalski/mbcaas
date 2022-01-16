@@ -20,3 +20,6 @@
 - name: Production spécific configuration
   include_tasks: production.yml
   when: production_environment
+
+- name: Deploy exploitation tools
+  include_tasks: exploitation.yml

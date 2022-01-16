@@ -3,11 +3,18 @@
 # 
 #  DEPLOY APPLICATION
 # 
+
+- name: "{{ app.name | upper }} CREATE | Setting traefik_app_middleware"
+  set_fact:
+    traefik_app_middleware: "{{ app.traefik_middleware }}"
+  when: app.traefik_middleware is defined
+
+
 - name: "Deploy {{ app.name }}"
   environment:
     K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
   block:
-
+    
     - name: "{{ app.name | upper }} CREATE | k8s configmap"
       kubernetes.core.k8s:
         state: present

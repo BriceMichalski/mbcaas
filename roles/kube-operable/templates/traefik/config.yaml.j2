@@ -6,8 +6,21 @@ ports:
         port: 443
         tls: 
             enabled: {{ traefik_web_secure_enable_tls }}
+
+service:
+    spec:
+        externalTrafficPolicy: Local
+
 logs:
     general:
         level: {{ traefik_log_level }}
     access:
         enabled: {{ traefik_access_log }}
+
+
+
+{% if enable_cloudflare_ip_whitelist %}
+additionalArguments: [
+    "--entryPoints.websecure.forwardedHeaders.trustedIPs={{ cloudflare_ip_whitelist | join(',') }}"
+]
+{% endif %}

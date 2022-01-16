@@ -39,13 +39,6 @@
         values: "{{ lookup('template', 'traefik/config.yaml.j2') | from_yaml }}"
         wait: yes
     
-    - name: Deploy traefik dashboard
-      kubernetes.core.k8s:
-        state: present
-        apply: yes
-        definition: "{{ lookup('template', 'traefik/dashboard.yaml.j2') }}"
-        wait: yes
-
   tags:
     - kubernetes
     - kubernetes::traefik
