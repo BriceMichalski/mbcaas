@@ -1,0 +1,6 @@
+---
+#######################
+#      Main vars      #
+#######################
+
+production_environment: true

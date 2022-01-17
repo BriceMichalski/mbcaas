@@ -1,0 +1,48 @@
+thesis:
+  #
+  # Meta
+  #
+  name: thesis
+  namespace: default
+  deployed: true
+
+  #
+  # App
+  #
+  pod_volumes: []
+
+  containers:
+    - name: thesis
+      image: ghcr.io/bricemichalski/thesis:master
+      ports:
+      - containerPort: 80
+  
+  service_ports: 
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http
+  
+  tls: 
+    - hosts:
+      - brice.michalski.fr
+      secretName: thesis-cert
+      
+  ingress_rules:
+    - host: brice.michalski.fr
+      http:
+        paths:
+        - path: /mémoire
+          pathType: Exact
+          backend:
+            service:
+              name: thesis
+              port:
+                number: 80
+        - path: /memoire
+          pathType: Exact
+          backend:
+            service:
+              name: thesis
+              port:
+                number: 80

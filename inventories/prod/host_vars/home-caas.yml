@@ -1,0 +1,50 @@
+---
+#######################
+#    Drives & Disk    #
+#######################
+partitions_unit: "%"
+partitions: 
+  - device: /dev/sda
+    number: 1
+    mountpoint: /data/standard
+    fstype: ext4
+    start: 0
+    size: 75
+
+  - device: /dev/sda
+    number: 2
+    mountpoint: /data/backup
+    fstype: ext4
+    start: 75
+    size: 25
+  
+  - device: /dev/sdb
+    number: 1
+    mountpoint: /data/premium
+    fstype: ext4
+    start: 0
+    size: 100
+
+backups_script_dir: /var/backups
+backups:
+  - name: premium_partition
+    source: /data/premium/
+    destination: /data/backup/premium
+    logdir: /var/log/backups/
+    rsync_option: "vd"
+    cron:
+      minute: "*/5"
+      hour: "*"
+      day: "*"
+      month: "*"
+      weekday: "*"
+
+nfs_exports: 
+  - "/data/standard 127.0.0.1(rw,sync,no_root_squash)"
+  - "/data/premium 127.0.0.1(rw,sync,no_root_squash)"
+  
+#######################
+#  Kubernetes roles   #
+#######################
+kubernetes_role: master
+

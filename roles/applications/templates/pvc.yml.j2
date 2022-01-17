@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ app.claim.name}}"
+  namespace: "{{ app.namespace }}"
+spec:
+  accessModes: {{ app.claim.modes | to_json}}
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: "{{ app.claim.size }}"
+  storageClassName: azurefile-standard-lrs

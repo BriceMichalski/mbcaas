@@ -1,0 +1,10 @@
+---
+
+server_users:
+  john_doe:
+    uid: 1000
+    admin: true
+    group: john_doe
+    groups: foo
+    comment: John Doe
+    public_key: ""

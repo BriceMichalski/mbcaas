@@ -1,0 +1,8 @@
+---
+configInline:
+  address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - {{ metallb_config_ip_range_from }}-{{ metallb_config_ip_range_to }}
+

@@ -1,0 +1,36 @@
+---
+
+#######################
+#  K8S Customization  #
+#######################
+
+kubernetes_admin:
+  - brice_michalski
+
+#######################
+#      TRAEFIK        #
+#######################
+
+traefik_log_level: INFO
+traefik_access_log: false
+traefik_web_secure_enable_tls: true
+
+#######################
+#     K8S  Network    #
+#######################
+
+kube_ip_range_start: 192.168.1.210
+kube_ip_range_end: 192.168.1.240
+
+#######################
+#     K8S operable    #
+#######################
+
+enable_cloudflare_ip_whitelist: true
+
+#######################
+#   Traefik env mdw   #
+#######################
+
+traefik_env_middleware: 
+  - "cloudflare-ip-whitelist"

@@ -1,0 +1,69 @@
+require 'yaml'
+require 'fileutils'
+
+SETTINGS = YAML.load_file('settings.yml')
+DISK_DIRECTORY = SETTINGS["disk_directory"]
+VAGRANT_CONTROLLER_NAME = "SATA Controller"
+VAGRANT_CONTROLLER_TYPE = "sata"
+
+local_disks = SETTINGS["disks"]
+
+Vagrant.configure("2") do |config|
+
+  # create disks before "up" action
+  config.trigger.before :up do |trigger|
+    trigger.name = "Create disks"
+    trigger.ruby do
+      unless File.directory?(DISK_DIRECTORY)
+        FileUtils.mkdir_p(DISK_DIRECTORY)
+      end
+      local_disks.each do |local_disk|
+        local_disk_filename = "#{DISK_DIRECTORY}/#{local_disk["name"]}.vdi"
+        unless File.exist?(local_disk_filename)
+          puts "Creating \"#{local_disk["name"]}\" disk"
+          system("vboxmanage createmedium --filename #{local_disk_filename} --size #{local_disk["size"] * 1024} --format VDI")
+        end
+      end
+    end
+  end
+
+  # create storage controller on first run
+  unless File.directory?(DISK_DIRECTORY)
+    config.vm.provider "virtualbox" do |vbox|
+      vbox.customize ["storagectl", :id, "--name", VAGRANT_CONTROLLER_NAME, "--add", VAGRANT_CONTROLLER_TYPE, '--hostiocache', 'off']
+    end
+  end
+
+  config.vm.define SETTINGS['name'] do |guest|
+    guest.vm.box = SETTINGS['box'] 
+    guest.vm.network "private_network", ip: SETTINGS['ip']
+    guest.vm.hostname = SETTINGS['name'] 
+
+    guest.vm.provider "virtualbox" do |vbox|
+      vbox.name = SETTINGS['name']
+      vbox.memory = SETTINGS["memory"]
+      vbox.cpus = SETTINGS["cpu"] 
+      local_disks.each do |local_disk|
+        local_disk_filename = "#{DISK_DIRECTORY}/#{local_disk["name"]}.vdi"
+        unless File.exist?(local_disk_filename)
+          vbox.customize ['storageattach', :id, '--storagectl', VAGRANT_CONTROLLER_NAME, '--port', local_disk["port"], '--device', 0, '--type', 'hdd', '--medium', local_disk_filename]
+        end
+      end
+    end    
+  end
+
+  # cleanup after "destroy" action
+  config.trigger.after :destroy do |trigger|
+    trigger.name = "Cleanup operation"
+    trigger.ruby do
+      # the following loop is now obsolete as these files will be removed automatically as machine dependency
+      local_disks.each do |local_disk|
+        local_disk_filename = "#{DISK_DIRECTORY}/#{local_disk["name"]}.vdi"
+        if File.exist?(local_disk_filename)
+          puts "Deleting \"#{local_disk["name"]}\" disk"
+          system("vboxmanage closemedium disk #{local_disk_filename} --delete")
+        end
+      end
+    end
+  end
+end

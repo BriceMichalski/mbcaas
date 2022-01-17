@@ -1,0 +1,44 @@
+---
+
+- name: Install MetalLb
+  become: true
+  block:
+
+    - name: Install metallb helm repository
+      kubernetes.core.helm_repository:
+        name: metallb
+        repo_url: "{{ metallb_charts_url }}"
+
+    - name: Install metallb helm charts
+      kubernetes.core.helm:
+        name: metallb
+        chart_ref: metallb/metallb
+        values: "{{ lookup('template', 'metallb-config.yaml.j2') | from_yaml }}"
+        release_namespace: "{{ kube_operable_namespace }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::metallb
+
+
+- name: Install Traefik Ingress Controller
+  become: true
+  block:
+    
+    - name: Install traefik helm repository
+      kubernetes.core.helm_repository:
+        name: traefik
+        repo_url: "{{ traefik_charts_url }}"
+
+    - name: Install traefik helm charts
+      kubernetes.core.helm:
+        name: traefik
+        chart_ref: traefik/traefik
+        release_namespace: "{{ kube_operable_namespace }}"
+        values: "{{ lookup('template', 'traefik/config.yaml.j2') | from_yaml }}"
+        wait: yes
+    
+  tags:
+    - kubernetes
+    - kubernetes::traefik

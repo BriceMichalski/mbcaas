@@ -1,0 +1,144 @@
+---
+
+#######################
+#      TIMEZONE       #
+#######################
+
+- name: Set timezone to Europe/Paris
+  become: true
+  timezone:
+    name: Europe/Paris
+  tags:
+    - hardening
+    - hardening::timezone
+
+#######################
+#         APT         #
+#######################
+- name: Apt operation
+  become: true
+  block:
+    - name: Run the equivalent of "apt-get update" as a separate step
+      apt:
+        update_cache: yes
+
+    - name: Upgrade packet (apt-get full-upgrade)
+      apt:
+        upgrade: full
+
+    - name: Remove useless packages from the cache
+      apt:
+        autoclean: yes
+
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes
+  tags:
+    - hardening
+    - hardening::upgrade
+
+#######################
+#    disk & backup    #
+#######################
+
+- name: Manage Partitions
+  include_tasks: partition.yml
+  loop: "{{ partitions }}"
+  loop_control:
+    loop_var: partition
+  tags:
+    - hardening
+    - hardening::partition
+
+- name: Manage Backup
+  include_tasks: backup.yml
+  loop: "{{ backups }}"
+  loop_control:
+    loop_var: backup
+  tags:
+    - hardening
+    - hardening::backup
+
+#######################
+#         SWAP        #
+#######################
+- name: Disbale swap
+  become: true
+  block:
+    - name: Find swap file
+      command: "grep swap /etc/fstab"
+      register: swap_result
+      changed_when: false
+      failed_when: swap_result.rc == 2
+
+    - name: Check if swap was found
+      set_fact:
+        swap_file: "{{ swap_result.stdout.split('\t') | first }}"
+
+    - debug:
+        var: swap_file
+
+    - name: Disable swap
+      command: swapoff -a
+      when: swap_file != ""
+
+    - name: Remove swapfile from /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        state: absent
+        regexp: "^{{ swap_file }}"
+      when: swap_file != ""
+
+    - name: Ensure swap file doesn't exist.
+      file:
+        path: "{{ swap_file }}"
+        state: absent
+      when: swap_file != ""
+  tags:
+    - hardening
+    - hardening::swap
+
+#######################
+#     Usual tips      #
+#######################
+
+- name: Install usual package
+  become: true
+  block:
+    - name: Install usual apt package
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ usual_apt_package }}"
+
+    - name: Install usual python package
+      pip:
+        name: "{{ item }}"
+        state: present
+        executable: pip3
+      with_items: "{{ usual_pip_package }}" 
+  tags:
+    - hardening
+    - hardening::usual
+    - hardening::usual::package
+
+- name: Install k9s
+  become: true
+  block:
+    - name: Download k9s tarball
+      get_url:
+        url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_x86_64.tar.gz"
+        dest: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
+      register: k9s_archive
+
+    - name: Unarchive k9s
+      unarchive:
+        src: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
+        dest: "/usr/local/bin"
+        mode: 0755
+        remote_src: true
+      when: k9s_archive.changed
+  tags:
+    - hardening
+    - hardening::usual
+    - hardening::usual::k9s

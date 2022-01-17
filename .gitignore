@@ -1,0 +1,7 @@
+*.retry
+roles/*.*
+*.vault
+kubeconfig
+token
+.vagrant
+settings.yml

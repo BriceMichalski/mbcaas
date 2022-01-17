@@ -1,0 +1,22 @@
+---
+
+- name: Install Prometheus Stack
+  become: true
+  block:
+
+    - name: Install prometheus stack repository
+      kubernetes.core.helm_repository:
+        name: prometheus-community
+        repo_url: "{{ prometheus_stack_charts_url }}"
+
+    - name: Install prometheus stack charts
+      kubernetes.core.helm:
+        name: prometheus-stack
+        chart_ref: prometheus-community/kube-prometheus-stack
+        release_namespace: "{{ kube_operable_namespace }}"
+        values: "{{ lookup('template', 'monitoring-config.yml.j2') | from_yaml }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::monitoring

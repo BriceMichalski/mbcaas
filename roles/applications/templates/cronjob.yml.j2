@@ -1,0 +1,21 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: "{{ app.namespace }}"
+  name: "{{ app.name }}"
+spec:
+  schedule: "{{ app.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: "{{ app.name }}"
+        spec:
+          imagePullSecrets:
+            - name: regcred
+          volumes: {{ app.pod_volumes | to_json }}
+          containers: {{ app.cronjob_containers | to_json }}
+          initContainers: {{ app.cronjob_init_containers | to_json }}
+          restartPolicy: Never

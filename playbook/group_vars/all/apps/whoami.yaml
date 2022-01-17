@@ -1,0 +1,48 @@
+whoami:
+  deployed: true
+
+  #
+  # Meta
+  #
+  name: whoami
+  namespace: "{{ kube_operable_namespace }}"
+
+  #
+  # Middleware 
+  #
+  traefik_middleware: 
+    - "admin-auth"
+
+  #
+  # App
+  #
+  pod_volumes: []
+
+  containers:
+    - name: whoami
+      image: containous/whoami
+      ports:
+      - containerPort: 80
+  
+  service_ports: 
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http
+  
+  tls: 
+    - hosts:
+      - "{{ request_debug_domain }}"
+      secretName: "{{ request_debug_domain }}-cert"
+      
+  ingress_rules:
+    - host: "{{ request_debug_domain }}"
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: whoami
+              port:
+                number: 80

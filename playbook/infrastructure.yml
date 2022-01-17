@@ -1,0 +1,53 @@
+---
+
+- hosts: all
+  gather_facts: true
+  any_errors_fatal: true
+  tasks:
+    - ping:
+      tags:
+        - always
+
+- hosts: all
+  gather_facts: false
+  name: Prepare server & Manage user
+  roles:
+    - roles/hardening
+    - roles/users
+  tags: 
+    - hardening
+
+- hosts: nfs
+  gather_facts: false
+  name: NFS server
+  become: true
+  roles:
+    - geerlingguy.nfs
+  tags:
+    - nfs
+    
+- hosts: caas
+  gather_facts: false
+  name: Single node raw Kubernetes cluster
+  become: true
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.helm
+    - geerlingguy.kubernetes
+  post_tasks:
+    - include_tasks: tasks/kubernetes_administrator.yml
+      with_items: "{{ kubernetes_admin }}"
+    - include_tasks: tasks/helm_diff.yml
+  tags:
+    - kubernetes
+    - kubernetes::cluster
+
+- hosts: caas
+  gather_facts: false
+  name: Operable Kubernetes Cluster
+  become: true
+  roles:
+    - roles/kube-operable
+  tags:
+    - kubernetes
+    - kubernetes::operable

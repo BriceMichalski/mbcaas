@@ -1,0 +1,19 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  lint:
+    name: Lint yaml
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lint > Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Lint > run super linter
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_MARKDOWN: true
+          VALIDATE_YAML: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
