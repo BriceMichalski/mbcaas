@@ -41,6 +41,7 @@ prometheus_stack_charts_url: https://prometheus-community.github.io/helm-charts
 #######################
 
 portal_domain: mbcaas.com
+portainer_domain: portainer.mbcaas.com
 traefik_dashboard_domain: router.mbcaas.com
 alertmanager_domain: alert.mbcaas.com
 grafana_domain: grafana.mbcaas.com
