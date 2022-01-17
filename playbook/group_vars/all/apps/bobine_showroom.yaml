@@ -24,7 +24,10 @@ bobineshowroom:
       targetPort: 80
       name: http
   
-  tls: []
+  tls: 
+    - hosts:
+      - bobineshowroom.mbcaas.com
+      secretName: bobineshowroom.mbcaas.com-tls
 
   ingress_rules:
     - host: bobineshowroom.mbcaas.com

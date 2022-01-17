@@ -3,12 +3,27 @@
 #######################
 #  K8S Customization  #
 #######################
+
 kubernetes_admin:
   - brice_michalski
   - vagrant
 
 #######################
+#      TRAEFIK        #
+#######################
+traefik_log_level: DEBUG
+traefik_access_log: true
+traefik_web_secure_enable_tls: false
+
+#######################
 #     K8S  Network    #
 #######################
+
 kube_ip_range_start: 192.168.50.20
 kube_ip_range_end: 192.168.50.30
+
+#######################
+#     K8S operable    #
+#######################
+
+enable_cloudflare_ip_whitelist: false

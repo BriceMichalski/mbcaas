@@ -17,6 +17,8 @@
         number: "{{ partition.number }}"
         fs_type: "{{ partition.fstype }}"
         unit: "{{ partitions_unit }}"
+        label: gpt
+        name: "{{ partition.mountpoint | replace('/','_')}}"
         state: present
 
     - name: Update filesystem
@@ -25,12 +27,16 @@
         dev: "{{ partition.device }}{{ partition.number }}"
         resizefs: true
 
+    # - name: Create Mountpoint
+    #   file:
+    #     path: "{{ partition.mountpoint }}"
+    #     state: directory
+
     - name: Mount partition
       mount:
         path: "{{ partition.mountpoint }}"
         src: "{{ partition.device }}{{ partition.number }}"
         fstype: "{{ partition.fstype }}"
-        opts: 'defaults,nofail'
         state: mounted
     
   tags:

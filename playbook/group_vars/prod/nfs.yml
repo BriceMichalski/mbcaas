@@ -1,6 +1,18 @@
 ---
+
 #######################
 #  NFS Configuration  #
 #######################
-nfs_exports: 
-  - "/data 127.0.0.1(rw,sync,no_root_squash)"
+
+nfs_storage_classes:
+  - name: nfs-standard
+    ip: 127.0.0.1
+    path: "/data/standard"
+    default: true
+    on_delete_option: retain
+
+  - name: nfs-premium
+    ip: 127.0.0.1
+    path: "/data/standard"
+    default: false
+    on_delete_option: retain

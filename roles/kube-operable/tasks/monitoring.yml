@@ -14,6 +14,7 @@
         name: prometheus-stack
         chart_ref: prometheus-community/kube-prometheus-stack
         release_namespace: "{{ kube_operable_namespace }}"
+        values: "{{ lookup('template', 'monitoring-config.yml.j2') | from_yaml }}"
         wait: yes
 
   tags:

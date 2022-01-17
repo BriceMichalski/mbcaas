@@ -1,38 +1,45 @@
+{% if production_environment %}
 ---
-apiVersion: v1
-kind: Secret
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
-  name: authsecret
-  namespace: "{{ kube_operable_namespace }}"
-data:
-  users: |2
-    YnJpY2VfbWljaGFsc2tpOiRhcHIxJFVxQ2k1N3l2JFprSHFwMWdvTC9CT01ERUF6
-    cld0RjAKCg==
----
-# Declaring the user list
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: basic-auth
+  name: '{{ traefik_dashboard_domain }}'
   namespace: "{{ kube_operable_namespace }}"
 spec:
-  basicAuth:
-    secret: authsecret
-
+  dnsNames:
+    - '{{ traefik_dashboard_domain }}'
+  secretName: '{{ traefik_dashboard_domain }}-tls'
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt
+{% endif %}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: dashboard
+  name: traefik-dashboard
   namespace: "{{ kube_operable_namespace }}"
+{% if production_environment %}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+{% endif %}
 spec:
   entryPoints:
-    - web
+    - websecure
+{% if production_environment %}
+  tls:
+    secretName: '{{ traefik_dashboard_domain }}-tls'
+{% endif %}
   routes:
     - match: Host(`{{ traefik_dashboard_domain }}`)
       kind: Rule
       middlewares:
-        - name: basic-auth
+{% if enable_cloudflare_ip_whitelist %}
+        - name: cloudflare-ip-whitelist
+          namespace: {{ kube_operable_namespace }}
+{% endif %}
+        - name:  admin-auth
           namespace: {{ kube_operable_namespace }}
       services:
         - name: api@internal
