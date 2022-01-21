@@ -23,3 +23,7 @@
 
 - name: Deploy exploitation tools
   include_tasks: exploitation.yml
+
+- name: Deploy gitops tools
+  include_tasks: gitops.yml
+  

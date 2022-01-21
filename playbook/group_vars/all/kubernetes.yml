@@ -17,6 +17,7 @@ kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
 
 kube_operable_namespace: kube-operable
+gitops_namespace: "gitops"
 
 #######################
 #   K8S Networking    #
