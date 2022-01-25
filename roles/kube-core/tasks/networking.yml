@@ -70,8 +70,8 @@
   vars: 
     app: "{{ whoami }}"
   import_role:
-    name: roles/applications
-    tasks_from: handle_app
+    name: roles/kube-apps
+    tasks_from: custom
   tags:
     - kubernetes
     - kubernetes::core

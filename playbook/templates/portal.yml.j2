@@ -40,7 +40,7 @@ configmap:
           - name: "Home repository"
             icon: "fab fa-github"
             url: "https://github.com/BriceMichalski/home"
-            target: "_blank" # optional html tag target attribute
+            target: "_blank"
 
           - name: "Artifact Hub"
             icon: "fas fa-receipt"
@@ -55,7 +55,7 @@ configmap:
           - name: "Pubic Portal"
             icon: "fas fa-share"
             url: "https://michalski.fr"
-            target: "_blank" # optional html tag target attribute
+            target: "_blank"
 
         services:
           - name: Infrastructure
@@ -67,7 +67,7 @@ configmap:
                 subtitle: "Portainer"
                 tag: "infra"
                 url: "https://{{ portainer_domain }}"
-                target: "_blank" # optional html tag target attribute
+                target: "_blank"
 
               - name: "Status"
                 icon: "fas fa-heartbeat"
@@ -81,14 +81,14 @@ configmap:
                 subtitle: "Grafana"
                 tag: "infra"
                 url: "https://{{ grafana_domain }}"
-                target: "_blank" # optional html tag target attribute
+                target: "_blank"
         
               - name: "Alerting"
                 icon: "fas fa-bell"
                 subtitle: "Alert Manager"
                 tag: "infra"
                 url: "https://{{ alertmanager_domain }}"
-                target: "_blank" # optional html tag target attribute
+                target: "_blank"
         
 
           - name: Network
@@ -100,29 +100,36 @@ configmap:
                 subtitle: "Cloudflare"
                 tag: "network"
                 url: "https://dash.cloudflare.com/f5bd577bd1f7337fa65ca58e462ed4dc"
-                target: "_blank" # optional html tag target attribute
+                target: "_blank"
 
               - name: "Router"
                 icon: "fas fa-random"
                 subtitle: "Traefik"
                 tag: "network"
                 url: "https://{{ traefik_dashboard_domain }}"
-                target: "_blank" # optional html tag target attribute
+                target: "_blank"
 
               - name: "Request Debugger"
                 icon: "fas fa-question"
                 subtitle: "whoami"
                 tag: "network"
                 url: "https://{{ request_debug_domain }}"
-                target: "_blank" # optional html tag target attribute
+                target: "_blank"
 
           - name: Gitops
             icon: "fas fa-infinity"
             items: 
-        
+
+              - name: "My repository"
+                icon: "fab fa-github"
+                subtitle: "Github"
+                tags: "gitops"
+                url: "https://github.com/BriceMichalski?tab=repositories"
+                target: "_blank"
+
               - name: "Continuous Deployment"
                 icon: "fas fa-sync-alt"
                 subtitle: "Argo CD"
                 tag: "gitops"
                 url: "https://{{ argocd_domain }}"
-                target: "_blank" # optional html tag target attribute
+                target: "_blank"

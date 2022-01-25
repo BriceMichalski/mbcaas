@@ -13,7 +13,6 @@
   name: Prepare server & Manage user
   roles:
     - roles/hardening
-    - roles/users
   tags: 
     - hardening
 

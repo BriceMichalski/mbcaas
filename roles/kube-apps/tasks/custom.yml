@@ -13,44 +13,44 @@
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'configmap.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/configmap.yml.j2') }}"
       when: app.configmap_data | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s pvc"
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'pvc.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/pvc.yml.j2') }}"
       when: app.pvc | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s deployment"
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'deployment.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/deployment.yml.j2') }}"
       when: app.containers | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s cronjob"
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'cronjob.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/cronjob.yml.j2') }}"
       when: app.cronjob_containers | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s service"
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'service.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/service.yml.j2') }}"
       when: app.service_ports | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s ingress"
       vars: 
-        traefik_app_middleware: "{{ app.traefik_middleware }}"
+        traefik_app_middleware: "{% if app.traefik_middleware is defined %}{{ app.traefik_middleware }}{% endif %}"
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'ingress.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/ingress.yml.j2') }}"
       when: app.ingress_rules | default(false)
   when: 
     - app.deployed
@@ -65,35 +65,35 @@
     - name: "{{ app.name | upper }} DELETE | k8s ingress"
       kubernetes.core.k8s:
         state: absent
-        definition: "{{ lookup('template', 'ingress.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/ingress.yml.j2') }}"
       when: app.ingress_rules | default(false)
 
     - name: "{{ app.name | upper }} DELETE | k8s service"
       kubernetes.core.k8s:
         state: absent
         apply: yes
-        definition: "{{ lookup('template', 'service.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/service.yml.j2') }}"
       when: app.service_ports | default(false)   
     
     - name: "{{ app.name | upper }} DELETE | k8s deployment"
       kubernetes.core.k8s:
         state: absent
         apply: yes
-        definition: "{{ lookup('template', 'deployment.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/deployment.yml.j2') }}"
       when: app.containers | default(false)
 
     - name: "{{ app.name | upper }} DELETE | k8s cronjob"
       kubernetes.core.k8s:
         state: absent
         apply: yes
-        definition: "{{ lookup('template', 'cronjob.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/cronjob.yml.j2') }}"
       when: app.cronjob_containers | default(false)
 
     - name: "{{ app.name | upper }} DELETE | k8s configmap"
       kubernetes.core.k8s:
         state: absent
         apply: yes
-        definition: "{{ lookup('template', 'configmap.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/configmap.yml.j2') }}"
       when: app.configmap_data | default(false)
 
     - name: "{{ app.name | upper }} DELETE | Ask for pvc deletion"
@@ -107,7 +107,7 @@
       kubernetes.core.k8s:
         state: absent
         apply: yes
-        definition: "{{ lookup('template', 'pvc.yml.j2') }}"
+        definition: "{{ lookup('template', 'custom/pvc.yml.j2') }}"
       when: 
         - app.pvc | default(false)
         - hostvars['localhost'].delete_pvc.user_input | bool

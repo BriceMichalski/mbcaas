@@ -1,7 +1,0 @@
----
-
-- name: Manage declared applications
-  include_tasks: handle_app.yaml
-  with_items: "{{ applications }}"
-  loop_control:
-    loop_var: app
