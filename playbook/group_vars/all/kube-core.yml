@@ -16,8 +16,8 @@ k9s_version: 'v0.25.18'
 kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
 
-kube_operable_namespace: kube-operable
-gitops_namespace: "gitops"
+kube_core_namespace: kube-core
+kube_gitops_namespace: kube-gitops
 
 #######################
 #   K8S Networking    #
@@ -26,9 +26,7 @@ gitops_namespace: "gitops"
 metallb_charts_url: https://metallb.github.io/metallb
 metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
 metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
-
 traefik_charts_url: https://helm.traefik.io/traefik
-
 cert_manager_charts_url: https://charts.jetstack.io
 
 #######################
@@ -38,7 +36,7 @@ cert_manager_charts_url: https://charts.jetstack.io
 prometheus_stack_charts_url: https://prometheus-community.github.io/helm-charts
 
 #######################
-#     K8S operable    #
+#     Kube core       #
 #######################
 
 portal_domain:              mbcaas.com
@@ -57,6 +55,13 @@ admin_password: !vault |
                 39343662633239393633363830336538663365626161353033313330313261356661
 
 grafana_admin_password: "{{ admin_password }}"
+
+
+#######################
+#     Kube gitops     #
+#######################
+
+argocd_domain: argocd.mbcaas.com
 
 #######################
 #   K8S Storage       #

@@ -243,7 +243,7 @@ server:
     ## Hostnames must be provided if Ingress is enabled.
     ## Secrets must be manually created in the namespace
     hosts:
-      - argocd.mbcaas.com
+      - {{ argocd_domain }}
 
     # -- List of ingress paths
     paths:
@@ -268,9 +268,9 @@ server:
 
     # -- Ingress TLS configuration
     tls:
-      - secretName: argocd.mbcaas.com
+      - secretName: {{ argocd_domain }}
         hosts:
-          - argocd.mbcaas.com
+          - {{ argocd_domain }}
 
     # -- Uses `server.service.servicePortHttps` instead `server.service.servicePortHttp`
     https: false

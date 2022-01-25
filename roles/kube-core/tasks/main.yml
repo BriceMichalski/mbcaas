@@ -1,8 +1,8 @@
 ---
 
-- name: Create kube-operable namespace
+- name: Create kube-core namespace
   kubernetes.core.k8s:
-    name: "{{ kube_operable_namespace }}"
+    name: "{{ kube_core_namespace }}"
     api_version: v1
     kind: Namespace
     state: present
@@ -21,9 +21,6 @@
   include_tasks: production.yml
   when: production_environment
 
-- name: Deploy exploitation tools
-  include_tasks: exploitation.yml
-
-- name: Deploy gitops tools
-  include_tasks: gitops.yml
+- name: Deploy portainer
+  include_tasks: portainer.yml
   

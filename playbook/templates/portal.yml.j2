@@ -5,7 +5,7 @@ ingress:
   main:
     enabled: true
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: "{{ ( traefik_applicable_middleware + ['kube-operable-admin-auth@kubernetescrd'] ) | join(',') }}"
+      traefik.ingress.kubernetes.io/router.middlewares: "{{ ( traefik_applicable_middleware + ['kube-core-admin-auth@kubernetescrd'] ) | join(',') }}"
       external-dns.alpha.kubernetes.io/target: "{{ cloudflare_record_target }}"
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/ingress.class: traefik
@@ -59,47 +59,70 @@ configmap:
 
         services:
           - name: Infrastructure
-            icon: "fas fa-network-wired"
+            icon: "fas fa-cloud"
             items: 
               
               - name: "Hosting"
                 icon: "fas fa-server"
                 subtitle: "Portainer"
                 tag: "infra"
-                url: "https://portainer.mbcaas.com"
-                target: "_blank" # optional html tag target attribute              
-              
-              - name: "Router"
-                icon: "fas fa-random"
-                subtitle: "Traefik"
-                tag: "infra"
-                url: "https://router.mbcaas.com"
+                url: "https://{{ portainer_domain }}"
                 target: "_blank" # optional html tag target attribute
-        
-              - name: "DNS"
-                icon: "fas fa-cloud"
-                subtitle: "Cloudflare"
+
+              - name: "Status"
+                icon: "fas fa-heartbeat"
+                subtitle: "Uptime Robot"
                 tag: "infra"
-                url: "https://dash.cloudflare.com/f5bd577bd1f7337fa65ca58e462ed4dc"
-                target: "_blank" # optional html tag target attribute
-        
+                url: "https://stats.uptimerobot.com/GxVp5iBEZr"
+                target: "_blank"
+
               - name: "Monitoring"
                 icon: "fas fa-tachometer-alt"
                 subtitle: "Grafana"
                 tag: "infra"
-                url: "https://grafana.mbcaas.com"
+                url: "https://{{ grafana_domain }}"
                 target: "_blank" # optional html tag target attribute
         
               - name: "Alerting"
                 icon: "fas fa-bell"
                 subtitle: "Alert Manager"
                 tag: "infra"
-                url: "https://alert.mbcaas.com"
+                url: "https://{{ alertmanager_domain }}"
                 target: "_blank" # optional html tag target attribute
         
+
+          - name: Network
+            icon: "fas fa-network-wired"
+            items: 
+        
+              - name: "DNS"
+                icon: "fas fa-cloud"
+                subtitle: "Cloudflare"
+                tag: "network"
+                url: "https://dash.cloudflare.com/f5bd577bd1f7337fa65ca58e462ed4dc"
+                target: "_blank" # optional html tag target attribute
+
+              - name: "Router"
+                icon: "fas fa-random"
+                subtitle: "Traefik"
+                tag: "network"
+                url: "https://{{ traefik_dashboard_domain }}"
+                target: "_blank" # optional html tag target attribute
+
               - name: "Request Debugger"
                 icon: "fas fa-question"
                 subtitle: "whoami"
-                tag: "infra"
-                url: "https://whoami.mbcaas.com"
+                tag: "network"
+                url: "https://{{ request_debug_domain }}"
+                target: "_blank" # optional html tag target attribute
+
+          - name: Gitops
+            icon: "fas fa-infinity"
+            items: 
+        
+              - name: "Continuous Deployment"
+                icon: "fas fa-sync-alt"
+                subtitle: "Argo CD"
+                tag: "gitops"
+                url: "https://{{ argocd_domain }}"
                 target: "_blank" # optional html tag target attribute

@@ -3,7 +3,7 @@ alertmanager:
   ingress:
     enabled: true
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: {{ ( traefik_applicable_middleware + ['kube-operable-admin-auth@kubernetescrd'] ) | join(',') }}
+      traefik.ingress.kubernetes.io/router.middlewares: {{ ( traefik_applicable_middleware + ['kube-core-admin-auth@kubernetescrd'] ) | join(',') }}
       external-dns.alpha.kubernetes.io/target: {{ cloudflare_record_target }}
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/ingress.class: traefik
@@ -21,7 +21,9 @@ grafana:
   ingress:
     enabled: true
     annotations:
+{% if (traefik_applicable_middleware | length ) > 0 %}
       traefik.ingress.kubernetes.io/router.middlewares: {{ traefik_applicable_middleware | join(',') }}
+{% endif %}
       external-dns.alpha.kubernetes.io/target: {{ cloudflare_record_target }}
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/ingress.class: traefik

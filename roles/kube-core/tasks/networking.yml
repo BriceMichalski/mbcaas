@@ -1,0 +1,78 @@
+---
+
+- name: Install MetalLb
+  become: true
+  block:
+
+    - name: Install metallb helm repository
+      kubernetes.core.helm_repository:
+        name: metallb
+        repo_url: "{{ metallb_charts_url }}"
+
+    - name: Install metallb helm charts
+      kubernetes.core.helm:
+        name: metallb
+        chart_ref: metallb/metallb
+        values: "{{ lookup('template', 'metallb-config.yaml.j2') | from_yaml }}"
+        release_namespace: "{{ kube_core_namespace }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::metallb
+
+
+- name: Install Traefik Ingress Controller
+  become: true
+  block:
+    
+    - name: Install traefik helm repository
+      kubernetes.core.helm_repository:
+        name: traefik
+        repo_url: "{{ traefik_charts_url }}"
+
+    - name: Install traefik helm charts
+      kubernetes.core.helm:
+        name: traefik
+        chart_ref: traefik/traefik
+        release_namespace: "{{ kube_core_namespace }}"
+        values: "{{ lookup('template', 'traefik/config.yaml.j2') | from_yaml }}"
+        wait: yes
+    
+    - name: Traefik Middleware cloudflare ip whitelist
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'traefik/cloudflare-ip-whiteist-mdw.yml.j2') }}"
+        wait: yes
+      when: enable_cloudflare_ip_whitelist
+      
+    - name: Traefik Middleware admin auth
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'traefik/admin-auth-mdw.yml.j2') }}"
+        wait: yes
+
+    - name: Deploy traefik dashboard
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'traefik/dashboard.yaml.j2') }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::core
+    - kubernetes::core::traefik
+
+- name: Deploy whoami app
+  vars: 
+    app: "{{ whoami }}"
+  import_role:
+    name: roles/applications
+    tasks_from: handle_app
+  tags:
+    - kubernetes
+    - kubernetes::core
+    - kubernetes::core::whoami

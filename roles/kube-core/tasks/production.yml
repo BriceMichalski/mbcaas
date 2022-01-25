@@ -28,7 +28,7 @@
         name: cert-manager
         chart_ref: jetstack/cert-manager
         chart_version: "{{ cert_manager_version }}"
-        release_namespace: "{{ kube_operable_namespace }}"
+        release_namespace: "{{ kube_core_namespace }}"
         values:
           installCRDs: true
         wait: yes
