@@ -1,13 +1,19 @@
 thesis:
+
   #
-  # Meta
+  # Deploy Options
+  #
+  deployed: true
+  deployType: custom
+
+  #
+  # Common info
   #
   name: thesis
   namespace: default
-  deployed: true
-
+  
   #
-  # App
+  # Custom App Definition
   #
   pod_volumes: []
 

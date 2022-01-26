@@ -1,0 +1,70 @@
+---
+#######################
+#       VERSION       #
+#######################
+
+kubernetes_version: '1.23'
+external_dns_version: 'v0.10.2'
+cert_manager_version: 'v1.6.1'
+nfs_provisioner_version: '4.0.14'
+k9s_version: 'v0.25.18'
+
+#######################
+#     Kubernetes      #
+#######################
+
+kubernetes_allow_pods_on_master: true
+kubernetes_enable_web_ui: false
+
+kube_core_namespace: kube-core
+kube_gitops_namespace: kube-gitops
+
+#######################
+#   K8S Networking    #
+#######################
+
+metallb_charts_url: https://metallb.github.io/metallb
+metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
+metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
+traefik_charts_url: https://helm.traefik.io/traefik
+cert_manager_charts_url: https://charts.jetstack.io
+
+#######################
+#   K8S Monitoring    #
+#######################
+
+prometheus_stack_charts_url: https://prometheus-community.github.io/helm-charts
+
+#######################
+#     Kube core       #
+#######################
+
+portal_domain:              mbcaas.com
+portainer_domain:           portainer.mbcaas.com
+traefik_dashboard_domain:   router.mbcaas.com
+alertmanager_domain:        alert.mbcaas.com
+grafana_domain:             grafana.mbcaas.com
+request_debug_domain:       whoami.mbcaas.com
+
+admin_password: !vault |
+                $ANSIBLE_VAULT;1.1;AES256
+                62626161653064393861323962626336376134333465316139303632336537363930316432383039
+                3161306230393934643134333637393339306536373963350a323638643661323336623666323066
+                39323935383137353465316632353632363532396461303063356636366336333235323936346335
+                3838323466666332640a366366636531393765316263616162633039386163353531363535343637
+                39343662633239393633363830336538663365626161353033313330313261356661
+
+grafana_admin_password: "{{ admin_password }}"
+
+
+#######################
+#     Kube gitops     #
+#######################
+
+argocd_domain: argocd.mbcaas.com
+
+#######################
+#   K8S Storage       #
+#######################
+nfs_provisioner_enabled: true
+nfs_provisioner_charts: "https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner/releases/download/nfs-subdir-external-provisioner-{{ nfs_provisioner_version }}/nfs-subdir-external-provisioner-{{ nfs_provisioner_version }}.tgz"

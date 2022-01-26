@@ -1,0 +1,5 @@
+---
+
+cloudflare_record_target: 192.168.1.50
+cloudflare_ip_whitelist: 
+  - 192.168.0.0/16

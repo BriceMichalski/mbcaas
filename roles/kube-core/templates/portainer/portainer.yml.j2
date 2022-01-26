@@ -1,0 +1,21 @@
+---
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: "{{ ( traefik_applicable_middleware + ['kube-core-admin-auth@kubernetescrd'] ) | join(',') }}"
+    external-dns.alpha.kubernetes.io/target: "{{ cloudflare_record_target }}"
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  hosts:
+  - host: "{{ portainer_domain }}"
+    paths:
+      - path: "/"
+        pathType: Prefix
+  tls:
+    - secretName: "{{ portainer_domain }}-tls"
+      hosts:
+        - "{{ portainer_domain }}"

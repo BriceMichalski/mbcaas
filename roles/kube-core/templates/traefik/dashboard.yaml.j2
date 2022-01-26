@@ -1,0 +1,46 @@
+{% if production_environment %}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: '{{ traefik_dashboard_domain }}'
+  namespace: "{{ kube_core_namespace }}"
+spec:
+  dnsNames:
+    - '{{ traefik_dashboard_domain }}'
+  secretName: '{{ traefik_dashboard_domain }}-tls'
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt
+{% endif %}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: "{{ kube_core_namespace }}"
+{% if production_environment %}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+{% endif %}
+spec:
+  entryPoints:
+    - websecure
+{% if production_environment %}
+  tls:
+    secretName: '{{ traefik_dashboard_domain }}-tls'
+{% endif %}
+  routes:
+    - match: Host(`{{ traefik_dashboard_domain }}`)
+      kind: Rule
+      middlewares:
+{% if enable_cloudflare_ip_whitelist %}
+        - name: cloudflare-ip-whitelist
+          namespace: {{ kube_core_namespace }}
+{% endif %}
+        - name:  admin-auth
+          namespace: {{ kube_core_namespace }}
+      services:
+        - name: api@internal
+          kind: TraefikService

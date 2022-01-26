@@ -1,0 +1,9 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: cloudflare-ip-whitelist
+  namespace: "{{ kube_core_namespace }}"
+spec:
+  ipWhiteList:
+    sourceRange: {{ cloudflare_ip_whitelist }}

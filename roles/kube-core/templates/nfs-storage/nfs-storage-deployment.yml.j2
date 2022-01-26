@@ -1,0 +1,44 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  labels:
+    app: nfs-client-provisioner
+  # replace with namespace where provisioner is deployed
+  namespace: "{{ kube_core_namespace }}"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+{% for nfs_storage_class in nfs_storage_classes %}
+        - name: {{ nfs_storage_class.name }}
+          image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          volumeMounts:
+            - name: {{ nfs_storage_class.name }}-volume
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: {{ nfs_storage_class.name }}-provisioner
+            - name: NFS_SERVER
+              value: {{ nfs_storage_class.ip }}
+            - name: NFS_PATH
+              value: {{ nfs_storage_class.path }}
+{% endfor %}
+      volumes:
+{% for nfs_storage_class in nfs_storage_classes %}   
+        - name: {{ nfs_storage_class.name }}-volume
+          nfs:
+            server: {{ nfs_storage_class.ip }}
+            path: {{ nfs_storage_class.path }}
+{% endfor %}
