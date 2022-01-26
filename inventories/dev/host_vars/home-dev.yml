@@ -25,7 +25,7 @@ partitions:
     start: 0
     size: 100
 
-backups_script_dir: /var/backups
+backups_script_dir: /var
 backups:
   - name: premium_partition
     source: /data/premium/
