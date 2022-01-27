@@ -1,9 +1,7 @@
 ---
-
 - name: Install MetalLb
   become: true
   block:
-
     - name: Install metallb helm repository
       kubernetes.core.helm_repository:
         name: metallb
@@ -21,11 +19,9 @@
     - kubernetes
     - kubernetes::metallb
 
-
 - name: Install Traefik Ingress Controller
   become: true
   block:
-    
     - name: Install traefik helm repository
       kubernetes.core.helm_repository:
         name: traefik
@@ -38,7 +34,7 @@
         release_namespace: "{{ kube_core_namespace }}"
         values: "{{ lookup('template', 'traefik/config.yaml.j2') | from_yaml }}"
         wait: yes
-    
+
     - name: Traefik Middleware cloudflare ip whitelist
       kubernetes.core.k8s:
         state: present
@@ -46,7 +42,7 @@
         definition: "{{ lookup('template', 'traefik/cloudflare-ip-whiteist-mdw.yml.j2') }}"
         wait: yes
       when: enable_cloudflare_ip_whitelist
-      
+
     - name: Traefik Middleware admin auth
       kubernetes.core.k8s:
         state: present
@@ -67,7 +63,7 @@
     - kubernetes::core::traefik
 
 - name: Deploy whoami app
-  vars: 
+  vars:
     app: "{{ whoami }}"
   import_role:
     name: roles/kube-apps
