@@ -4,7 +4,6 @@
   environment:
     K8S_AUTH_KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
   block:
-
     - debug:
         msg: "Create partition {{ partition.device }}{{ partition.number }} with start at {{ partition.start }}{{ partitions_unit }} and end at {{ partition.start + partition.size }}{{ partitions_unit }}"
 
@@ -38,7 +37,7 @@
         src: "{{ partition.device }}{{ partition.number }}"
         fstype: "{{ partition.fstype }}"
         state: mounted
-    
+
   tags:
     - hardening
     - hardening::partition

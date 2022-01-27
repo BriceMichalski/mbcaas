@@ -3,7 +3,7 @@
 #    Drives & Disk    #
 #######################
 partitions_unit: "%"
-partitions: 
+partitions:
   - device: /dev/sda
     number: 1
     mountpoint: /data/standard
@@ -17,7 +17,7 @@ partitions:
     fstype: ext4
     start: 75
     size: 25
-  
+
   - device: /dev/sdb
     number: 1
     mountpoint: /data/premium
@@ -25,7 +25,7 @@ partitions:
     start: 0
     size: 100
 
-backups_script_dir: /var/backups
+backups_script_dir: /var
 backups:
   - name: premium_partition
     source: /data/premium/
@@ -39,12 +39,11 @@ backups:
       month: "*"
       weekday: "*"
 
-nfs_exports: 
+nfs_exports:
   - "/data/standard 127.0.0.1(rw,sync,no_root_squash)"
   - "/data/premium 127.0.0.1(rw,sync,no_root_squash)"
-  
+
 #######################
 #  Kubernetes roles   #
 #######################
 kubernetes_role: master
-

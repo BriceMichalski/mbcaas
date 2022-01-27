@@ -1,5 +1,4 @@
 ---
-
 - hosts: all
   gather_facts: true
   any_errors_fatal: true
@@ -13,7 +12,7 @@
   name: Prepare server & Manage user
   roles:
     - roles/hardening
-  tags: 
+  tags:
     - hardening
 
 - hosts: nfs
@@ -24,7 +23,7 @@
     - geerlingguy.nfs
   tags:
     - nfs
-    
+
 - hosts: caas
   gather_facts: false
   name: Single node raw Kubernetes cluster
@@ -66,7 +65,7 @@
   name: MBCaaS Portal
   become: true
   tasks:
-     - include_tasks: tasks/mbcaas-portal.yml
+    - include_tasks: tasks/mbcaas-portal.yml
   tags:
     - kubernetes
     - kubernetes::portal

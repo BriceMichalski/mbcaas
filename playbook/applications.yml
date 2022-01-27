@@ -1,11 +1,9 @@
 ---
-
 - hosts: caas
   gather_facts: false
   name: Deploy applications
   roles:
     - roles/kube-apps
   tags:
-    - kubernetes 
+    - kubernetes
     - kubernetes::apps
-

@@ -1,5 +1,4 @@
 ---
-
 - name: Manage declared applications
   include_tasks: custom.yml
   when: app.deployType == "custom"

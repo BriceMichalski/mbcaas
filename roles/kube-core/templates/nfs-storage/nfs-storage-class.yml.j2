@@ -11,5 +11,6 @@ metadata:
 provisioner: {{ nfs_storage_class.name }}-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
 allowVolumeExpansion: true
 parameters:
+  pathPattern: "${.PVC.namespace}-${.PVC.name}"
   onDelete: "{{ nfs_storage_class.on_delete_option }}"
 {% endfor %}
