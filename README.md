@@ -7,6 +7,9 @@ Ansible project for my home servers installation and configuration
 ![weekuptime](https://badgen.net/uptime-robot/week/m790388301-92dab7d4940a19327eb6a1b6)
 ![monthuptime](https://badgen.net/uptime-robot/month/m790388301-92dab7d4940a19327eb6a1b6)
 
+
+![mbcaas_portal](docs/portal_screenshot.png)
+
 ## Playbook
 
 - `playbook/infrastructure.yml`: it allows the configuration and deployment of my home kubernetes cluster.
