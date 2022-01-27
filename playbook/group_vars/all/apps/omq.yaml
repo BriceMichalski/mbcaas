@@ -1,5 +1,5 @@
+---
 omq:
-
   #
   # Deploy Options
   #
@@ -13,7 +13,7 @@ omq:
     name: "on-mange-quoi"
     description: "Project on-mange-quoi.com"
     namespace: "on-mange-quoi"
-  
+
   applications:
     - name: on-mange-quoi-api
       domain: api.on-mange-quoi.com
@@ -25,4 +25,3 @@ omq:
           dockerTag: latest
         - name: develop
           dockerTag: preview
-        

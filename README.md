@@ -2,6 +2,11 @@
 
 Ansible project for my home servers installation and configuration
 
+![current_status](https://badgen.net/uptime-robot/status/m790388301-92dab7d4940a19327eb6a1b6)
+![dayuptime](https://badgen.net/uptime-robot/day/m790388301-92dab7d4940a19327eb6a1b6)
+![weekuptime](https://badgen.net/uptime-robot/week/m790388301-92dab7d4940a19327eb6a1b6)
+![monthuptime](https://badgen.net/uptime-robot/month/m790388301-92dab7d4940a19327eb6a1b6)
+
 ## Playbook
 
 - `playbook/infrastructure.yml`: it allows the configuration and deployment of my home kubernetes cluster.
@@ -26,9 +31,9 @@ To run only a part of the playbook, see the tag list.
 
 ## Infrastructure playbook tags list in execution order
 
-|     Tag Name                      | What this does    |
+|     Tag Name                      | What it does    |
 |     ---                           | ---               |
-|     **hardening**                 |                   |
+|     **HARDENING**                 |                   |
 |     hardening::users              |  Manage users, privileges and ssh keys |
 |     hardening::timezone           |  Set Timezone to Europe/Paris |
 |     hardening::upgrade            |  Updating system packages and removing unnecessary ones |
@@ -37,9 +42,9 @@ To run only a part of the playbook, see the tag list.
 |     hardening::swap               |  Disable swap (kubernetes prerequisite) |
 |     hardening::usual              |  Installing utilities that I frequently use |
 |     ---                           |                   |
-|     **nfs**                       |  Install nfs server and expose partitions |
+|     **NFS**                       |  Install nfs server and expose partitions |
 |     ---                           |                   |
-|     **kubernetes**                |                   |
+|     **KUBERNETES**                |                   |
 |     kubernetes::cluster           |  Install raw Kubernetes using [geerlingguy's](https://github.com/geerlingguy) roles |
 |     kubernetes::core              |  Installation and configuration of my core platform including storage class, metallb, traefik, cert-manager, external-dns, prometheus stack and portainer |
 |     kubernetes::gitops            |  Installation and configuration  of gitops part of my plateforme using argocd |

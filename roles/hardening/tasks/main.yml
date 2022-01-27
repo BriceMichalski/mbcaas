@@ -1,5 +1,4 @@
 ---
-
 #######################
 #        USER         #
 #######################
@@ -9,12 +8,11 @@
   with_dict: "{{ server_users }}"
   loop_control:
     loop_var: user
-  when :
-   - server_users is defined
+  when:
+    - server_users is defined
   tags:
     - hardening
     - hardening::users
-
 
 #######################
 #      TIMEZONE       #

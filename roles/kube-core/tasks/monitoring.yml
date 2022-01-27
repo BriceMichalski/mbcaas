@@ -1,9 +1,7 @@
 ---
-
 - name: Install Prometheus Stack
   become: true
   block:
-
     - name: Install prometheus stack repository
       kubernetes.core.helm_repository:
         name: prometheus-community

@@ -1,5 +1,4 @@
 ---
-
 - name: Generate backup configuration
   become: true
   block:
@@ -7,14 +6,14 @@
       file:
         path: "{{ backups_script_dir }}"
         state: directory
-    
+
     - name: Assert backup destination exist
-      file: 
+      file:
         path: "{{ backup.destination }}"
         state: "directory"
-    
+
     - name: Assert backup logs dir exist
-      file: 
+      file:
         path: "{{ backup.logdir }}"
         state: "directory"
 
