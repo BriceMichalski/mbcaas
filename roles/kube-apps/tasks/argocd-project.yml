@@ -1,0 +1,44 @@
+---
+
+# 
+#  DEPLOY APPLICATION
+# 
+
+- name: "Deploy {{ app.project.name }}"
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
+  block:
+  
+    - name: "{{ app.name | upper }} CREATE | Argocd project"
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'argocd/project.yml.j2') }}"
+
+    - name: "{{ app.project.name | upper }} CREATE | Manage applications"
+      vars:
+        projectName: "{{ app.project.name }}"
+      include_tasks: argocd-app.yml
+      loop: "{{ app.applications }}"
+      loop_control:
+        loop_var: argoapp
+
+
+  when: 
+    - app.deployed
+
+# # 
+# #  DELETE APPLICATION
+# # 
+# - name: "Delete {{ app.name }}"
+#   environment:
+#     K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
+#   block:
+#     - name: "{{ app.name | upper }} DELETE | Argocd project"
+#       kubernetes.core.k8s:
+#         state: absent
+#         apply: yes
+#         definition: "{{ lookup('template', 'argocd/project.yml.j2') }}"
+
+#   when: 
+#     - not app.deployed

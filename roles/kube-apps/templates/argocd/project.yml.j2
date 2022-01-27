@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: "{{ app.project.name }}"
+  namespace: "{{ kube_gitops_namespace }}"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project description
+  description: "{{ app.project.description }}"
+
+  sourceRepos:
+  - '*'
+
+  destinations:
+  - name: in-cluster
+    namespace: "{{ app.project.namespace }}"
+    server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+
+status: {}

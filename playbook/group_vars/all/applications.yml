@@ -1,3 +1,4 @@
+---
 ########################
 #  Traefik Middleware  #
 ########################
@@ -6,9 +7,9 @@ traefik_app_middleware: []
 traefik_applicable_middleware: |-
   [
     {% for mdw_name in traefik_env_middleware %}
-    "{{ kube_operable_namespace }}-{{ mdw_name }}@kubernetescrd",
+    "{{ kube_core_namespace }}-{{ mdw_name }}@kubernetescrd",
     {% endfor%}
     {% for mdw_name in traefik_app_middleware %}
-    "{{ kube_operable_namespace }}-{{ mdw_name }}@kubernetescrd",
+    "{{ kube_core_namespace }}-{{ mdw_name }}@kubernetescrd",
     {% endfor%}
   ]

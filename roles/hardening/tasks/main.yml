@@ -1,4 +1,18 @@
 ---
+#######################
+#        USER         #
+#######################
+
+- name: Manage Users
+  include_tasks: users.yml
+  with_dict: "{{ server_users }}"
+  loop_control:
+    loop_var: user
+  when:
+    - server_users is defined
+  tags:
+    - hardening
+    - hardening::users
 
 #######################
 #      TIMEZONE       #
@@ -116,11 +130,10 @@
         name: "{{ item }}"
         state: present
         executable: pip3
-      with_items: "{{ usual_pip_package }}" 
+      with_items: "{{ usual_pip_package }}"
   tags:
     - hardening
     - hardening::usual
-    - hardening::usual::package
 
 - name: Install k9s
   become: true
@@ -141,4 +154,3 @@
   tags:
     - hardening
     - hardening::usual
-    - hardening::usual::k9s

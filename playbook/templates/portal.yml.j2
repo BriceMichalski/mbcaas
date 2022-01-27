@@ -1,0 +1,135 @@
+---
+env:
+  TZ: Europe/Paris
+ingress:
+  main:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: "{{ ( traefik_applicable_middleware + ['kube-core-admin-auth@kubernetescrd'] ) | join(',') }}"
+      external-dns.alpha.kubernetes.io/target: "{{ cloudflare_record_target }}"
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+    - host: "{{ portal_domain }}"
+      paths:
+        - path: "/"
+          pathType: Prefix
+    tls:
+      - secretName: "{{ portal_domain }}-tls"
+        hosts:
+          - "{{ portal_domain }}"
+configmap:
+  config:
+    enabled: true
+    data:
+      config.yml: |
+        title: MBCaaS
+        subtitle: Portal
+        header: true
+        logo: "https://kubernetes.io/images/favicon.png"
+        footer: "Private - This area is reserved for my private use, if you have arrived here please let me know at the following email address: brice.michalski.92@gmail.com"
+        colors:
+          light:
+            highlight-primary: "#15316e"
+            highlight-secondary: "#2049a1"
+            highlight-hover: "#5a95f5"
+            card-shadow: rgba(0, 0, 0, 50)
+            background-image: "https://www.our-voices.org.uk/assets/images/Network-diagram.png"
+        links:
+          - name: "Home repository"
+            icon: "fab fa-github"
+            url: "https://github.com/BriceMichalski/home"
+            target: "_blank"
+
+          - name: "Artifact Hub"
+            icon: "fas fa-receipt"
+            url: "https://artifacthub.io/"
+            target: "_blank"
+
+          - name: "Docker Hub"
+            icon: "fab fa-docker"
+            url: "https://hub.docker.com/"
+            target: "_blank"
+
+          - name: "Pubic Portal"
+            icon: "fas fa-share"
+            url: "https://michalski.fr"
+            target: "_blank"
+
+        services:
+          - name: Infrastructure
+            icon: "fas fa-cloud"
+            items: 
+              
+              - name: "Hosting"
+                icon: "fas fa-server"
+                subtitle: "Portainer"
+                tag: "infra"
+                url: "https://{{ portainer_domain }}"
+                target: "_blank"
+
+              - name: "Status"
+                icon: "fas fa-heartbeat"
+                subtitle: "Uptime Robot"
+                tag: "infra"
+                url: "https://stats.uptimerobot.com/GxVp5iBEZr"
+                target: "_blank"
+
+              - name: "Monitoring"
+                icon: "fas fa-tachometer-alt"
+                subtitle: "Grafana"
+                tag: "infra"
+                url: "https://{{ grafana_domain }}"
+                target: "_blank"
+        
+              - name: "Alerting"
+                icon: "fas fa-bell"
+                subtitle: "Alert Manager"
+                tag: "infra"
+                url: "https://{{ alertmanager_domain }}"
+                target: "_blank"
+        
+
+          - name: Network
+            icon: "fas fa-network-wired"
+            items: 
+        
+              - name: "DNS"
+                icon: "fas fa-cloud"
+                subtitle: "Cloudflare"
+                tag: "network"
+                url: "https://dash.cloudflare.com/f5bd577bd1f7337fa65ca58e462ed4dc"
+                target: "_blank"
+
+              - name: "Router"
+                icon: "fas fa-random"
+                subtitle: "Traefik"
+                tag: "network"
+                url: "https://{{ traefik_dashboard_domain }}"
+                target: "_blank"
+
+              - name: "Request Debugger"
+                icon: "fas fa-question"
+                subtitle: "whoami"
+                tag: "network"
+                url: "https://{{ request_debug_domain }}"
+                target: "_blank"
+
+          - name: Gitops
+            icon: "fas fa-infinity"
+            items: 
+
+              - name: "My repository"
+                icon: "fab fa-github"
+                subtitle: "Github"
+                tags: "gitops"
+                url: "https://github.com/BriceMichalski?tab=repositories"
+                target: "_blank"
+
+              - name: "Continuous Deployment"
+                icon: "fas fa-sync-alt"
+                subtitle: "Argo CD"
+                tag: "gitops"
+                url: "https://{{ argocd_domain }}"
+                target: "_blank"

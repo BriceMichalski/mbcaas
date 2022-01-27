@@ -5,12 +5,12 @@ whoami:
   # Meta
   #
   name: whoami
-  namespace: "{{ kube_operable_namespace }}"
+  namespace: "{{ kube_core_namespace }}"
 
   #
-  # Middleware 
+  # Middleware
   #
-  traefik_middleware: 
+  traefik_middleware:
     - "admin-auth"
 
   #
@@ -22,27 +22,27 @@ whoami:
     - name: whoami
       image: containous/whoami
       ports:
-      - containerPort: 80
-  
-  service_ports: 
+        - containerPort: 80
+
+  service_ports:
     - protocol: TCP
       port: 80
       targetPort: 80
       name: http
-  
-  tls: 
+
+  tls:
     - hosts:
-      - "{{ request_debug_domain }}"
+        - "{{ request_debug_domain }}"
       secretName: "{{ request_debug_domain }}-cert"
-      
+
   ingress_rules:
     - host: "{{ request_debug_domain }}"
       http:
         paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: whoami
-              port:
-                number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: whoami
+                port:
+                  number: 80

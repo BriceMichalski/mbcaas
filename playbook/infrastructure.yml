@@ -1,5 +1,4 @@
 ---
-
 - hosts: all
   gather_facts: true
   any_errors_fatal: true
@@ -13,8 +12,7 @@
   name: Prepare server & Manage user
   roles:
     - roles/hardening
-    - roles/users
-  tags: 
+  tags:
     - hardening
 
 - hosts: nfs
@@ -25,7 +23,7 @@
     - geerlingguy.nfs
   tags:
     - nfs
-    
+
 - hosts: caas
   gather_facts: false
   name: Single node raw Kubernetes cluster
@@ -44,10 +42,30 @@
 
 - hosts: caas
   gather_facts: false
-  name: Operable Kubernetes Cluster
+  name: Kubernetes Core
   become: true
   roles:
-    - roles/kube-operable
+    - roles/kube-core
   tags:
     - kubernetes
-    - kubernetes::operable
+    - kubernetes::core
+
+- hosts: caas
+  gather_facts: false
+  name: Kubernetes Gitops
+  become: true
+  roles:
+    - roles/kube-gitops
+  tags:
+    - kubernetes
+    - kubernetes::gitops
+
+- hosts: caas
+  gather_facts: false
+  name: MBCaaS Portal
+  become: true
+  tasks:
+    - include_tasks: tasks/mbcaas-portal.yml
+  tags:
+    - kubernetes
+    - kubernetes::portal

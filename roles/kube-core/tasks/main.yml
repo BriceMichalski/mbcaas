@@ -1,0 +1,26 @@
+---
+
+- name: Create kube-core namespace
+  kubernetes.core.k8s:
+    name: "{{ kube_core_namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+    wait: true
+
+- name: Storage configuration
+  include_tasks: storage.yml
+
+- name: Production spécific configuration
+  include_tasks: production.yml
+  when: production_environment
+
+- name: Networking configuration
+  include_tasks: networking.yml
+
+- name: Monitoring configuration
+  include_tasks: monitoring.yml
+
+- name: Deploy portainer
+  include_tasks: portainer.yml
+  

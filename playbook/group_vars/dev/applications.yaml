@@ -1,3 +1,4 @@
+---
 applications:
-  - "{{ thesis }}"
-  - "{{ bobineshowroom }}"
+  # - "{{ thesis }}"
+  - "{{ omq }}"

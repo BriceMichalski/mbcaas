@@ -1,0 +1,114 @@
+---
+#
+#  DEPLOY APPLICATION
+#
+
+- name: "Deploy {{ app.name }}"
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
+  block:
+    - name: "{{ app.name | upper }} CREATE | k8s configmap"
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'custom/configmap.yml.j2') }}"
+      when: app.configmap_data | default(false)
+
+    - name: "{{ app.name | upper }} CREATE | k8s pvc"
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'custom/pvc.yml.j2') }}"
+      when: app.pvc | default(false)
+
+    - name: "{{ app.name | upper }} CREATE | k8s deployment"
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'custom/deployment.yml.j2') }}"
+      when: app.containers | default(false)
+
+    - name: "{{ app.name | upper }} CREATE | k8s cronjob"
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'custom/cronjob.yml.j2') }}"
+      when: app.cronjob_containers | default(false)
+
+    - name: "{{ app.name | upper }} CREATE | k8s service"
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'custom/service.yml.j2') }}"
+      when: app.service_ports | default(false)
+
+    - name: "{{ app.name | upper }} CREATE | k8s ingress"
+      vars:
+        traefik_app_middleware: "{% if app.traefik_middleware is defined %}{{ app.traefik_middleware }}{% endif %}"
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        definition: "{{ lookup('template', 'custom/ingress.yml.j2') }}"
+      when: app.ingress_rules | default(false)
+  when:
+    - app.deployed
+
+#
+#  DELETE APPLICATION
+#
+- name: "Delete {{ app.name }}"
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ ansible_env.HOME }}/.kube/config"
+  block:
+    - name: "{{ app.name | upper }} DELETE | k8s ingress"
+      kubernetes.core.k8s:
+        state: absent
+        definition: "{{ lookup('template', 'custom/ingress.yml.j2') }}"
+      when: app.ingress_rules | default(false)
+
+    - name: "{{ app.name | upper }} DELETE | k8s service"
+      kubernetes.core.k8s:
+        state: absent
+        apply: yes
+        definition: "{{ lookup('template', 'custom/service.yml.j2') }}"
+      when: app.service_ports | default(false)
+
+    - name: "{{ app.name | upper }} DELETE | k8s deployment"
+      kubernetes.core.k8s:
+        state: absent
+        apply: yes
+        definition: "{{ lookup('template', 'custom/deployment.yml.j2') }}"
+      when: app.containers | default(false)
+
+    - name: "{{ app.name | upper }} DELETE | k8s cronjob"
+      kubernetes.core.k8s:
+        state: absent
+        apply: yes
+        definition: "{{ lookup('template', 'custom/cronjob.yml.j2') }}"
+      when: app.cronjob_containers | default(false)
+
+    - name: "{{ app.name | upper }} DELETE | k8s configmap"
+      kubernetes.core.k8s:
+        state: absent
+        apply: yes
+        definition: "{{ lookup('template', 'custom/configmap.yml.j2') }}"
+      when: app.configmap_data | default(false)
+
+    - name: "{{ app.name | upper }} DELETE | Ask for pvc deletion"
+      pause:
+        prompt: /!\ The Volume is in Delete mode, which means you will lose all your data. Do you want to delete the persistent volume claim?
+      register: delete_pvc
+      when:
+        - app.pvc | default(false)
+
+    - name: "{{ app.name | upper }} DELETE | k8s pvc"
+      kubernetes.core.k8s:
+        state: absent
+        apply: yes
+        definition: "{{ lookup('template', 'custom/pvc.yml.j2') }}"
+      when:
+        - app.pvc | default(false)
+        - hostvars['localhost'].delete_pvc.user_input | bool
+
+  when:
+    - not app.deployed

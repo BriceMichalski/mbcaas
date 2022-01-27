@@ -1,0 +1,21 @@
+---
+- name: NFS storage provisionner rbac
+  kubernetes.core.k8s:
+    state: present
+    apply: yes
+    wait: yes
+    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-rbac.yml.j2') }}"
+
+- name: NFS storage provisionner deployment
+  kubernetes.core.k8s:
+    state: present
+    apply: yes
+    wait: yes
+    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-deployment.yml.j2') }}"
+
+- name: NFS storage provisionner storage class
+  kubernetes.core.k8s:
+    state: present
+    apply: yes
+    wait: yes
+    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-class.yml.j2') }}"

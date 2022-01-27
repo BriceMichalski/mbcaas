@@ -1,0 +1,27 @@
+---
+omq:
+  #
+  # Deploy Options
+  #
+  deployed: true
+  deployType: argocd
+
+  #
+  # Common info
+  #
+  project:
+    name: "on-mange-quoi"
+    description: "Project on-mange-quoi.com"
+    namespace: "on-mange-quoi"
+
+  applications:
+    - name: on-mange-quoi-api
+      domain: api.on-mange-quoi.com
+      repository: https://github.com/BriceMichalski/on-mange-quoi-api.git
+      path: charts
+      baseBranch: master
+      branches:
+        - name: master
+          dockerTag: latest
+        - name: develop
+          dockerTag: preview

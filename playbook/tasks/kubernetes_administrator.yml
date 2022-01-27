@@ -1,5 +1,4 @@
 ---
-
 - name: Grant admin rights to Kubernetes
   become: true
   block:
@@ -23,7 +22,5 @@
     - name: Set KUBECONFIG env var in .bashrc
       lineinfile:
         path: "/home/{{ item }}/.bashrc"
-        regexp: '^export KUBECONFIG='
+        regexp: "^export KUBECONFIG="
         line: "export KUBECONFIG=/home/{{ item }}/.kube/config"
-
-
