@@ -24,28 +24,27 @@ ansible-playbook --inventory inventories/prod/hosts playbook/applications.yml --
 
 To run only a part of the playbook, see the tag list.
 
-## Tags list
+## Infrastructure playbook tags list in execution order
 
-> Not in execution order
+|     Tag Name                      | What this does    |
+|     ---                           | ---               |
+|     **hardening**                 |                   |
+|     hardening::users              |  Manage users, privileges and ssh keys |
+|     hardening::timezone           |  Set Timezone to Europe/Paris |
+|     hardening::upgrade            |  Updating system packages and removing unnecessary ones |
+|     hardening::partition          |  Manage disks, partitions, mountpoint |
+|     hardening::backup             |  Deploy backup script |
+|     hardening::swap               |  Disable swap (kubernetes prerequisite) |
+|     hardening::usual              |  Installing utilities that I frequently use |
+|     ---                           |                   |
+|     **nfs**                       |  Install nfs server and expose partitions |
+|     ---                           |                   |
+|     **kubernetes**                |                   |
+|     kubernetes::cluster           |  Install raw Kubernetes using [geerlingguy's](https://github.com/geerlingguy) roles |
+|     kubernetes::core              |  Installation and configuration of my core platform including storage class, metallb, traefik, cert-manager, external-dns, prometheus stack and portainer |
+|     kubernetes::gitops            |  Installation and configuration  of gitops part of my plateforme using argocd |
+|     kubernetes::portal            |  Intallation of my homelab portal using [homer](https://github.com/bastienwirtz/homer) |
 
-|Tag Name| Usage |
-|---|---|
-| **hardening** | Configuration and customization of my server before installing kubernetes |
-| **hardening::disk** | Part of **hardening** : mount and prepare my external hard drives |
-| **hardening::swap** | Part of **hardening**: disable swap (kubernetes prerequisite) |
-| **hardening::timezone** | Part of **hardening**: set the timezone to Europe/Paris |
-| **hardening::upgrade** | Part of **hardening**: Updating packages and removing unnecessary ones |
-| **hardening::usual** | Part of **hardening**: Installing utilities that I frequently use |
-| **hardening::usual::package** | Part of **hardening::usual**: Installing k9s (kubernetes cli tools) |
-| **kubernetes** | Installation and configuration of the kubernetes (single-node) cluster, deployment of hosted applications |
-| **kubernetes::cert-manager** | Part of **kubernetes** : installation of cert-manager with letsencrypt acme and the dns01 cloudflare challenge for end-to-end encryption|
-| **kubernetes::cluster** | Part of **kubernetes** : Installation of docker and the kubernetes cluster itself |
-| **kubernetes::k9s** | Part of **kubernetes**: Installing k9s (kubernetes cli tools) |
-| **kubernetes::external-dns** | Part of **kubernetes**: Configuring `external-dns` tool for dynamic declaration of hosted application dns |
-| **kubernetes::ingress-controller** | Part of **kubernetes**: Installation of an ingress controller (`nginx`) for application exposure outside the cluster |
-| **kubernetes::metallb** | Part of **kubernetes**: Installation of `metallb`, a load-balancer implementation for bare metal Kubernetes clusters, using standard routing protocols. |
-| **kubernetes::volumes** | Part of **kubernetes**: Creation of local persistent volumes for the provision of disk space to hosted applications |
-| **kubernetes::apps** | Part of **kubernetes**: Hosted Application Deployment |
 
 ## Home server spécification
 

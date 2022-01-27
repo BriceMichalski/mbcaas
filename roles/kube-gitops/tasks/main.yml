@@ -27,4 +27,4 @@
 
   tags:
     - kubernetes
-    - kubernetes::argocd
+    - kubernetes::gitops
