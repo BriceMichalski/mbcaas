@@ -52,6 +52,16 @@
 
 - hosts: caas
   gather_facts: false
+  name: Kubernetes Data
+  become: true
+  roles:
+    - roles/kube-data
+  tags:
+    - kubernetes
+    - kubernetes::data
+
+- hosts: caas
+  gather_facts: false
   name: Kubernetes Gitops
   become: true
   roles:

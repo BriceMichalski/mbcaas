@@ -1,6 +1,6 @@
 ---
 
-- name: Create kube-core namespace
+- name: Create core namespace
   kubernetes.core.k8s:
     name: "{{ kube_core_namespace }}"
     api_version: v1

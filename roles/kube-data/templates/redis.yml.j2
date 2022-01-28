@@ -1,0 +1,11 @@
+---
+global:
+  storageClass: "nfs-standard"
+  redis:
+    password: "{{ redis_admin_password }}"
+
+replica:
+  replicaCount: 3
+  disableCommands: 
+    - FLUSHDB
+    - FLUSHALL

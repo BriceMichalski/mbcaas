@@ -58,7 +58,6 @@ To run only a part of the playbook, see the tag list.
 
 My home server is a mini pc bought on amazon : [amazon link](https://www.amazon.fr/gp/product/B0919ZGR1R)
 
-| |  |
 |---|---|
 | CPU | Intel Core I5-8279U - 4 Cores /  8 Threads |
 | GPU | Intel Iris Plus Graphics 655 |

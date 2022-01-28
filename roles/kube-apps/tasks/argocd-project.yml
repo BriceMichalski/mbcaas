@@ -23,7 +23,6 @@
       loop_control:
         loop_var: argoapp
 
-
   when: 
     - app.deployed
 
