@@ -9,7 +9,7 @@ Ansible project for my home servers installation and configuration
 
 ![mbcaas_portal](docs/portal_screenshot.png)
 
-## Playbook list
+## Playbook
 
 - `playbook/infrastructure.yml`: it allows the configuration and deployment of my home kubernetes cluster.
 - `playbook/applications.yml`: deploy all my apps on kubernetes cluster
@@ -56,6 +56,7 @@ ansible-playbook --inventory inventories/prod/hosts playbook/applications.yml --
 
 My home server is a mini pc bought on amazon : [amazon link](https://www.amazon.fr/gp/product/B0919ZGR1R)
 
+| <!-- -->    | <!-- -->    |
 |---|---|
 | CPU | Intel Core I5-8279U - 4 Cores /  8 Threads |
 | GPU | Intel Iris Plus Graphics 655 |
