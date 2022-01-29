@@ -1,6 +1,6 @@
 # Home
 
-Ansible project for my home servers installation and configuration
+Ansible project for my home kubernetes.
 
 ![current_status](https://badgen.net/uptime-robot/status/m790388301-92dab7d4940a19327eb6a1b6)
 ![dayuptime](https://badgen.net/uptime-robot/day/m790388301-92dab7d4940a19327eb6a1b6)

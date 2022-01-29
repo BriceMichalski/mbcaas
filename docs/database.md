@@ -1,9 +1,8 @@
-# Database 
+# Database
 
 ## Mysql
 
-This cluster provides a shared mysql instance. 
-
+This cluster provides a shared mysql instance.
 By using this [operator](https://github.com/kloeckner-i/db-operator), it is possible to create databases in a declarative way. Which is very useful
 
 ```YAML
