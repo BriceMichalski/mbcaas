@@ -8,34 +8,5 @@
     state: present
     wait: true
 
-- name: Install Redis Server
-  become: true
-  block:
-
-    - name: Install bitnami repository
-      kubernetes.core.helm_repository:
-        name: bitnami
-        repo_url: "{{ bitnami_charts_url }}"
-
-    - name: Install redis cluster
-      kubernetes.core.helm:
-        name: redis
-        chart_ref: bitnami/redis
-        release_namespace: "{{ kube_data_namespace }}"
-        values: "{{ lookup('template', 'redis.yml.j2') | from_yaml }}"
-        wait: yes
-    
-    - name: Deploy phpredisadmin app
-      vars:
-        app: "{{ phpredisadmin }}"
-      import_role:
-        name: roles/kube-apps
-        tasks_from: custom
-      tags:
-        - kubernetes
-        - kubernetes::core
-
-  tags:
-    - kubernetes
-    - kubernetes::data
-    - kubernetes::data::redis
+- name: Deploy MYSQL
+  include_tasks: mysql
