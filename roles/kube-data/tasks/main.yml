@@ -9,4 +9,4 @@
     wait: true
 
 - name: Deploy MYSQL
-  include_tasks: mysql
+  include_tasks: mysql.yml
