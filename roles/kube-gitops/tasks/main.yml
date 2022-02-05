@@ -1,6 +1,6 @@
 ---
 
-- name: Create kube-core namespace
+- name: Create gitops namespace
   kubernetes.core.k8s:
     name: "{{ kube_gitops_namespace }}"
     api_version: v1

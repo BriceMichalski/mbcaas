@@ -7,7 +7,8 @@ usual_apt_package:
   - jq
   - curl
   - python3-pip
+  - tree
 
 usual_pip_package:
-  - openshift
+  - openshift==0.12
   - PyYAML

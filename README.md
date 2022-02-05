@@ -1,12 +1,11 @@
 # Home
 
-Ansible project for my home servers installation and configuration
+Ansible project for my home kubernetes.
 
 ![current_status](https://badgen.net/uptime-robot/status/m790388301-92dab7d4940a19327eb6a1b6)
 ![dayuptime](https://badgen.net/uptime-robot/day/m790388301-92dab7d4940a19327eb6a1b6)
 ![weekuptime](https://badgen.net/uptime-robot/week/m790388301-92dab7d4940a19327eb6a1b6)
 ![monthuptime](https://badgen.net/uptime-robot/month/m790388301-92dab7d4940a19327eb6a1b6)
-
 
 ![mbcaas_portal](docs/portal_screenshot.png)
 
@@ -15,7 +14,7 @@ Ansible project for my home servers installation and configuration
 - `playbook/infrastructure.yml`: it allows the configuration and deployment of my home kubernetes cluster.
 - `playbook/applications.yml`: deploy all my apps on kubernetes cluster
 
-## Use
+## How to use it
 
 Install requirements:
 
@@ -29,8 +28,6 @@ Launch playbook:
 ansible-playbook --inventory inventories/prod/hosts playbook/infrastructure.yml --vault-pass-file ./pwd.vault
 ansible-playbook --inventory inventories/prod/hosts playbook/applications.yml --vault-pass-file ./pwd.vault
 ```
-
-To run only a part of the playbook, see the tag list.
 
 ## Infrastructure playbook tags list in execution order
 
@@ -50,6 +47,7 @@ To run only a part of the playbook, see the tag list.
 |     **KUBERNETES**                |                   |
 |     kubernetes::cluster           |  Install raw Kubernetes using [geerlingguy's](https://github.com/geerlingguy) roles |
 |     kubernetes::core              |  Installation and configuration of my core platform including storage class, metallb, traefik, cert-manager, external-dns, prometheus stack and portainer |
+|     kubernetes::data              |  Installation and configuration of shared database. [Documentation](./docs/database.md) |
 |     kubernetes::gitops            |  Installation and configuration  of gitops part of my plateforme using argocd |
 |     kubernetes::portal            |  Intallation of my homelab portal using [homer](https://github.com/bastienwirtz/homer) |
 
@@ -58,7 +56,7 @@ To run only a part of the playbook, see the tag list.
 
 My home server is a mini pc bought on amazon : [amazon link](https://www.amazon.fr/gp/product/B0919ZGR1R)
 
-| |  |
+| <!-- -->    | <!-- -->    |
 |---|---|
 | CPU | Intel Core I5-8279U - 4 Cores /  8 Threads |
 | GPU | Intel Iris Plus Graphics 655 |

@@ -1,0 +1,16 @@
+---
+global:
+  storageClass: "nfs-standard"
+  redis:
+    password: "{{ redis_admin_password }}"
+
+master:
+  extraEnvVars: 
+    - name: REDIS_ACLFILE
+      value: /etc/user.acl
+
+replica:
+  replicaCount: 3
+  disableCommands: 
+    - FLUSHDB
+    - FLUSHALL
