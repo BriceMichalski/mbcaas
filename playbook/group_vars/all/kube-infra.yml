@@ -8,6 +8,7 @@ external_dns_version: "v0.10.2"
 cert_manager_version: "v1.6.1"
 nfs_provisioner_version: "4.0.14"
 k9s_version: "v0.25.18"
+db_operator_version: "0.8.2" # failed with 1.0.0
 
 #######################
 #     Kubernetes      #
@@ -56,6 +57,7 @@ argocd_domain: argocd.mbcaas.com
 # Domain 
 redis_admin_domain: redis.mbcaas.com
 mysql_admin_domain: mysql.mbcaas.com
+postgres_admin_domain: postgres.mbcaas.com
 
 # Charts url
 bitnami_charts_url: https://charts.bitnami.com/bitnami
@@ -82,7 +84,9 @@ admin_user: !vault |
             3832
 
 mysql_admin_user: "{{ admin_user }}"
+pgsql_admin_user: "{{ admin_user }}"
 
+pgsql_admin_password: "{{ admin_password }}" 
 mysql_admin_password: "{{ admin_password }}"
 redis_admin_password: "{{ admin_password }}"
 grafana_admin_password: "{{ admin_password }}"

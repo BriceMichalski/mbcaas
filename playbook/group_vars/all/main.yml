@@ -10,5 +10,5 @@ usual_apt_package:
   - tree
 
 usual_pip_package:
-  - openshift
+  - openshift==0.12
   - PyYAML

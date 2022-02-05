@@ -1,31 +1,30 @@
 ---
-
-- name: Install Mysql Server
+- name: Install pgsql Server
   become: true
   block:
 
-    - name: "Deploy mysql secret"
+    - name: "Deploy pgsql secret"
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'mysql/secret.yml.j2') }}"
+        definition: "{{ lookup('template', 'pgsql/secret.yml.j2') }}"
 
     - name: Install bitnami repository
       kubernetes.core.helm_repository:
         name: bitnami
         repo_url: "{{ bitnami_charts_url }}"
 
-    - name: Install Mysql cluster
+    - name: Install pgsql cluster
       kubernetes.core.helm:
-        name: mysql
-        chart_ref: bitnami/mysql
+        name: postgresql
+        chart_ref: bitnami/postgresql
         release_namespace: "{{ kube_data_namespace }}"
-        values: "{{ lookup('template', 'mysql/values.yml.j2') | from_yaml }}"
+        values: "{{ lookup('template', 'pgsql/values.yml.j2') | from_yaml }}"
         wait: yes
 
     - name: Deploy phpmyadmin app
       vars:
-        app: "{{ phpmyadmin }}"
+        app: "{{ phppgadmin }}"
       import_role:
         name: roles/kube-apps
         tasks_from: custom
@@ -33,4 +32,4 @@
   tags:
     - kubernetes
     - kubernetes::data
-    - kubernetes::data::mysql
+    - kubernetes::data::pgsql

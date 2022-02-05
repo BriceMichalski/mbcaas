@@ -10,3 +10,9 @@
 
 - name: Deploy MYSQL
   include_tasks: mysql.yml
+
+- name: Deploy POSTGRES
+  include_tasks: postgresql.yml
+
+- name: Deploy Db-operator
+  include_tasks: db-operator.yml
