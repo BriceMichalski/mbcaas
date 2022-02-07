@@ -2,7 +2,7 @@
 apiVersion: kci.rocks/v1alpha1
 kind: DbInstance
 metadata:
-  name: postgres-shared
+  name: "{{ postgres_shared_instance_name }}"
   namespace: "{{ kube_data_namespace }}"
 spec:
   adminSecretRef:
@@ -10,5 +10,5 @@ spec:
     Namespace: "{{ kube_data_namespace }}"
   engine: postgres
   generic:
-    host: postgresql
+    host: postgresql.{{ kube_data_namespace }}
     port: 5432

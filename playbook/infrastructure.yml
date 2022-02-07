@@ -62,6 +62,17 @@
 
 - hosts: caas
   gather_facts: false
+  name: Kubernetes IAM
+  become: true
+  roles:
+    - roles/kube-iam
+  tags:
+    - kubernetes
+    - kubernetes::iam
+
+
+- hosts: caas
+  gather_facts: false
   name: Kubernetes Gitops
   become: true
   roles:

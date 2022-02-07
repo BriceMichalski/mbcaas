@@ -2,7 +2,7 @@
 apiVersion: kci.rocks/v1alpha1
 kind: DbInstance
 metadata:
-  name: mysql-shared
+  name: "{{ mysql_shared_instance_name }}"
   namespace: "{{ kube_data_namespace }}"
 spec:
   adminSecretRef:
@@ -10,5 +10,5 @@ spec:
     Namespace: "{{ kube_data_namespace }}"
   engine: mysql
   generic:
-    host: mysql
+    host: mysql.{{ kube_data_namespace }}
     port: 3306

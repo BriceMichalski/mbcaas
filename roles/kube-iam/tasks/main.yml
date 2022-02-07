@@ -1,0 +1,36 @@
+---
+
+- name: Create data namespace
+  kubernetes.core.k8s:
+    name: "{{ kube_iam_namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+    wait: true
+
+- name: Install Authentik
+  block: 
+    
+    - name: Install authentik repository
+      kubernetes.core.helm_repository:
+        name: authentik
+        repo_url: "{{ authenthik_chart_url }}"
+
+    - name: Create authentik database
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        wait: yes
+        definition: "{{ lookup('template', 'database.yml.j2') }}"
+
+    - name: Install authentik
+      kubernetes.core.helm:
+        name: authentik
+        chart_ref: authentik/authentik
+        release_namespace: "{{ kube_iam_namespace }}"
+        values: "{{ lookup('template', 'values.yml.j2') | from_yaml }}"
+        wait: yes
+  
+  tags:
+    - kubernetes
+    - kubernetes::iam
