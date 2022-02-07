@@ -20,6 +20,7 @@ kubernetes_enable_web_ui: false
 kube_core_namespace: kube-core
 kube_gitops_namespace: kube-gitops
 kube_data_namespace: kube-data
+kube_iam_namespace: kube-iam
 
 #######################
 #     Kube core       #
@@ -63,6 +64,20 @@ postgres_admin_domain: postgres.mbcaas.com
 bitnami_charts_url: https://charts.bitnami.com/bitnami
 dboperator_charts_url: https://kloeckner-i.github.io/db-operator/
 
+postgres_shared_instance_name: postgres-shared
+mysql_shared_instance_name: mysql-shared
+
+#######################
+#      Kube IAM      #
+#######################
+
+# Domain
+authentik_domain: auth.mbcaas.com
+
+# Charts url
+authenthik_chart_url: https://charts.goauthentik.io
+
+
 #######################
 #   User / Password   #
 #######################
@@ -84,7 +99,7 @@ admin_user: !vault |
             3832
 
 mysql_admin_user: "{{ admin_user }}"
-pgsql_admin_user: "{{ admin_user }}"
+pgsql_admin_user: "postgres"
 
 pgsql_admin_password: "{{ admin_password }}" 
 mysql_admin_password: "{{ admin_password }}"

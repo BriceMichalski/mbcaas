@@ -27,3 +27,9 @@ kube_ip_range_end: 192.168.50.30
 #######################
 
 enable_cloudflare_ip_whitelist: false
+
+#######################
+#     K8S iam        #
+#######################
+
+autehntik_secret_key: "dfdd328079eda12f42034a99211f44642ea94455d73d604fd"
