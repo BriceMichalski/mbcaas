@@ -17,7 +17,9 @@ logs:
     access:
         enabled: {{ traefik_access_log }}
 
-
+ingressClass:
+  enabled: true
+  isDefaultClass: true
 
 {% if enable_cloudflare_ip_whitelist %}
 additionalArguments: [

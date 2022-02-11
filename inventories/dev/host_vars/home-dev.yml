@@ -6,43 +6,20 @@ partitions_unit: "%"
 partitions: 
   - device: /dev/sdb
     number: 1
-    mountpoint: /data/standard
-    fstype: ext4
-    start: 0
-    size: 75
-    
-  - device: /dev/sdb
-    number: 2
-    mountpoint: /data/backup
-    fstype: ext4
-    start: 75
-    size: 25
-
-  - device: /dev/sdc
-    number: 1
-    mountpoint: /data/premium
+    mountpoint: /data/storage
     fstype: ext4
     start: 0
     size: 100
 
-backups_script_dir: /var
-backups:
-  - name: premium_partition
-    source: /data/premium/
-    destination: /data/backup/premium
-    logdir: /var/log/backups/
-    rsync_option: "vd"
-    cron:
-      minute: "*/5"
-      hour: "*"
-      day: "*"
-      month: "*"
-      weekday: "*"
-
+  - device: /dev/sdc
+    number: 1
+    mountpoint: /data/backup
+    fstype: ext4
+    start: 0
+    size: 100
 
 nfs_exports: 
-  - "/data/standard 127.0.0.1(rw,sync,no_root_squash)"
-  - "/data/premium 127.0.0.1(rw,sync,no_root_squash)"   
+  - "/data/backup 127.0.0.1(rw,sync,no_root_squash)"
   
 #######################
 #  Kubernetes roles   #

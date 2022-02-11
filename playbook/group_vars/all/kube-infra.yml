@@ -6,7 +6,7 @@
 kubernetes_version: "1.23"
 external_dns_version: "v0.10.2"
 cert_manager_version: "v1.6.1"
-nfs_provisioner_version: "4.0.14"
+longhorn_version: "1.2.3"
 k9s_version: "v0.25.18"
 db_operator_version: "0.8.2" # failed with 1.0.0
 
@@ -30,6 +30,7 @@ kube_iam_namespace: kube-iam
 portal_domain: mbcaas.com
 portainer_domain: portainer.mbcaas.com
 traefik_dashboard_domain: router.mbcaas.com
+longhorn_domain_name: storage.mbcaas.com
 alertmanager_domain: alert.mbcaas.com
 grafana_domain: grafana.mbcaas.com
 request_debug_domain: whoami.mbcaas.com
@@ -39,6 +40,7 @@ metallb_charts_url: https://metallb.github.io/metallb
 traefik_charts_url: https://helm.traefik.io/traefik
 cert_manager_charts_url: https://charts.jetstack.io
 prometheus_stack_charts_url: https://prometheus-community.github.io/helm-charts
+longhorn_charts_url: https://charts.longhorn.io
 
 # Metallb IP range
 metallb_config_ip_range_from: "{{ kube_ip_range_start }}"

@@ -1,21 +1,36 @@
 ---
-- name: NFS storage provisionner rbac
-  kubernetes.core.k8s:
-    state: present
-    apply: yes
-    wait: yes
-    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-rbac.yml.j2') }}"
 
-- name: NFS storage provisionner deployment
-  kubernetes.core.k8s:
-    state: present
-    apply: yes
-    wait: yes
-    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-deployment.yml.j2') }}"
+- name: Install longhorn
+  become: true
+  block:
 
-- name: NFS storage provisionner storage class
-  kubernetes.core.k8s:
-    state: present
-    apply: yes
-    wait: yes
-    definition: "{{ lookup('template', 'nfs-storage/nfs-storage-class.yml.j2') }}"
+    - name: Create longhorn namespace
+      kubernetes.core.k8s:
+        name: "longhorn-system"
+        api_version: v1
+        kind: Namespace
+        state: present
+        wait: true
+
+    - name: Install longhorn helm repository
+      kubernetes.core.helm_repository:
+        name: longhorn
+        repo_url: "{{ longhorn_charts_url }}"
+    
+    # - name: update repo
+    #   command:
+    #     cmd: helm repo update
+
+    - name: Install longhorn helm charts
+      kubernetes.core.helm:
+        release_namespace: "{{ kube_core_namespace }}"
+        name: longhorn
+        chart_version: "{{ longhorn_version }}"
+        chart_ref: longhorn/longhorn
+        update_repo_cache: True
+        values: "{{ lookup('template', 'longhorn.yaml.j2') | from_yaml }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::core

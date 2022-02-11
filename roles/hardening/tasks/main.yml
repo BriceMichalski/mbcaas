@@ -64,14 +64,14 @@
     - hardening
     - hardening::partition
 
-- name: Manage Backup
-  include_tasks: backup.yml
-  loop: "{{ backups }}"
-  loop_control:
-    loop_var: backup
-  tags:
-    - hardening
-    - hardening::backup
+# - name: Manage Backup
+#   include_tasks: backup.yml
+#   loop: "{{ backups }}"
+#   loop_control:
+#     loop_var: backup
+#   tags:
+#     - hardening
+#     - hardening::backup
 
 #######################
 #         SWAP        #
