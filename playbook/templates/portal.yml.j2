@@ -19,6 +19,21 @@ ingress:
       - secretName: "{{ portal_domain }}-tls"
         hosts:
           - "{{ portal_domain }}"
+
+persistence:
+  icon1:
+    enabled: true
+    type: configMap
+    name: portal-icon
+    subPath: favicon.png
+    mountPath: /www/assets/icons/favicon-32x32.png
+  icon2:
+    enabled: true
+    type: configMap
+    name: portal-icon
+    subPath: favicon.png
+    mountPath: /www/assets/icons/favicon-16x16.png
+
 configmap:
   config:
     enabled: true
@@ -60,8 +75,8 @@ configmap:
         services:
           - name: Infrastructure
             icon: "fas fa-cloud"
-            items: 
-              
+            items:
+
               - name: "Hosting"
                 icon: "fas fa-server"
                 subtitle: "Portainer"
@@ -82,19 +97,19 @@ configmap:
                 tag: "infra"
                 url: "https://{{ grafana_domain }}"
                 target: "_blank"
-        
+
               - name: "Alerting"
                 icon: "fas fa-bell"
                 subtitle: "Alert Manager"
                 tag: "infra"
                 url: "https://{{ alertmanager_domain }}"
                 target: "_blank"
-        
+
 
           - name: Network
             icon: "fas fa-network-wired"
-            items: 
-        
+            items:
+
               - name: "DNS"
                 icon: "fas fa-cloud"
                 subtitle: "Cloudflare"
@@ -118,7 +133,7 @@ configmap:
 
           - name: Gitops
             icon: "fas fa-infinity"
-            items: 
+            items:
 
               - name: "My repository"
                 icon: "fab fa-github"
