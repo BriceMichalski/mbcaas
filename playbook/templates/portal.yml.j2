@@ -42,7 +42,7 @@ configmap:
         title: MBCaaS
         subtitle: Portal
         header: true
-        logo: "https://kubernetes.io/images/favicon.png"
+        logo: "/assets/icons/favicon-32x32.png"
         footer: "Private - This area is reserved for my private use, if you have arrived here please let me know at the following email address: brice.michalski.92@gmail.com"
         colors:
           light:
@@ -74,34 +74,41 @@ configmap:
 
         services:
           - name: Infrastructure
-            icon: "fas fa-cloud"
+            icon: "fab fa-codepen"
             items:
-
-              - name: "Hosting"
-                icon: "fas fa-server"
-                subtitle: "Portainer"
-                tag: "infra"
-                url: "https://{{ portainer_domain }}"
-                target: "_blank"
 
               - name: "Status"
                 icon: "fas fa-heartbeat"
                 subtitle: "Uptime Robot"
-                tag: "infra"
+                tag: "external"
                 url: "https://stats.uptimerobot.com/GxVp5iBEZr"
+                target: "_blank"
+
+              - name: "Hosting"
+                icon: "fas fa-server"
+                subtitle: "Portainer"
+                tag: "kube-core"
+                url: "https://{{ portainer_domain }}"
+                target: "_blank"
+
+              - name: "IAM"
+                icon: "fas fa-users"
+                subtitle: "Authentik"
+                tag: "kube-iam"
+                url: "https://{{ authentik_domain }}"
                 target: "_blank"
 
               - name: "Monitoring"
                 icon: "fas fa-tachometer-alt"
                 subtitle: "Grafana"
-                tag: "infra"
+                tag: "kube-core"
                 url: "https://{{ grafana_domain }}"
                 target: "_blank"
 
               - name: "Alerting"
                 icon: "fas fa-bell"
                 subtitle: "Alert Manager"
-                tag: "infra"
+                tag: "kube-core"
                 url: "https://{{ alertmanager_domain }}"
                 target: "_blank"
 
@@ -113,38 +120,38 @@ configmap:
               - name: "DNS"
                 icon: "fas fa-cloud"
                 subtitle: "Cloudflare"
-                tag: "network"
+                tag: "external"
                 url: "https://dash.cloudflare.com/f5bd577bd1f7337fa65ca58e462ed4dc"
                 target: "_blank"
 
               - name: "Router"
                 icon: "fas fa-random"
                 subtitle: "Traefik"
-                tag: "network"
+                tag: "kube-core"
                 url: "https://{{ traefik_dashboard_domain }}"
                 target: "_blank"
 
               - name: "Request Debugger"
                 icon: "fas fa-question"
                 subtitle: "whoami"
-                tag: "network"
+                tag: "kube-core"
                 url: "https://{{ request_debug_domain }}"
                 target: "_blank"
 
-          - name: Gitops
-            icon: "fas fa-infinity"
+          - name: Application
+            icon: "fas fa-vector-square"
             items:
 
               - name: "My repository"
                 icon: "fab fa-github"
                 subtitle: "Github"
-                tags: "gitops"
+                tags: "external"
                 url: "https://github.com/BriceMichalski?tab=repositories"
                 target: "_blank"
 
               - name: "Continuous Deployment"
                 icon: "fas fa-sync-alt"
                 subtitle: "Argo CD"
-                tag: "gitops"
+                tag: "kube-gitops"
                 url: "https://{{ argocd_domain }}"
                 target: "_blank"
