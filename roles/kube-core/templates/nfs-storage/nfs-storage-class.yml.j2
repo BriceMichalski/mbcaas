@@ -1,0 +1,10 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs
+provisioner: nfs-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+allowVolumeExpansion: true
+parameters:
+  pathPattern: "${.PVC.namespace}-${.PVC.name}"
+  onDelete: Delete

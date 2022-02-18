@@ -46,6 +46,11 @@ longhorn_charts_url: https://charts.longhorn.io
 metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
 metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
 
+# nfs storage
+nfs_storage_ip: 127.0.0.1
+nfs_storage_path: /data/nfs
+
+
 #######################
 #     Kube gitops     #
 #######################
@@ -57,7 +62,7 @@ argocd_domain: argocd.mbcaas.com
 #      Kube Data      #
 #######################
 
-# Domain 
+# Domain
 redis_admin_domain: redis.mbcaas.com
 mysql_admin_domain: mysql.mbcaas.com
 postgres_admin_domain: postgres.mbcaas.com
@@ -103,8 +108,7 @@ admin_user: !vault |
 mysql_admin_user: "{{ admin_user }}"
 pgsql_admin_user: "postgres"
 
-pgsql_admin_password: "{{ admin_password }}" 
+pgsql_admin_password: "{{ admin_password }}"
 mysql_admin_password: "{{ admin_password }}"
 redis_admin_password: "{{ admin_password }}"
 grafana_admin_password: "{{ admin_password }}"
-

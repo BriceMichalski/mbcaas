@@ -6,20 +6,20 @@ partitions_unit: "%"
 partitions:
   - device: /dev/sda
     number: 1
-    mountpoint: /data/storage
+    mountpoint: /data/longhorn
     fstype: ext4
     start: 0
     size: 100
 
   - device: /dev/sdb
     number: 1
-    mountpoint: /data/backup
+    mountpoint: /data/nfs
     fstype: ext4
     start: 0
     size: 100
 
 nfs_exports:
-  - "/data/backup 127.0.0.1(rw,sync,no_root_squash)"
+  - "/data/nfs 127.0.0.1(rw,sync,no_root_squash)"
 
 #######################
 #  Kubernetes roles   #

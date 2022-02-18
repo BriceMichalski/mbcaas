@@ -1,5 +1,32 @@
 ---
 
+- name: Install nfs external storage
+  become: true
+  block:
+    - name: NFS storage provisionner rbac
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        wait: yes
+        definition: "{{ lookup('template', 'nfs-storage/nfs-storage-rbac.yml.j2') }}"
+
+    - name: NFS storage provisionner deployment
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        wait: yes
+        definition: "{{ lookup('template', 'nfs-storage/nfs-storage-deployment.yml.j2') }}"
+
+    - name: NFS storage provisionner storage class
+      kubernetes.core.k8s:
+        state: present
+        apply: yes
+        wait: yes
+        definition: "{{ lookup('template', 'nfs-storage/nfs-storage-class.yml.j2') }}"
+  tags:
+    - kubernetes
+    - kubernetes::core
+
 - name: Install longhorn
   become: true
   block:
@@ -16,7 +43,7 @@
       kubernetes.core.helm_repository:
         name: longhorn
         repo_url: "{{ longhorn_charts_url }}"
-    
+
     # - name: update repo
     #   command:
     #     cmd: helm repo update
