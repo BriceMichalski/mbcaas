@@ -8,6 +8,7 @@ usual_apt_package:
   - curl
   - python3-pip
   - tree
+  - util-linux
 
 usual_pip_package:
   - openshift==0.12

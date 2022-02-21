@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,24 +20,20 @@ spec:
     spec:
       serviceAccountName: nfs-client-provisioner
       containers:
-{% for nfs_storage_class in nfs_storage_classes %}
-        - name: {{ nfs_storage_class.name }}
+        - name: nfs
           image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
           volumeMounts:
-            - name: {{ nfs_storage_class.name }}-volume
+            - name: nfs-volume
               mountPath: /persistentvolumes
           env:
             - name: PROVISIONER_NAME
-              value: {{ nfs_storage_class.name }}-provisioner
+              value: nfs-provisioner
             - name: NFS_SERVER
-              value: {{ nfs_storage_class.ip }}
+              value: "{{ nfs_storage_ip }}"
             - name: NFS_PATH
-              value: {{ nfs_storage_class.path }}
-{% endfor %}
+              value: "{{ nfs_storage_path }}"
       volumes:
-{% for nfs_storage_class in nfs_storage_classes %}   
-        - name: {{ nfs_storage_class.name }}-volume
+        - name: nfs-volume
           nfs:
-            server: {{ nfs_storage_class.ip }}
-            path: {{ nfs_storage_class.path }}
-{% endfor %}
+            server: "{{ nfs_storage_ip }}"
+            path: "{{ nfs_storage_path }}"

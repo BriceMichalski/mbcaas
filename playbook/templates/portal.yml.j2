@@ -77,13 +77,6 @@ configmap:
             icon: "fab fa-codepen"
             items:
 
-              - name: "Status"
-                icon: "fas fa-heartbeat"
-                subtitle: "Uptime Robot"
-                tag: "external"
-                url: "https://stats.uptimerobot.com/GxVp5iBEZr"
-                target: "_blank"
-
               - name: "Hosting"
                 icon: "fas fa-server"
                 subtitle: "Portainer"
@@ -91,11 +84,11 @@ configmap:
                 url: "https://{{ portainer_domain }}"
                 target: "_blank"
 
-              - name: "IAM"
-                icon: "fas fa-users"
-                subtitle: "Authentik"
-                tag: "kube-iam"
-                url: "https://{{ authentik_domain }}"
+              - name: "Storage"
+                icon: "fas fa-hdd"
+                subtitle: "Longhorn"
+                tag: "kube-core"
+                url: "https://{{ longhorn_domain_name }}"
                 target: "_blank"
 
               - name: "Monitoring"
@@ -112,10 +105,16 @@ configmap:
                 url: "https://{{ alertmanager_domain }}"
                 target: "_blank"
 
-
           - name: Network
             icon: "fas fa-network-wired"
             items:
+
+              - name: "Status"
+                icon: "fas fa-heartbeat"
+                subtitle: "Uptime Robot"
+                tag: "external"
+                url: "https://stats.uptimerobot.com/GxVp5iBEZr"
+                target: "_blank"
 
               - name: "DNS"
                 icon: "fas fa-route"
@@ -142,11 +141,11 @@ configmap:
             icon: "fas fa-vector-square"
             items:
 
-              - name: "My repository"
-                icon: "fab fa-github"
-                subtitle: "Github"
-                tags: "external"
-                url: "https://github.com/BriceMichalski?tab=repositories"
+              - name: "IAM"
+                icon: "fas fa-users"
+                subtitle: "Authentik"
+                tag: "kube-iam"
+                url: "https://{{ authentik_domain }}"
                 target: "_blank"
 
               - name: "Continuous Deployment"
@@ -154,4 +153,11 @@ configmap:
                 subtitle: "Argo CD"
                 tag: "kube-gitops"
                 url: "https://{{ argocd_domain }}"
+                target: "_blank"
+
+              - name: "My repository"
+                icon: "fab fa-github"
+                subtitle: "Github"
+                tags: "external"
+                url: "https://github.com/BriceMichalski?tab=repositories"
                 target: "_blank"

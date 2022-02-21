@@ -8,15 +8,15 @@
     state: present
     wait: true
 
-- name: Storage configuration
-  include_tasks: storage.yml
-
 - name: Production spécific configuration
   include_tasks: production.yml
   when: production_environment
 
 - name: Networking configuration
   include_tasks: networking.yml
+
+- name: Storage configuration
+  include_tasks: storage.yml
 
 - name: Monitoring configuration
   include_tasks: monitoring.yml
