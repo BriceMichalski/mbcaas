@@ -89,7 +89,6 @@
         values: "{{ lookup('template', 'error.yml.j2') | from_yaml }}"
         wait: yes
 
-
   tags:
     - kubernetes
-    - kubernetes::metallb
+    - kubernetes::errorpages
