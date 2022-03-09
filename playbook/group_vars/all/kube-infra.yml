@@ -34,6 +34,7 @@ longhorn_domain_name: storage.mbcaas.com
 alertmanager_domain: alert.mbcaas.com
 grafana_domain: grafana.mbcaas.com
 request_debug_domain: whoami.mbcaas.com
+error_domain: error.mbcaas.com
 
 # Charts url
 metallb_charts_url: https://metallb.github.io/metallb
