@@ -9,6 +9,7 @@ cert_manager_version: "v1.6.1"
 longhorn_version: "1.2.3"
 k9s_version: "v0.25.18"
 db_operator_version: "0.8.2" # failed with 1.0.0
+error_pages_version: "2.7.0"
 
 #######################
 #     Kubernetes      #
@@ -34,6 +35,7 @@ longhorn_domain_name: storage.mbcaas.com
 alertmanager_domain: alert.mbcaas.com
 grafana_domain: grafana.mbcaas.com
 request_debug_domain: whoami.mbcaas.com
+error_domain: error.mbcaas.com
 
 # Charts url
 metallb_charts_url: https://metallb.github.io/metallb

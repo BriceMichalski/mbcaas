@@ -72,3 +72,23 @@
     - kubernetes
     - kubernetes::core
     - kubernetes::core::whoami
+
+- name: Install Custom Error Page
+  become: true
+  block:
+    - name: Install k8s-at-home repository
+      kubernetes.core.helm_repository:
+        name: k8s-at-home
+        repo_url: https://k8s-at-home.com/charts/
+
+    - name: Install error-pages
+      kubernetes.core.helm:
+        name: homer
+        chart_ref: k8s-at-home/error-pages
+        release_namespace: "{{ kube_core_namespace }}"
+        values: "{{ lookup('template', 'error.yml.j2') | from_yaml }}"
+        wait: yes
+
+  tags:
+    - kubernetes
+    - kubernetes::errorpages
