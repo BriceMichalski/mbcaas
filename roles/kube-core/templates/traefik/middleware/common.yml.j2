@@ -1,0 +1,12 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: common
+  namespace: "{{ kube_core_namespace }}"
+spec:
+  chain:
+    middlewares:
+    - name: security
+    - name: errors
+    - name: compress

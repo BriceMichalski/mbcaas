@@ -35,20 +35,30 @@
         values: "{{ lookup('template', 'traefik/config.yaml.j2') | from_yaml }}"
         wait: yes
 
-    - name: Traefik Middleware cloudflare ip whitelist
+    - name: Traefik Atomic Middleware
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'traefik/cloudflare-ip-whiteist-mdw.yml.j2') }}"
+        definition: "{{ lookup('template', 'traefik/middleware/atomic/' ~ item ~ '.yml.j2') }}"
         wait: yes
-      when: enable_cloudflare_ip_whitelist
+      loop:
+        - "admin-auth"
+        - "compress"
+        - "errors"
+        - "https"
+        - "ip-whitelist"
+        - "ratelimit"
 
-    - name: Traefik Middleware admin auth
+    - name: Traefik Chained Middleware
       kubernetes.core.k8s:
         state: present
         apply: yes
-        definition: "{{ lookup('template', 'traefik/admin-auth-mdw.yml.j2') }}"
+        definition: "{{ lookup('template', 'traefik/middleware/' ~ item ~ '.yml.j2') }}"
         wait: yes
+      loop:
+        - "security"
+        - "common"
+        - "admin"
 
     - name: Deploy traefik dashboard
       kubernetes.core.k8s:
@@ -83,7 +93,7 @@
 
     - name: Install error-pages
       kubernetes.core.helm:
-        name: homer
+        name: error-pages
         chart_ref: k8s-at-home/error-pages
         release_namespace: "{{ kube_core_namespace }}"
         values: "{{ lookup('template', 'error.yml.j2') | from_yaml }}"

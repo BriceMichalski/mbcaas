@@ -8,7 +8,7 @@ ingress:
   main:
     enabled: true
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: "{{ traefik_applicable_middleware | join(',') }}"
+      traefik.ingress.kubernetes.io/router.middlewares: "{{ traefik_middleware | default('common') }}"
       external-dns.alpha.kubernetes.io/target: "{{ cloudflare_record_target }}"
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/ingress.class: traefik

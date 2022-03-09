@@ -1,9 +1,10 @@
 ---
+# Redirect to https
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: cloudflare-ip-whitelist
+  name: https
   namespace: "{{ kube_core_namespace }}"
 spec:
-  ipWhiteList:
-    sourceRange: {{ cloudflare_ip_whitelist }}
+  redirectScheme:
+    scheme: https
