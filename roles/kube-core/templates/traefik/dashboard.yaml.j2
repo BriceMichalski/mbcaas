@@ -35,10 +35,6 @@ spec:
     - match: Host(`{{ traefik_dashboard_domain }}`)
       kind: Rule
       middlewares:
-{% if enable_cloudflare_ip_whitelist %}
-        - name: cloudflare-ip-whitelist
-          namespace: {{ kube_core_namespace }}
-{% endif %}
         - name:  admin-auth
           namespace: {{ kube_core_namespace }}
       services:
