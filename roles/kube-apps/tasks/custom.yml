@@ -43,8 +43,6 @@
       when: app.service_ports | default(false)
 
     - name: "{{ app.name | upper }} CREATE | k8s ingress"
-      vars:
-        traefik_app_middleware: "{% if app.traefik_middleware is defined %}{{ app.traefik_middleware }}{% endif %}"
       kubernetes.core.k8s:
         state: present
         apply: yes

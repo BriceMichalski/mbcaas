@@ -30,9 +30,7 @@ spec:
         ingress:
           enabled: true
           annotations:
-            {% if (traefik_applicable_middleware | length ) > 0 -%}
-            traefik.ingress.kubernetes.io/router.middlewares: {{ traefik_applicable_middleware | join(',') }}
-            {%- endif -%}
+            traefik.ingress.kubernetes.io/router.middlewares: {{ app.traefik_middleware | default('common') | to_traefik_middleware }}
             external-dns.alpha.kubernetes.io/target: {{ cloudflare_record_target }}
             cert-manager.io/cluster-issuer: letsencrypt
             kubernetes.io/ingress.class: traefik

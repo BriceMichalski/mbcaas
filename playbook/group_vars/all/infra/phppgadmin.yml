@@ -11,7 +11,7 @@ phppgadmin:
   #
   # Middleware
   #
-  traefik_middleware: []
+  traefik_middleware: "common"
 
   #
   # App

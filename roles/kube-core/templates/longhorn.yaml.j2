@@ -44,7 +44,7 @@ ingress:
   ##
   ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: "{{ ( traefik_applicable_middleware + ['kube-core-admin-auth@kubernetescrd'] ) | join(',') }}"
+    traefik.ingress.kubernetes.io/router.middlewares: "{{ 'admin' | to_traefik_middleware }}"
     external-dns.alpha.kubernetes.io/target: "{{ cloudflare_record_target }}"
     cert-manager.io/cluster-issuer: letsencrypt
     kubernetes.io/ingress.class: traefik

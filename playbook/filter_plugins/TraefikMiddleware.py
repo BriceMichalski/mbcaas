@@ -1,9 +1,13 @@
+def to_traefik_middleware(mdwname):
+
+    if mdwname:
+        return "kube-core-" + mdwname + "@kubernetescrd"
+
+    return ""
+
+
 class FilterModule(object):
     def filters(self):
         return {
-            'traefik_middleware': self.format_middleware
+            'to_traefik_middleware': to_traefik_middleware
         }
-
-    def format_middleware(middlewarname):
-        return "namespace-" + middlewarname + "@Kubernetescrd"
-

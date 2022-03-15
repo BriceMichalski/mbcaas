@@ -1,18 +1,16 @@
 ---
+{% set traefik_middleware_name = app.traefik_middleware if app.traefik_middleware is defined else "common" %}
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: '{{ app.name }}'
   namespace: "{{ app.namespace }}"
   annotations:
-{% if traefik_applicable_middleware | length > 0 %}
-    traefik.ingress.kubernetes.io/router.middlewares: {{ traefik_applicable_middleware | join(',')}}
-{% endif %}
+    traefik.ingress.kubernetes.io/router.middlewares: {{ traefik_middleware_name | to_traefik_middleware }}
 {% if production_environment %}
     external-dns.alpha.kubernetes.io/target: {{ cloudflare_record_target }}
-    cert-manager.io/cluster-issuer: letsencrypt
 {% endif %}
-    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   tls: {{ app.tls | to_json }}

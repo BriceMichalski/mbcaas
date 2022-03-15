@@ -15,3 +15,6 @@ roles:
 collections:
   - name: community.general
     version: 3.4.0
+
+  - name: community.kubernetes
+    version: 2.0.1

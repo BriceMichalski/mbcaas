@@ -5,3 +5,4 @@ kubeconfig
 token
 .vagrant
 settings.yml
+__pycache__

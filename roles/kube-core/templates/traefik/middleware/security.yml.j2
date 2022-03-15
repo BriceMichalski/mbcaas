@@ -8,5 +8,7 @@ spec:
   chain:
     middlewares:
     - name: ip-whitelist
+{% if production_environment %}
     - name: https
+{% endif %}
     - name: ratelimit
