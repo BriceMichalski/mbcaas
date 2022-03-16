@@ -21,8 +21,6 @@ ingressClass:
   enabled: true
   isDefaultClass: true
 
-{% if enable_cloudflare_ip_whitelist %}
 additionalArguments: [
     "--entryPoints.websecure.forwardedHeaders.trustedIPs={{ cloudflare_ip_whitelist | join(',') }}"
 ]
-{% endif %}

@@ -5,7 +5,7 @@ metadata:
   name: 'portainer'
   namespace: "{{ kube_core_namespace }}"
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: "{{ 'admin' | to_traefik_middleware }}"
+    traefik.ingress.kubernetes.io/router.middlewares: "{{ 'common' | to_traefik_middleware }}"
 {% if production_environment %}
     external-dns.alpha.kubernetes.io/target: {{ cloudflare_record_target }}
     cert-manager.io/cluster-issuer: letsencrypt

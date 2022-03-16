@@ -48,6 +48,7 @@
         - "https"
         - "ip-whitelist"
         - "ratelimit"
+        - "x-forwarded-proto-https"
 
     - name: Traefik Chained Middleware
       kubernetes.core.k8s:
