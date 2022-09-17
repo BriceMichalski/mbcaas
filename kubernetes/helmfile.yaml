@@ -12,6 +12,7 @@ environments:
 helmDefaults:
   timeout: 600
   force: false
+  createNamespace: false
 
 repositories:
   - name: traefik
@@ -22,3 +23,12 @@ releases:
     namespace: kube-network
     chart: traefik/traefik 
     version: {{ $.Values.charts.version.traefik }}
+    values:
+      - modules/traefik.gotmpl
+
+  - name: traefik-dashboard
+    namespace: kube-network
+    chart: ./charts/traefik-dashboard
+    version: 1.0.0
+    values:
+      - modules/traefik-dashboard.gotmpl

@@ -3,3 +3,7 @@
 charts:
   version:
     traefik: v10.24.3
+
+
+url:
+  traefik: router.mbcaas.com

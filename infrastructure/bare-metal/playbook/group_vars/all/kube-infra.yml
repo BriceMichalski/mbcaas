@@ -4,12 +4,14 @@
 #######################
 
 kubernetes_version: "1.23"
-external_dns_version: "v0.10.2"
-cert_manager_version: "v1.6.1"
-longhorn_version: "1.2.3"
 k9s_version: "v0.26.3"
-db_operator_version: "0.8.2" # failed with 1.0.0
-error_pages_version: "2.7.0"
+
+
+# external_dns_version: "v0.10.2"
+# cert_manager_version: "v1.6.1"
+# longhorn_version: "1.2.3"
+# db_operator_version: "0.8.2" # failed with 1.0.0
+# error_pages_version: "2.7.0"
 
 #######################
 #     Kubernetes      #
@@ -18,99 +20,106 @@ error_pages_version: "2.7.0"
 kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
 
-kube_core_namespace: kube-core
-kube_gitops_namespace: kube-gitops
-kube_data_namespace: kube-data
-kube_iam_namespace: kube-iam
-
-#######################
-#     Kube core       #
-#######################
-
-# Domain
-portal_domain: mbcaas.com
-portainer_domain: portainer.mbcaas.com
-traefik_dashboard_domain: router.mbcaas.com
-longhorn_domain_name: storage.mbcaas.com
-alertmanager_domain: alert.mbcaas.com
-grafana_domain: grafana.mbcaas.com
-request_debug_domain: whoami.mbcaas.com
-error_domain: error.mbcaas.com
-
-# Charts url
-metallb_charts_url: https://metallb.github.io/metallb
-traefik_charts_url: https://helm.traefik.io/traefik
-cert_manager_charts_url: https://charts.jetstack.io
-prometheus_stack_charts_url: https://prometheus-community.github.io/helm-charts
-longhorn_charts_url: https://charts.longhorn.io
-
-# Metallb IP range
-metallb_config_ip_range_from: "{{ kube_ip_range_start }}"
-metallb_config_ip_range_to: "{{ kube_ip_range_end }}"
-
-# nfs storage
-nfs_storage_ip: 127.0.0.1
-nfs_storage_path: /data/nfs
+kubernetes_config_cluster_configuration:
+  networking:
+    podSubnet: "{{ kubernetes_pod_network.cidr }}"
+  kubernetesVersion: "{{ kubernetes_version_kubeadm }}"
+  apiServer:
+    extraArgs:
+      authorization-mode: "Node,RBAC"
+    certSANs:
+      - "{{ ansible_default_ipv4.address }}"
+      - "{{ ansible_host }}"
+      - "kapi.mbcaas.com"
+    timeoutForControlPlane: 4m0s
 
 
-#######################
-#     Kube gitops     #
-#######################
-
-# Domain
-argocd_domain: argocd.mbcaas.com
-
-#######################
-#      Kube Data      #
-#######################
-
-# Domain
-redis_admin_domain: redis.mbcaas.com
-mysql_admin_domain: mysql.mbcaas.com
-postgres_admin_domain: postgres.mbcaas.com
-
-# Charts url
-bitnami_charts_url: https://charts.bitnami.com/bitnami
-dboperator_charts_url: https://kloeckner-i.github.io/db-operator/
-
-postgres_shared_instance_name: postgres-shared
-mysql_shared_instance_name: mysql-shared
-
-#######################
-#      Kube IAM      #
-#######################
-
-# Domain
-authentik_domain: auth.mbcaas.com
-
-# Charts url
-authenthik_chart_url: https://charts.goauthentik.io
 
 
-#######################
-#   User / Password   #
-#######################
+# #######################
+# #     Kube core       #
+# #######################
 
-admin_password: !vault |
-  $ANSIBLE_VAULT;1.1;AES256
-  62626161653064393861323962626336376134333465316139303632336537363930316432383039
-  3161306230393934643134333637393339306536373963350a323638643661323336623666323066
-  39323935383137353465316632353632363532396461303063356636366336333235323936346335
-  3838323466666332640a366366636531393765316263616162633039386163353531363535343637
-  39343662633239393633363830336538663365626161353033313330313261356661
+# # Domain
+# portal_domain: mbcaas.com
+# portainer_domain: portainer.mbcaas.com
+# traefik_dashboard_domain: router.mbcaas.com
+# longhorn_domain_name: storage.mbcaas.com
+# alertmanager_domain: alert.mbcaas.com
+# grafana_domain: grafana.mbcaas.com
+# request_debug_domain: whoami.mbcaas.com
+# error_domain: error.mbcaas.com
 
-admin_user: !vault |
-            $ANSIBLE_VAULT;1.1;AES256
-            37663936353164636238353664643030376534616439306465373730373434646331353564653834
-            3937623638303737626362326463303438313033376432310a323566366635343831353637386165
-            62336664613133356566623234626431633461323634383736643736366535316532346334333939
-            3862656463353666370a323461393462303039323937376532336165373035613736363062333362
-            3832
+# # Charts url
+# metallb_charts_url: https://metallb.github.io/metallb
+# traefik_charts_url: https://helm.traefik.io/traefik
+# cert_manager_charts_url: https://charts.jetstack.io
+# prometheus_stack_charts_url: https://prometheus-community.github.io/helm-charts
+# longhorn_charts_url: https://charts.longhorn.io
 
-mysql_admin_user: "{{ admin_user }}"
-pgsql_admin_user: "postgres"
+# # nfs storage
+# nfs_storage_ip: 127.0.0.1
+# nfs_storage_path: /data/nfs
 
-pgsql_admin_password: "{{ admin_password }}"
-mysql_admin_password: "{{ admin_password }}"
-redis_admin_password: "{{ admin_password }}"
-grafana_admin_password: "{{ admin_password }}"
+
+# #######################
+# #     Kube gitops     #
+# #######################
+
+# # Domain
+# argocd_domain: argocd.mbcaas.com
+
+# #######################
+# #      Kube Data      #
+# #######################
+
+# # Domain
+# redis_admin_domain: redis.mbcaas.com
+# mysql_admin_domain: mysql.mbcaas.com
+# postgres_admin_domain: postgres.mbcaas.com
+
+# # Charts url
+# bitnami_charts_url: https://charts.bitnami.com/bitnami
+# dboperator_charts_url: https://kloeckner-i.github.io/db-operator/
+
+# postgres_shared_instance_name: postgres-shared
+# mysql_shared_instance_name: mysql-shared
+
+# #######################
+# #      Kube IAM      #
+# #######################
+
+# # Domain
+# authentik_domain: auth.mbcaas.com
+
+# # Charts url
+# authenthik_chart_url: https://charts.goauthentik.io
+
+
+# #######################
+# #   User / Password   #
+# #######################
+
+# admin_password: !vault |
+#   $ANSIBLE_VAULT;1.1;AES256
+#   62626161653064393861323962626336376134333465316139303632336537363930316432383039
+#   3161306230393934643134333637393339306536373963350a323638643661323336623666323066
+#   39323935383137353465316632353632363532396461303063356636366336333235323936346335
+#   3838323466666332640a366366636531393765316263616162633039386163353531363535343637
+#   39343662633239393633363830336538663365626161353033313330313261356661
+
+# admin_user: !vault |
+#             $ANSIBLE_VAULT;1.1;AES256
+#             37663936353164636238353664643030376534616439306465373730373434646331353564653834
+#             3937623638303737626362326463303438313033376432310a323566366635343831353637386165
+#             62336664613133356566623234626431633461323634383736643736366535316532346334333939
+#             3862656463353666370a323461393462303039323937376532336165373035613736363062333362
+#             3832
+
+# mysql_admin_user: "{{ admin_user }}"
+# pgsql_admin_user: "postgres"
+
+# pgsql_admin_password: "{{ admin_password }}"
+# mysql_admin_password: "{{ admin_password }}"
+# redis_admin_password: "{{ admin_password }}"
+# grafana_admin_password: "{{ admin_password }}"
