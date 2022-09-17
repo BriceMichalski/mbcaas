@@ -1,0 +1,110 @@
+---
+- hosts: all
+  gather_facts: true
+  any_errors_fatal: true
+  tasks:
+    - ping:
+      tags:
+        - always
+
+- hosts: all
+  gather_facts: false
+  name: Hardening
+  roles:
+    - roles/hardening
+  tags:
+    - hardening
+
+- hosts: knode
+  gather_facts: false
+  name: Raw Kubernetes cluster
+  become: true
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.helm
+    - geerlingguy.kubernetes
+  post_tasks:
+    - include_tasks: tasks/kadmin.yml
+      with_items: "{{ kubernetes_admin }}"
+
+    - name: Install Helm diff plugin
+      kubernetes.core.helm_plugin:
+        plugin_path: https://github.com/databus23/helm-diff
+        state: present
+  tags:
+    - kubernetes
+    - kubernetes::cluster
+
+- hosts: kmaster
+  gather_facts: false
+  name: Install k9s
+  become: true
+  tasks:
+    - name: Download k9s tarball
+      get_url:
+        url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_x86_64.tar.gz"
+        dest: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
+      register: k9s_archive
+
+    - name: Unarchive k9s
+      unarchive:
+        src: "/tmp/k9s_{{ k9s_version }}_Linux_x86_64.tar.gz"
+        dest: "/usr/local/bin"
+        mode: 0755
+        remote_src: true
+      when: k9s_archive.changed
+  tags:
+    - kubernetes
+    - kubernetes::k9s
+
+
+# - hosts: caas
+#   gather_facts: false
+#   name: Kubernetes Core
+#   become: true
+#   roles:
+#     - roles/kube-core
+#   tags:
+#     - kubernetes
+#     - kubernetes::core
+
+# - hosts: caas
+#   gather_facts: false
+#   name: Kubernetes Data
+#   become: true
+#   roles:
+#     - roles/kube-data
+#   tags:
+#     - kubernetes
+#     - kubernetes::data
+
+# - hosts: caas
+#   gather_facts: false
+#   name: Kubernetes IAM
+#   become: true
+#   roles:
+#     - roles/kube-iam
+#   tags:
+#     - kubernetes
+#     - kubernetes::iam
+
+
+# - hosts: caas
+#   gather_facts: false
+#   name: Kubernetes Gitops
+#   become: true
+#   roles:
+#     - roles/kube-gitops
+#   tags:
+#     - kubernetes
+#     - kubernetes::gitops
+
+# - hosts: caas
+#   gather_facts: false
+#   name: MBCaaS Portal
+#   become: true
+#   tasks:
+#     - include_tasks: tasks/mbcaas-portal.yml
+#   tags:
+#     - kubernetes
+#     - kubernetes::portal

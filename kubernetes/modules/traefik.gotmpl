@@ -1,0 +1,44 @@
+---
+ports:
+    web:
+      redirectTo: websecure
+    websecure:
+      port: 8443
+      expose: true
+      exposedPort: 8443
+      nodePort: 38443
+      tls: 
+          enabled: "{{ $.Values.traefik.websecure.tls }}"
+            
+service:
+  enabled: true
+  type: LoadBalancer
+  spec:
+    externalTrafficPolicy: Local
+
+logs:
+  general:
+    format: json
+    level: "{{ $.Values.traefik.logs.general.level }}"
+  access:
+    format: json
+    enabled: true
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+  fallbackApiVersion: v1
+
+additionalArguments: [
+{{- if .Values.traefik.trustedip -}} 
+    '--entryPoints.websecure.forwardedHeaders.trustedIPs={{  join "," $.Values.traefik.trustedip }}'
+{{- end -}}
+]
+
+resources:
+  requests:
+    memory: {{ $.Values.traefik.resources.requests.memory }}
+    cpu: {{ $.Values.traefik.resources.requests.cpu }}
+  limits:
+    memory: {{ $.Values.traefik.resources.limits.memory }}
+    cpu: {{ $.Values.traefik.resources.limits.cpu }}

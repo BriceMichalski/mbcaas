@@ -1,0 +1,12 @@
+---
+namespaces:
+  kube-network:
+    system: true
+  default:
+    quotas:
+      requests:
+        cpu: 100m
+        memory: 200m
+      limits:
+        cpu: 200m
+        memory: 400m

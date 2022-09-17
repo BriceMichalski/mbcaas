@@ -1,8 +1,8 @@
 *.retry
-roles/*.*
+**/roles/*.*
 *.vault
 kubeconfig
 token
 .vagrant
-settings.yml
+vagrant-settings.yml
 __pycache__

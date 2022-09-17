@@ -1,0 +1,5 @@
+---
+
+charts:
+  version:
+    traefik: v10.24.3

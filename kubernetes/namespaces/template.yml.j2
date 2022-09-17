@@ -1,0 +1,25 @@
+{%- for name, conf in namespaces.items() %}
+---
+apiVersion: v1                                                                                                             
+kind: Namespace                                                                                                            
+metadata:
+  name: {{ name }}                                                                                                                                                                                                
+  labels:                                                                                                                  
+    kubernetes.io/metadata.name: {{ name }}                                                                              
+    name: {{ name }}
+    system-namespace: "{{ conf.system | default(false) | string }}"
+---
+{% if conf.quotas is defined %}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ name }}-quota
+  namespace: {{ name }}
+spec:
+  hard:
+    requests.cpu: {{ conf.quotas.requests.cpu }}
+    requests.memory: {{ conf.quotas.requests.memory }}
+    limits.cpu: {{ conf.quotas.limits.cpu }}
+    limits.memory: {{ conf.quotas.limits.memory }}
+{% endif %}
+{% endfor %}

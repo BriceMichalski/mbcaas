@@ -1,0 +1,31 @@
+---
+ansible_host: 192.168.60.10
+ansible_user: vagrant
+ansible_ssh_pass: vagrant
+
+#######################
+#    Drives & Disk    #
+#######################
+partitions_unit: "%"
+partitions:
+  - device: /dev/sdb
+    number: 1
+    mountpoint: /data/mbcaas01-dev-disk1
+    fstype: ext4
+    start: 0
+    size: 100
+
+  - device: /dev/sdc
+    number: 1
+    mountpoint: /data/mbcaas01-dev-disk2
+    fstype: ext4
+    start: 0
+    size: 100
+
+nfs_exports:
+  - "/data/nfs 127.0.0.1(rw,sync,no_root_squash)"
+
+#######################
+#  Kubernetes roles   #
+#######################
+kubernetes_role: master
