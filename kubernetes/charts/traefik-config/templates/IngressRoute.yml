@@ -3,20 +3,19 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: traefik-dashboard
-{{- if eq .Values.env_type "production" }}
+{{- if eq .Values.envType "production" }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
 {{- end }}
 spec:
   entryPoints:
     - websecure
-    - web
-{{- if eq .Values.env_type "production" }}
+{{- if eq .Values.envType "production" }}
   tls:
     secretName: 'traefik-dashboard-tls'
 {{- end }}
   routes:
-    - match: Host(`{{ .Values.url }}`)
+    - match: Host(`{{ .Values.traefik.url }}`)
       kind: Rule
       services:
         - name: api@internal

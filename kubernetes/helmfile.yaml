@@ -8,7 +8,6 @@ environments:
       - envs/{{ . }}/env.yml
 {{- end }}
 
-
 helmDefaults:
   timeout: 600
   force: false
@@ -18,17 +17,31 @@ repositories:
   - name: traefik
     url: https://helm.traefik.io/traefik
 
+  - name: jetstack 
+    url: https://charts.jetstack.io
+
+
 releases:
+  - name: cert-manager
+    namespace: kube-network
+    chart: jetstack/cert-manager
+    version: {{ .Values.charts.version.certmanager }}
+    installed: {{ .Values.charts.installed.certmanager }}
+    values:
+      - modules/cert-manager.gotmpl
+
   - name: traefik-ingress-controller
     namespace: kube-network
     chart: traefik/traefik 
-    version: {{ $.Values.charts.version.traefik }}
+    version: {{ .Values.charts.version.traefik }}
+    installed: {{ .Values.charts.installed.traefik }}
     values:
       - modules/traefik.gotmpl
 
-  - name: traefik-dashboard
+  - name: traefik-config
     namespace: kube-network
-    chart: ./charts/traefik-dashboard
+    chart: ./charts/traefik-config
     version: 1.0.0
+    installed: {{ .Values.charts.installed.traefik }}
     values:
-      - modules/traefik-dashboard.gotmpl
+      - modules/traefik-config.gotmpl
