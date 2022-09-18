@@ -11,11 +11,29 @@ charts:
     errorPages: true
     networkConfig: true
 
-soft:
-  version:
+softs:
+  versions:
     errorPages: 2.18.0 
+    whoami: v1.8.6
+
+quotas:
+  traefik:
+    requests:
+      memory: 100Mi
+      cpu: 200m
+    limits:
+      memory: 500Mi
+      cpu: 400m
+  whoami:
+    requests:
+      memory: 50Mi
+      cpu: 100m
+    limits:
+      memory: 100Mi
+      cpu: 200m
 
 dns:
   target: ipv4.mbcaas.com
   traefik: router.mbcaas.com
+  whoami: whoami.mbcaas.com
   errorPages: errors.mbcaas.com

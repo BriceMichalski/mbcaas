@@ -1,6 +1,6 @@
 apiVersion: v2
-name: traefik-dashboard
-description: Expose traefik dashboard
+name: network-config
+description: Apply network configuration to my cluster
 type: application
 version: 1.0.0
 

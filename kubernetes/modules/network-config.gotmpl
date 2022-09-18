@@ -3,3 +3,9 @@ envType: {{ .Values.envType }}
 traefik:
   url: {{ .Values.dns.traefik }}
   ipWhitelist: {{ .Values.traefik.trustedIp }}
+
+whoami:
+  url: {{ .Values.dns.whoami }}
+  imageVersion: {{ .Values.softs.versions.whoami }}
+  quotas: 
+    {{- toYaml .Values.quotas.whoami | nindent 4 }}

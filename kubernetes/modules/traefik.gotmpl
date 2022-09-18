@@ -36,10 +36,5 @@ additionalArguments: [
 {{- end -}}
 ]
 
-resources:
-  requests:
-    memory: {{ .Values.traefik.resources.requests.memory }}
-    cpu: {{ .Values.traefik.resources.requests.cpu }}
-  limits:
-    memory: {{ .Values.traefik.resources.limits.memory }}
-    cpu: {{ .Values.traefik.resources.limits.cpu }}
+resources: 
+  {{ toYaml .Values.quotas.traefik | nindent 2}}
