@@ -17,9 +17,9 @@ spec:
   routes:
     - match: Host(`{{ .Values.traefik.url }}`)
       kind: Rule
-      # middlewares:
-      #   - name:  ip-white-lists
-      #     namespace: kube-network
+      middlewares:
+        - name:  common
+          namespace: kube-network
       services:
         - name: api@internal
           kind: TraefikService
