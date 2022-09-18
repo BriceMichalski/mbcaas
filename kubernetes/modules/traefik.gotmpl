@@ -1,4 +1,9 @@
 ---
+
+image:
+  name: traefik
+  tag: {{ .Values.softs.versions.traefik }}
+
 ports:
     web:
       redirectTo: websecure

@@ -13,6 +13,7 @@ charts:
 
 softs:
   versions:
+    traefik: v2.9
     errorPages: 2.18.0 
     whoami: v1.8.6
 
