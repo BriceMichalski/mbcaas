@@ -59,3 +59,11 @@ releases:
     installed: {{ .Values.charts.installed.networkConfig }}
     values:
       - modules/network-config.gotmpl
+
+  - name: longhorn
+    namespace: kube-storage
+    chart: longhorn/longhorn
+    version: {{ .Values.charts.version.longhorn }}
+    installed: {{ .Values.charts.installed.longhorn }}
+    values:
+      - modules/longhorn.gotmpl

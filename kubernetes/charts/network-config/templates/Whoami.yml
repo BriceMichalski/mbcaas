@@ -10,6 +10,7 @@ metadata:
     app.kubernetes.io/version: "{{ .Values.whoami.imageVersion }}"
     app.kubernetes.io/managed-by: Helm
 ---
+# TODO: Handle TLS
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
