@@ -1,0 +1,22 @@
+---
+image:
+  tag: "{{ .Values.soft.version.errorPages }}"
+env:
+  TEMPLATE_NAME: connection
+  SHOW_DETAILS: "false"
+ingress:
+  main:
+    enabled: true
+    annotations:
+      {{- if eq .Values.envType "production" }}
+      external-dns.alpha.kubernetes.io/target: "{{ .Value.dns.target }}"
+      cert-manager.io/cluster-issuer: letsencrypt
+      {{- end }}
+      traefik.ingress.kubernetes.io/router.middlewares: "kube-network-common@kubernetescrd"
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - host: "{{ .Values.dns.errorPages }}"
+        paths:
+          - path: "/"
+            pathType: Prefix

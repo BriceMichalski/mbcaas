@@ -20,17 +20,20 @@ repositories:
   - name: jetstack 
     url: https://charts.jetstack.io
 
+  - name: k8s-at-home
+    url: https://k8s-at-home.com/charts/
+
 
 releases:
   - name: cert-manager
     namespace: kube-network
     chart: jetstack/cert-manager
-    version: {{ .Values.charts.version.certmanager }}
-    installed: {{ .Values.charts.installed.certmanager }}
+    version: {{ .Values.charts.version.certManager }}
+    installed: {{ .Values.charts.installed.certManager }}
     values:
       - modules/cert-manager.gotmpl
 
-  - name: traefik-ingress-controller
+  - name: traefik
     namespace: kube-network
     chart: traefik/traefik 
     version: {{ .Values.charts.version.traefik }}
@@ -38,10 +41,18 @@ releases:
     values:
       - modules/traefik.gotmpl
 
-  - name: traefik-config
+  - name: error-pages
     namespace: kube-network
-    chart: ./charts/traefik-config
+    chart: k8s-at-home/error-pages
+    version: {{ .Values.charts.version.errorPages }}
+    installed: {{ .Values.charts.installed.errorPages }}
+    values: 
+      - modules/error-pages.gotmpl
+
+  - name: network-config
+    namespace: kube-network
+    chart: ./charts/network-config
     version: 1.0.0
-    installed: {{ .Values.charts.installed.traefik }}
+    installed: {{ .Values.charts.installed.networkConfig }}
     values:
-      - modules/traefik-config.gotmpl
+      - modules/network-config.gotmpl

@@ -1,0 +1,5 @@
+---
+envType: {{ .Values.envType }}
+traefik:
+  url: {{ .Values.dns.traefik }}
+  ipWhitelist: {{ .Values.traefik.trustedIp }}

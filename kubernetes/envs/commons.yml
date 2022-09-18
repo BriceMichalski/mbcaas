@@ -3,10 +3,19 @@
 charts:
   version:
     traefik: v10.24.3
-    certmanager: 1.9.1
+    certManager: 1.9.1
+    errorPages: 1.2.2
   installed:
     traefik: true 
-    certmanager: true
+    certManager: true
+    errorPages: true
+    networkConfig: true
 
-url:
+soft:
+  version:
+    errorPages: 2.18.0 
+
+dns:
+  target: ipv4.mbcaas.com
   traefik: router.mbcaas.com
+  errorPages: errors.mbcaas.com
