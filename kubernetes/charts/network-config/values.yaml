@@ -1,5 +1,5 @@
 
 envType: "sandbox"
 url: "dashboard.foo.com"
-ipWhitelist: 
+ipWhitelist:
   - 192.168.0.0/16

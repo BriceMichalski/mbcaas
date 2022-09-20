@@ -3,5 +3,8 @@
     "files.associations": {
       "*.gotmpl": "helm",
       "helmfile.yaml": "helm"
-    }
+    },
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true
   }

@@ -3,4 +3,3 @@ name: network-config
 description: Apply network configuration to my cluster
 type: application
 version: 1.0.0
-

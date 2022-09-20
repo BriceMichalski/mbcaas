@@ -1,6 +1,6 @@
 ---
 {{ $envs := list "dev" "prod" }}
-environments: 
+environments:
 {{- range $envs }}
   {{ . }}:
     values:
@@ -45,7 +45,7 @@ releases:
 
   - name: traefik
     namespace: kube-network
-    chart: traefik/traefik 
+    chart: traefik/traefik
     <<: *default
 
   - name: error-pages

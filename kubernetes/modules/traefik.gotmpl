@@ -8,10 +8,10 @@ ports:
     web:
       redirectTo: websecure
     websecure:
-      nodePort: 30443 
-      tls: 
+      nodePort: 30443
+      tls:
         enabled: {{ .Values.traefik.websecure.tls }}
-    
+
 service:
   enabled: true
   type: LoadBalancer
@@ -36,10 +36,10 @@ ingressRoute:
     enabled: false
 
 additionalArguments: [
-{{- if .Values.traefik.trustedIp -}} 
+{{- if .Values.traefik.trustedIp -}}
     '--entryPoints.websecure.forwardedHeaders.trustedIPs={{  join "," .Values.traefik.trustedIp }}'
 {{- end -}}
 ]
 
-resources: 
+resources:
   {{ toYaml .Values.quotas.traefik | nindent 2}}

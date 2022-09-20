@@ -41,4 +41,3 @@ alertmanagerSpec:
       {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
     hosts:
       - {{ .Values.dns.alertManager }}
-
