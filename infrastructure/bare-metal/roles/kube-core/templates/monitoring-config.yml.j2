@@ -30,7 +30,8 @@ grafana:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     hosts:
       - "{{ grafana_domain }}"
-    tls:
-      - secretName: "{{ grafana_domain }}-tls"
-        hosts:
-          - "{{ grafana_domain }}"
+    # {{ if }}  
+    # tls:
+    #   - secretName: "{{ grafana_domain }}-tls"
+    #     hosts:
+    #       - "{{ grafana_domain }}"

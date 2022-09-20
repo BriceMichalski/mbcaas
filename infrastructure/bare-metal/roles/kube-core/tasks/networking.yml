@@ -102,4 +102,4 @@
 
   tags:
     - kubernetes
-    - kubernetes::errorpages
+    - kubernetes::error-pages

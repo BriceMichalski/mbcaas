@@ -5,6 +5,8 @@ namespaces:
     system: true
   kube-storage:
     system: true
+  kube-monitor:
+    system: true
   default:
     quotas:
       requests:

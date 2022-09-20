@@ -1,5 +1,0 @@
-{
-    "yaml.schemas": {
-        "https://json.schemastore.org/helmfile.json": "file:///home/bricemichalski/Project/Github/BriceMichalski/mbcaas/kubernetes/helmfile.yaml"
-    }
-}

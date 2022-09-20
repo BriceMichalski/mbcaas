@@ -5,8 +5,8 @@ namespaceOverride: kube-storage
 persistence:
   defaultClass: true
   defaultFsType: ext4
-  defaultClassReplicaCount: {{ .Values.storage.replicasCount }}
-  defaultDataLocality: {{ .Values.storage.dataPath }}
+  defaultClassReplicaCount: {{ .Values.storage.default.replicasCount }}
+  defaultDataLocality: {{ .Values.storage.default.dataPath }}
 
 csi:
   attacherReplicaCount: 1
@@ -16,15 +16,9 @@ csi:
 
 ingress:
   enabled: true
-  ingressClassName: "traefik"
   host: {{ .Values.dns.longhorn }}
 
   tls: true
   tlsSecret: "longhorn-dashoard-tls"
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: "kube-network-common@kubernetescrd"
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    {{- if eq .Values.envType "production" }}
-    external-dns.alpha.kubernetes.io/target: "{{ .Value.dns.target }}"
-    cert-manager.io/cluster-issuer: letsencrypt
-    {{- end }}
+    {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}

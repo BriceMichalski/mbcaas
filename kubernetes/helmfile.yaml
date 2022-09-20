@@ -13,11 +13,19 @@ helmDefaults:
   force: false
   createNamespace: false
 
+templates:
+  default: &default
+    missingFileHandler: Warn
+    installedTemplate:  "{{`{{ .Values.releases.installed | get .Release.Name }}`}}"
+    version: "{{`{{ .Values.releases.version | get .Release.Name }}`}}"
+    values:
+      - modules/{{`{{ .Release.Name }}`}}.gotmpl
+
 repositories:
   - name: traefik
     url: https://helm.traefik.io/traefik
 
-  - name: jetstack 
+  - name: jetstack
     url: https://charts.jetstack.io
 
   - name: k8s-at-home
@@ -26,44 +34,36 @@ repositories:
   - name: longhorn
     url: https://charts.longhorn.io
 
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
 
 releases:
   - name: cert-manager
     namespace: kube-network
     chart: jetstack/cert-manager
-    version: {{ .Values.charts.version.certManager }}
-    installed: {{ .Values.charts.installed.certManager }}
-    values:
-      - modules/cert-manager.gotmpl
+    <<: *default
 
   - name: traefik
     namespace: kube-network
     chart: traefik/traefik 
-    version: {{ .Values.charts.version.traefik }}
-    installed: {{ .Values.charts.installed.traefik }}
-    values:
-      - modules/traefik.gotmpl
+    <<: *default
 
   - name: error-pages
     namespace: kube-network
     chart: k8s-at-home/error-pages
-    version: {{ .Values.charts.version.errorPages }}
-    installed: {{ .Values.charts.installed.errorPages }}
-    values: 
-      - modules/error-pages.gotmpl
+    <<: *default
 
   - name: network-config
     namespace: kube-network
     chart: ./charts/network-config
-    version: 1.0.0
-    installed: {{ .Values.charts.installed.networkConfig }}
-    values:
-      - modules/network-config.gotmpl
+    <<: *default
 
   - name: longhorn
     namespace: kube-storage
     chart: longhorn/longhorn
-    version: {{ .Values.charts.version.longhorn }}
-    installed: {{ .Values.charts.installed.longhorn }}
-    values:
-      - modules/longhorn.gotmpl
+    <<: *default
+
+  - name: prometheus-stack
+    namespace: kube-monitor
+    chart: prometheus-community/kube-prometheus-stack
+    <<: *default

@@ -6,6 +6,6 @@ traefik:
 
 whoami:
   url: {{ .Values.dns.whoami }}
-  imageVersion: {{ .Values.softs.versions.whoami }}
+  imageVersion: {{ .Values.apps.version.whoami }}
   quotas: 
     {{- toYaml .Values.quotas.whoami | nindent 4 }}
