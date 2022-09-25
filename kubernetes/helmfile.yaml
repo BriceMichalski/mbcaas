@@ -6,6 +6,8 @@ environments:
     values:
       - envs/commons.yml
       - envs/{{ . }}/env.yml
+    secrets:
+      - envs/secrets.sops.yml
 {{- end }}
 
 helmDefaults:

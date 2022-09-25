@@ -44,6 +44,7 @@ alertmanager:
 
 grafana:
   defaultDashboardsTimezone: Europe/Paris
+  adminPassword: {{ .Values.secrets.grafana.adminPassword }}
   env:
     GF_SECURITY_COOKIE_SAMESITE: disabled
   ingress:
@@ -54,7 +55,6 @@ grafana:
     labels: {}
     hosts:
       - {{ .Values.dns.grafana }}
-
     ## Path for grafana ingress
     path: /
     tls:

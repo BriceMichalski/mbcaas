@@ -1,8 +1,16 @@
-*.retry
+# Ansible Role
 **/roles/*.*
-*.vault
-kubeconfig
-token
+
+# Vagrant
 .vagrant
 vagrant-settings.yml
+
+
+# Sops
+**/.decrypted*.yaml
+
+# Kube
+kubeconfig
+
+# Python
 __pycache__

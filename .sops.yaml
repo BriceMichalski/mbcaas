@@ -1,0 +1,5 @@
+---
+creation_rules:
+  - path_regex: kubernetes/envs/secrets.sops.yml
+    age: >-
+      age1mca6v8dp928affujurk4v84czk4mdstlvjtfk43apqy2kcxtvy5qmtt4h6
