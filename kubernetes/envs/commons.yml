@@ -23,6 +23,15 @@ apps:
     whoami: v1.8.6
     alertManager: v0.24.0
 
+dns:
+  target: ipv4.mbcaas.com
+  traefik: router.mbcaas.com
+  whoami: whoami.mbcaas.com
+  errorPages: error.mbcaas.com
+  longhorn: storage.mbcaas.com
+  alertManager: alert.mbcaas.com
+  grafana: grafana.mbcaas.com
+
 quotas:
   traefik:
     requests:
@@ -38,11 +47,3 @@ quotas:
     limits:
       memory: 100Mi
       cpu: 200m
-
-dns:
-  target: ipv4.mbcaas.com
-  traefik: router.mbcaas.com
-  whoami: whoami.mbcaas.com
-  errorPages: error.mbcaas.com
-  longhorn: storage.mbcaas.com
-  alertManager: alert.mbcaas.com

@@ -30,7 +30,7 @@ defaultRules:
     prometheus: true
     prometheusOperator: true
 
-alertmanagerSpec:
+alertmanager:
   image:
     tag: {{ .Values.apps.version.alertManager }}
   logFormat: json
@@ -41,3 +41,23 @@ alertmanagerSpec:
       {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
     hosts:
       - {{ .Values.dns.alertManager }}
+
+grafana:
+  defaultDashboardsTimezone: Europe/Paris
+  env:
+    GF_SECURITY_COOKIE_SAMESITE: disabled
+  ingress:
+    enabled: true
+    annotations:
+      {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
+
+    labels: {}
+    hosts:
+      - {{ .Values.dns.grafana }}
+
+    ## Path for grafana ingress
+    path: /
+    tls:
+      - secretName: grafana-general-tls
+        hosts:
+          - {{ .Values.dns.grafana }}
