@@ -31,10 +31,13 @@ repositories:
     url: https://charts.jetstack.io
 
   - name: k8s-at-home
-    url: https://k8s-at-home.com/charts/
+    url: https://k8s-at-home.com/charts
 
   - name: longhorn
     url: https://charts.longhorn.io
+
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
 
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
@@ -63,6 +66,11 @@ releases:
   - name: longhorn
     namespace: kube-storage
     chart: longhorn/longhorn
+    <<: *default
+
+  - name: loki
+    namespace: kube-monitor
+    chart: grafana/loki
     <<: *default
 
   - name: prometheus-stack

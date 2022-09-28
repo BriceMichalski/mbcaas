@@ -22,6 +22,7 @@ apps:
     errorPages: 2.18.0
     whoami: v1.8.6
     alertManager: v0.24.0
+    grafana: 8.3.3
 
 dns:
   target: ipv4.mbcaas.com
