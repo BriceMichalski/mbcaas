@@ -7,7 +7,7 @@ environments:
       - envs/commons.yml
       - envs/{{ . }}/env.yml
     secrets:
-      - envs/secrets.sops.yml
+      - envs/secrets.sops.yaml
 {{- end }}
 
 helmDefaults:
@@ -68,9 +68,9 @@ releases:
     chart: longhorn/longhorn
     <<: *default
 
-  - name: loki
+  - name: loki-stack
     namespace: kube-monitor
-    chart: grafana/loki
+    chart: grafana/loki-stack
     <<: *default
 
   - name: prometheus-stack

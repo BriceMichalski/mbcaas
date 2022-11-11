@@ -6,12 +6,10 @@
 kubernetes_version: "1.23"
 k9s_version: "v0.26.3"
 
-
 # external_dns_version: "v0.10.2"
 # cert_manager_version: "v1.6.1"
 # longhorn_version: "1.2.3"
 # db_operator_version: "0.8.2" # failed with 1.0.0
-# 
 
 #######################
 #     Kubernetes      #
@@ -19,6 +17,9 @@ k9s_version: "v0.26.3"
 
 kubernetes_allow_pods_on_master: true
 kubernetes_enable_web_ui: false
+
+# Quick hack cf https://github.com/geerlingguy/ansible-role-kubernetes/issues/130
+kubernetes_flannel_manifest_file_rbac: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
 kubernetes_config_cluster_configuration:
   networking:
@@ -30,7 +31,7 @@ kubernetes_config_cluster_configuration:
     certSANs:
       - "{{ ansible_default_ipv4.address }}"
       - "{{ ansible_host }}"
-      - "kapi.mbcaas.com"
+      - "api.mbcaas.com"
     timeoutForControlPlane: 4m0s
 
 
