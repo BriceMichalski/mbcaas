@@ -55,3 +55,22 @@ grafana:
       {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
     hosts:
       - {{ .Values.dns.grafana }}
+  additionalDatasources:
+    - name: Loki
+      type: loki
+      isDefault: false
+      access: proxy
+      url: http://loki.kube-monitor.svc.cluster.local:3100
+      version: 1
+
+prometheus:
+  prometheusSpec:
+    retention: {{ .Values.prometheus.retention }}
+    volumeClaimTemplate:
+      spec:
+        storageClassName: longhorn
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.prometheus.storage }}
+      selector: {}

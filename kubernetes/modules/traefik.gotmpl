@@ -20,10 +20,10 @@ service:
 
 logs:
   general:
-    format: json
+    format: common
     level: "{{ .Values.traefik.logs.general.level }}"
   access:
-    format: json
+    format: common
     enabled: true
 
 ingressClass:

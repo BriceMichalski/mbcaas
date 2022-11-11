@@ -17,7 +17,6 @@ csi:
 ingress:
   enabled: true
   host: {{ .Values.dns.longhorn }}
-
   tls: true
   tlsSecret: "longhorn-dashoard-tls"
   annotations:
