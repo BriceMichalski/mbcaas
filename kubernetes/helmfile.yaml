@@ -69,6 +69,11 @@ releases:
     chart: longhorn/longhorn
     <<: *default
 
+  - name: storage-config
+    namespace: kube-storage
+    chart: ./charts/storage-config
+    <<: *default
+
   - name: loki-stack
     namespace: kube-monitor
     chart: grafana/loki-stack
