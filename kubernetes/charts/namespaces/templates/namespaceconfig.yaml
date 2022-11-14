@@ -1,0 +1,12 @@
+{{- $root := .Values -}}
+{{- range .Values.namespaces }}
+{{- $ns := . -}}
+{{ include "config.mess" (dict "root" $root "ns" $ns) }}
+---
+{{ include "config.namespace" (dict "root" $root "ns" $ns) }}
+{{- if not $ns.disableQuotas }}
+---
+{{ include "config.resourcequota" (dict "root" $root "ns" $ns) }}
+{{- end }}
+
+{{- end }}

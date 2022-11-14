@@ -9,9 +9,5 @@ roles:
   - name: geerlingguy.kubernetes
     version: 7.1.1
 
-collections:
-  - name: community.general
-    version: 3.4.0
-
-  - name: community.kubernetes
-    version: 2.0.1
+  - name: geerlingguy.nfs
+    version: 2.0.0

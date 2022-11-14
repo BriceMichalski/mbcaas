@@ -1,0 +1,16 @@
+{{- define "config.namespace" -}}
+{{- $ns := .ns }}
+{{- $root := .root }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $ns.name }}
+  labels:
+    kubernetes.io/metadata.name: {{ $ns.name }}
+    name: {{ $ns.name }}
+    {{- if hasKey $ns "system" }}
+    system-namespace: "{{ $ns.system }}"
+    {{ else }}
+    system-namespace: "false"
+    {{ end }}
+{{- end -}}

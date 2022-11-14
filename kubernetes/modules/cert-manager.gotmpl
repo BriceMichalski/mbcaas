@@ -1,2 +1,4 @@
 ---
 installCRDs: true
+resources:
+  {{ toYaml .Values.quotas.certmanager | nindent 2}}

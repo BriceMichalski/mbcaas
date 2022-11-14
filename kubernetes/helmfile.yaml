@@ -6,6 +6,7 @@ environments:
     values:
       - envs/commons.yml
       - envs/{{ . }}/env.yml
+      - envs/{{ . }}/quotas.yml
     secrets:
       - envs/secrets.sops.yaml
 {{- end }}

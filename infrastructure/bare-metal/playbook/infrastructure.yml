@@ -35,6 +35,15 @@
     - kubernetes
     - kubernetes::cluster
 
+- hosts: nfs
+  gather_facts: false
+  name: Raw Kubernetes cluster
+  become: true
+  roles:
+    - geerlingguy.nfs
+  tags:
+    - nfs
+
 - hosts: kmaster
   gather_facts: false
   name: Install k9s

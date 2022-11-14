@@ -1,0 +1,18 @@
+---
+{{ $envs := list "dev" "prod" }}
+environments:
+{{- range $envs }}
+  {{ . }}:
+{{- end }}
+
+helmDefaults:
+  timeout: 600
+  force: false
+  createNamespace: false
+
+releases:
+  - name: namespace
+    chart: ../charts/namespaces
+    values:
+      - envs/{{ $.Environment.Name }}/default.yaml
+      - envs/{{ $.Environment.Name }}/namespaces.yaml

@@ -6,7 +6,10 @@ persistence:
   defaultClass: true
   defaultFsType: ext4
   defaultClassReplicaCount: {{ .Values.storage.default.replicasCount }}
-  defaultDataLocality: {{ .Values.storage.default.dataPath }}
+
+defaultSettings:
+  backupTarget: nfs://{{ .Values.storage.backup.target }}:{{ .Values.storage.backup.path }}
+  defaultDataPath: {{ .Values.storage.default.dataPath }}
 
 csi:
   attacherReplicaCount: 1
@@ -21,3 +24,7 @@ ingress:
   tlsSecret: "longhorn-dashoard-tls"
   annotations:
     {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
+
+
+resources:
+  {{ toYaml .Values.quotas.longhorn | nindent 2}}

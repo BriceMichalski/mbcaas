@@ -1,0 +1,26 @@
+{{- define "config.resourcequota" -}}
+{{- $ns := .ns }}
+{{- $root := .root }}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ $ns.name }}-quota
+  namespace: {{ $ns.name }}
+spec:
+  hard:
+  {{- if hasKey $ns "quotas" }}
+    requests.cpu: {{ $ns.quotas.requests.cpu }}
+    requests.memory: {{ $ns.quotas.requests.memory }}
+    limits.cpu: {{ $ns.quotas.limits.cpu }}
+    limits.memory: {{ $ns.quotas.limits.memory }}
+    requests.storage: {{ $ns.quotas.limits.storage }}
+    persistentvolumeclaims: {{ $ns.quotas.limits.pvcs }}
+  {{ else }}
+    requests.cpu: {{ $root.default.quotas.requests.cpu }}
+    requests.memory: {{ $root.default.quotas.requests.memory }}
+    limits.cpu: {{ $root.default.quotas.limits.cpu }}
+    limits.memory: {{ $root.default.quotas.limits.memory }}
+    requests.storage: {{ $root.default.quotas.limits.storage }}
+    persistentvolumeclaims: {{ $root.default.quotas.limits.pvcs }}
+  {{ end }}
+{{- end -}}
