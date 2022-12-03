@@ -18,3 +18,12 @@ namespaces:
 
   - name: kube-monitor
     system: true
+    quotas:
+      requests:
+        memory: 1400Mi
+        cpu: 2
+      limits:
+        memory: 2200Mi
+        cpu: 2400m
+        pvcs: 5
+        storage: 3Gi

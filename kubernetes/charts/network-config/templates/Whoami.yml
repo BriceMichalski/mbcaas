@@ -79,7 +79,7 @@ spec:
     spec:
       serviceAccountName: whoami
       containers:
-        - name: network-config
+        - name: whoami
           image: "traefik/whoami:{{ .Values.whoami.imageVersion }}"
           imagePullPolicy: IfNotPresent
           ports:

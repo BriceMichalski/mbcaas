@@ -4,13 +4,20 @@ image:
   name: traefik
   tag: {{ .Values.apps.version.traefik }}
 
+deployment:
+  podAnnotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/path: '/metrics'
+    prometheus.io/port: '9100'
+    prometheus.io/scheme: 'http'
+
 ports:
-    web:
-      redirectTo: websecure
-    websecure:
-      nodePort: 30443
-      tls:
-        enabled: {{ .Values.traefik.websecure.tls }}
+  web:
+    redirectTo: websecure
+  websecure:
+    nodePort: 30443
+    tls:
+      enabled: {{ .Values.traefik.websecure.tls }}
 
 service:
   enabled: true

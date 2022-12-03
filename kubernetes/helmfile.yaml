@@ -83,3 +83,8 @@ releases:
     namespace: kube-monitor
     chart: prometheus-community/kube-prometheus-stack
     <<: *default
+
+  - name: monitor-config
+    namespace: kube-monitor
+    chart: ./charts/monitor-config
+    <<: *default

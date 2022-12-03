@@ -10,6 +10,7 @@ releases:
     storage-config: 1.1.0
     loki-stack: 2.7.0
     prometheus-stack: 40.1.0
+    monitor-config: 1.0.0
   installed:
     traefik: true
     cert-manager: true
@@ -19,6 +20,7 @@ releases:
     storage-config: true
     loki-stack: true
     prometheus-stack: true
+    monitor-config: true
 
 apps:
   version:
@@ -37,3 +39,4 @@ dns:
   longhorn: storage.mbcaas.com
   alertManager: alert.mbcaas.com
   grafana: grafana.mbcaas.com
+  prometheus: prometheus.mbcaas.com

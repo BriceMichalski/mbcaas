@@ -1,7 +1,16 @@
 ---
 
-persistence:
-  enabled: true
-  accessModes:
-  - ReadWriteOnce
-  size: 10Gi
+loki:
+  persistence:
+    enabled: true
+    accessModes:
+    - ReadWriteOnce
+    size: {{ .Values.monitor.logs.storage }}
+    storageClassName: {{ .Values.monitor.logs.storageClass }}
+
+  resources:
+    {{ toYaml .Values.quotas.loki | nindent 4 }}
+
+promtail:
+  resources:
+    {{ toYaml .Values.quotas.promtail | nindent 4 }}
