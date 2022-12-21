@@ -3,6 +3,12 @@ creation_rules:
   - path_regex: kubernetes/envs/secrets.sops.yaml
     age: >-
       age1era3hzg0t8susnx9k2eldx54nfz3rnzm5g9etmnvww06s0uj3gjqqxwg92
-  - path_regex: kubernetes/envs/.*/secrets.sops.yaml
+
+  - path_regex: kubernetes/envs/dev/secrets.yaml
+    age: >-
+      age1era3hzg0t8susnx9k2eldx54nfz3rnzm5g9etmnvww06s0uj3gjqqxwg92,
+      age1esy3q6tfujl43w3l887lwyr2g0h25ypc0glwhaeprdtztcndxs6qqstvu5
+
+  - path_regex: kubernetes/envs/prod/secrets.sops.yaml
     age: >-
       age1era3hzg0t8susnx9k2eldx54nfz3rnzm5g9etmnvww06s0uj3gjqqxwg92
