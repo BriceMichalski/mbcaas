@@ -34,7 +34,7 @@ jobs:
         env:
           VALIDATE_MARKDOWN: true
           VALIDATE_YAML: true
-          FILTER_REGEX_EXCLUDE: "kubernetes/.*/templates/.*"
+          FILTER_REGEX_EXCLUDE: "(kubernetes/.*/templates/.*)|(.*secrets.sops.yaml)|(.*helmfile.yaml)"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run helmfile lint
