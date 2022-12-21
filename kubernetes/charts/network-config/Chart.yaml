@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: network-config
 description: Apply network configuration to my cluster

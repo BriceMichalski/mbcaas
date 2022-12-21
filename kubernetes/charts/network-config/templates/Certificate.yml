@@ -1,5 +1,5 @@
-{{- if eq .Values.envType "production" }}
 ---
+{{- if eq .Values.envType "production" }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:

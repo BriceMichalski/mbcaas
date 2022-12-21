@@ -1,4 +1,4 @@
-
+---
 envType: "sandbox"
 url: "dashboard.foo.com"
 ipWhitelist:

@@ -3,7 +3,7 @@
   become: true
   block:
     - debug:
-        msg: "Create partition {{ partition.device }}{{ partition.number }} with start at {{ partition.start }}{{ partitions_unit }} and end at {{ partition.start + partition.size }}{{ partitions_unit }}"
+        msg: "Create partition {{ partition.device }}{{ partition.number }} from {{ partition.start }}{{ partitions_unit }} to {{ partition.start + partition.size }}{{ partitions_unit }}"
 
     - name: Partitions formatting
       parted:

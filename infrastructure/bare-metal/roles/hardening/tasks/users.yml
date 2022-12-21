@@ -10,7 +10,7 @@
       state: present
 
   - name: 'Create user accounts'
-    ansible.builtin.user :
+    ansible.builtin.user:
       name: "{{ user.key }}"
       append: true
       group: "{{ user.value.group }}"
@@ -19,7 +19,7 @@
       state: 'present'
       home: "/home/{{ user.key }}"
       shell: "/bin/bash"
-  
+
   - name: "Force home owner"
     ansible.builtin.file:
       path: "/home/{{ user.key }}"

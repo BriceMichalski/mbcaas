@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: monitor-config
 description: Apply monitoring configuration to my cluster
