@@ -1,7 +1,9 @@
 ---
 #######################
-#     Usual tips      #
+#      Main Vars      #
 #######################
+cluster_admin: brice_michalski
+
 usual_apt_package:
   - git
   - jq

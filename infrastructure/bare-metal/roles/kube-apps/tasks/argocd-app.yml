@@ -1,9 +1,0 @@
----
-- name: "{{ argoapp.name | upper }} CREATE | Argocd applications"
-  kubernetes.core.k8s:
-    state: present
-    apply: yes
-    definition: "{{ lookup('template', 'argocd/application.yml.j2') }}"
-  loop: "{{ argoapp.branches }}"
-  loop_control:
-    loop_var: argobranch

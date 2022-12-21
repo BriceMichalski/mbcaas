@@ -2,4 +2,4 @@
 #######################
 #      Main vars      #
 #######################
-production_environment: false
+env: dev

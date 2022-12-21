@@ -4,23 +4,29 @@
   block:
     - name: Create .kube folder in home
       file:
-        path: "/home/{{ item }}/.kube"
+        path: "/home/{{ cluster_admin }}/.kube"
         state: directory
-        owner: "{{ item }}"
-        group: "{{ item }}"
+        owner: "{{ cluster_admin }}"
+        group: "{{ cluster_admin }}"
         mode: 0700
 
     - name: Copy root kubeconfig file
       copy:
         src: /root/.kube/config
-        dest: "/home/{{ item }}/.kube/config"
+        dest: "/home/{{ cluster_admin }}/.kube/config"
         remote_src: yes
-        owner: "{{ item }}"
-        group: "{{ item }}"
+        owner: "{{ cluster_admin }}"
+        group: "{{ cluster_admin }}"
         mode: 0600
 
     - name: Set KUBECONFIG env var in .bashrc
       lineinfile:
-        path: "/home/{{ item }}/.bashrc"
+        path: "/home/{{ cluster_admin }}/.bashrc"
         regexp: "^export KUBECONFIG="
-        line: "export KUBECONFIG=/home/{{ item }}/.kube/config"
+        line: "export KUBECONFIG=/home/{{ cluster_admin }}/.kube/config"
+
+    - name: Fetch kubeconfig
+      ansible.builtin.fetch:
+        src: "/root/.kube/config"
+        dest: "../../../kubeconfig-{{ env }}"
+        flat: yes

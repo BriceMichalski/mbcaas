@@ -2,5 +2,4 @@
 #######################
 #      Main vars      #
 #######################
-
-production_environment: true
+env: prod
