@@ -776,7 +776,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
+        "uid": "loki"
       },
       "fieldConfig": {
         "defaults": {
@@ -849,7 +849,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
+            "uid": "loki"
           },
           "expr": "sum without(filename,pod)(rate({namespace=\"$NS\",container=\"$APP\",pod=~\"$POD\"}[$__interval]))",
           "instant": false,
@@ -866,7 +866,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
+        "uid": "loki"
       },
       "gridPos": {
         "h": 15,
@@ -890,7 +890,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
+            "uid": "loki"
           },
           "expr": "{namespace=\"$NS\",container=\"$APP\",pod=~\"$POD\"}",
           "refId": "A"

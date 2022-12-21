@@ -10,7 +10,7 @@ vagrant-settings.yml
 **/.decrypted*.yaml
 
 # Kube
-kubeconfig
+kubeconfig*
 
 # Python
 __pycache__

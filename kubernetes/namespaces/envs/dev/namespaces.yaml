@@ -4,13 +4,13 @@ namespaces:
     system: true
     quotas:
       requests:
-        memory: 200Mi
-        cpu: 200m
+        memory: 300Mi
+        cpu: 300m
       limits:
-        memory: 400Mi
-        cpu: 400m
+        memory: 500Mi
+        cpu: 500m
         pvcs: 5
-        storage: 100Mi
+        storage: 200Mi
 
   - name: kube-storage
     system: true
@@ -23,7 +23,7 @@ namespaces:
         memory: 1400Mi
         cpu: 2
       limits:
-        memory: 2200Mi
-        cpu: 2400m
+        memory: 3Gi
+        cpu: 3
         pvcs: 5
         storage: 3Gi

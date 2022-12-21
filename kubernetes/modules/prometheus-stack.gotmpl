@@ -4,31 +4,31 @@ defaultRules:
   create: true
   rules:
     alertmanager: true
-    etcd: false
+    etcd: true
     configReloaders: true
     general: true
     k8s: true
-    kubeApiserverAvailability: false
-    kubeApiserverBurnrate: false
-    kubeApiserverHistogram: false
-    kubeApiserverSlos: false
-    kubeControllerManager: false
-    kubelet: false
-    kubeProxy: false
-    kubePrometheusGeneral: false
-    kubePrometheusNodeRecording: false
-    kubernetesApps: false
+    kubeApiserverAvailability: true
+    kubeApiserverBurnrate: true
+    kubeApiserverHistogram: true
+    kubeApiserverSlos: true
+    kubeControllerManager: true
+    kubelet: true
+    kubeProxy: true
+    kubePrometheusGeneral: true
+    kubePrometheusNodeRecording: true
+    kubernetesApps: true
     kubernetesResources: true
     kubernetesStorage: true
     kubernetesSystem: true
-    kubeSchedulerAlerting: false
-    kubeSchedulerRecording: false
-    kubeStateMetrics: false
+    kubeSchedulerAlerting: true
+    kubeSchedulerRecording: true
+    kubeStateMetrics: true
     network: true
     node: true
-    nodeExporterAlerting: false
-    nodeExporterRecording: false
-    prometheus: false
+    nodeExporterAlerting: true
+    nodeExporterRecording: true
+    prometheus: true
     prometheusOperator: false
 
 alertmanager:
@@ -49,7 +49,33 @@ alertmanager:
         resources:
           requests:
             storage: {{ .Values.monitor.alert.storage }}
-
+  config:
+    route:
+      group_by: ['...']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'telegram'
+      routes:
+      - receiver: 'null'
+        matchers:
+          - alertname =~ "InfoInhibitor|Watchdog"
+      - receiver: 'telegram'
+        matchers:
+          - severity =~ "warning|error"
+    receivers:
+      - name: 'null'
+      - name: telegram
+        telegram_configs:
+          - api_url: "https://api.telegram.org"
+            bot_token: {{ .Values.secrets.telegram.alertbot.token }}
+            chat_id: {{ .Values.secrets.telegram.alertbot.chatid }}
+            message: |-
+              {{` {{ template "telegram.alert.mbcaas" . }} `}}
+            parse_mode: HTML
+  templateFiles:
+    alertmanager-alert-template.tmpl: |-
+      {{ readFile "files/alertmanager-alert-template.tmpl" | nindent 6 }}
   alertmanagerSpec:
     resources:
       {{ toYaml .Values.quotas.alertmanager | nindent 6 }}
@@ -76,7 +102,8 @@ grafana:
   additionalDataSources:
     - name: Loki
       type: loki
-      isDefault: false
+      uid: loki
+      isDefault: False
       access: proxy
       url: http://loki-stack:3100
       version: 1
@@ -108,7 +135,6 @@ prometheus:
           resources:
             requests:
               storage: {{ .Values.monitor.metrics.storage }}
-
     resources:
       {{ toYaml .Values.quotas.prometheus | nindent 6 }}
     additionalScrapeConfigs:
@@ -128,7 +154,7 @@ prometheus:
             regex: (.+)
           - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
             action: replace
-            regex: ([^:]+)(?::\\d+)?;(\\d+)
+            regex: ([^:]+)(?::\d+)?;(\d+)
             replacement: $1:$2
             target_label: __address__
           - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]

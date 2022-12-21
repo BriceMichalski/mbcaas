@@ -1,0 +1,56 @@
+{{ define "title.alert.mbcaas" -}}
+{{- if eq .Labels.severity "critical"}}
+<b>❌ CRITICAL ❌</b>
+{{- else if eq .Labels.severity "warning"}}
+<b>⚠️ WARNING ⚠️</b>
+{{- else if eq .Labels.severity "info"}}
+<b>ℹ️ INFO ℹ️</b>
+{{- else }}
+<b>❔ {{ .Labels.severity | toUpper }} ❔</b>
+{{- end -}}
+{{- end -}}
+
+
+
+
+{{ define "default.template" }}
+{{ range .Alerts }}
+{{ range .Labels.SortedPairs }} - {{ .Name }} = {{ .Value }}
+{{ end }}Annotations:
+{{ range .Annotations.SortedPairs }} - {{ .Name }} = {{ .Value }}
+{{ end }}Source: {{ .GeneratorURL }}
+{{end}}
+{{end}}
+
+
+
+
+
+{{ define "telegram.alert.mbcaas" }}
+{{ range .Alerts.Firing }}
+{{ template "title.alert.mbcaas" . }}
+
+<u><b>{{ .Labels.alertname | title }}</b></u>
+<b>{{ .Annotations.summary }}</b>
+
+<b>NS:</b> {{ .Labels.namespace }}
+<b>Start:</b> {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+
+<i>{{ .Annotations.description }}</i>
+
+<a href="{{ .Annotations.runbook_url}}">RUNBOOK</a>
+{{ end }}
+
+{{ range .Alerts.Resolved }}
+<b>✅ {{ .Labels.severity | toUpper }} - RESOLVED ✅</b>
+
+<u><b>{{ .Labels.alertname | title }}</b></u>
+<b>{{ .Annotations.summary }}</b>
+
+<b>NS:</b> {{ .Labels.namespace }}
+<b>Start:</b> {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+<b>End:</b> {{ .EndsAt.Format "2006-01-02 15:04:05" }}
+
+<i>{{ .Annotations.description }}</i>
+{{ end }}
+{{ end }}

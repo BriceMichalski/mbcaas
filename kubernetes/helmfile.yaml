@@ -9,6 +9,7 @@ environments:
       - envs/{{ . }}/quotas.yml
     secrets:
       - envs/secrets.sops.yaml
+      - envs/{{ . }}/secrets.sops.yaml
 {{- end }}
 
 helmDefaults:
