@@ -35,7 +35,6 @@ jobs:
           VALIDATE_MARKDOWN: true
           VALIDATE_YAML: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          YAML_CONFIG_FILE: '.yamllint'
 
       - name: Run helmfile lint
         working-directory: kubernetes
