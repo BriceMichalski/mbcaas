@@ -1,7 +1,7 @@
 ---
 {{ $envs := list "dev" "prod" }}
 environments:
-{{- range $envs }}
+  {{- range $envs }}
   {{ . }}:
     values:
       - envs/commons.yml
@@ -10,7 +10,7 @@ environments:
     secrets:
       - envs/secrets.sops.yaml
       - envs/{{ . }}/secrets.sops.yaml
-{{- end }}
+  {{- end }}
 
 helmDefaults:
   timeout: 600

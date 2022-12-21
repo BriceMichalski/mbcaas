@@ -1,4 +1,6 @@
-# Home
+# MBCaaS
+
+[![Continuous Integration](https://github.com/BriceMichalski/mbcaas/actions/workflows/ci.yml/badge.svg)](https://github.com/BriceMichalski/mbcaas/actions/workflows/ci.yml)
 
 Ansible project for my home kubernetes.
 

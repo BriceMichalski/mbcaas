@@ -11,11 +11,6 @@ jobs:
       - name: Age Binary Installer
         uses: adnsio/setup-age-action@v1.2.0
 
-      - name: Dump Age key in file
-        run: 'echo "$AGE_KEY" > agekey.txt'
-        env:
-          AGE_KEY: ${{secrets.AGE_KEY}}
-
       - name: Sops Binary Installer
         uses: mdgreenwald/mozilla-sops-action@v1.4.0
 
@@ -40,6 +35,6 @@ jobs:
       - name: Run helmfile lint
         working-directory: kubernetes
         env:
-          SOPS_AGE_KEY_FILE: agekey.txt
+          SOPS_AGE_KEY: ${{secrets.AGE_KEY}}
         run: |
           helmfile -e dev lint
