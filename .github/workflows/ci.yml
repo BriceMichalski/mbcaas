@@ -7,8 +7,6 @@ jobs:
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
-
-
     steps:
       - name: Age Binary Installer
         uses: adnsio/setup-age-action@v1.2.0
@@ -37,7 +35,7 @@ jobs:
           VALIDATE_MARKDOWN: true
           VALIDATE_YAML: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          YAML_CONFIG_FILE: '.yaml-lint.yml'
+          YAML_CONFIG_FILE: '.yamllint'
 
       - name: Run helmfile lint
         working-directory: kubernetes
