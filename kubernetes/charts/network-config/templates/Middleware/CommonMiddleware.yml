@@ -7,5 +7,5 @@ spec:
   chain:
     middlewares:
     - name: public-ip-whitelist
-    - name: errors-handler
+    # - name: errors-handler
     - name: x-forwarded-proto

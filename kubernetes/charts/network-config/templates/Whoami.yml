@@ -21,6 +21,8 @@ metadata:
     app.kubernetes.io/instance: whoami
     app.kubernetes.io/version: "{{ .Values.whoami.imageVersion }}"
     app.kubernetes.io/managed-by: Helm
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   rules:
     - host: "{{ .Values.whoami.url }}"

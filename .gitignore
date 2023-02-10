@@ -3,8 +3,6 @@
 
 # Vagrant
 .vagrant
-vagrant-settings.yml
-
 
 # Sops
 **/.decrypted*.yaml
@@ -14,3 +12,8 @@ kubeconfig*
 
 # Python
 __pycache__
+
+# Custom
+vagrant-settings.yml
+test.sh
+.envrc

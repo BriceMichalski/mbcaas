@@ -12,7 +12,6 @@ helmDefaults:
 
 releases:
   - name: namespace
-    chart: ../charts/namespaces
+    chart: ./charts/namespaces
     values:
-      - envs/{{ $.Environment.Name }}/default.yaml
       - envs/{{ $.Environment.Name }}/namespaces.yaml

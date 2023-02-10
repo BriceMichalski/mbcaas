@@ -6,4 +6,5 @@ metadata:
   namespace: "kube-network"
 spec:
   ipWhiteList:
-    sourceRange: {{ .Values.traefik.ipWhitelist }}
+    sourceRange:
+    {{- .Values.traefik.ipWhitelist | toYaml | nindent 6 }}

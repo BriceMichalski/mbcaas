@@ -3,22 +3,14 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: traefik-dashboard
-{{- if eq .Values.envType "production" }}
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
-{{- end }}
 spec:
   entryPoints:
     - websecure
-{{- if eq .Values.envType "production" }}
-  tls:
-    secretName: 'traefik-dashboard-tls'
-{{- end }}
   routes:
     - match: Host(`{{ .Values.traefik.url }}`)
       kind: Rule
       middlewares:
-        - name:  common
+        - name:  admin-basic-auth
           namespace: kube-network
       services:
         - name: api@internal

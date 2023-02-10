@@ -4,11 +4,11 @@ namespaces:
     system: true
     quotas:
       requests:
-        memory: 300Mi
-        cpu: 300m
-      limits:
         memory: 500Mi
         cpu: 500m
+      limits:
+        memory: 800Mi
+        cpu: 800m
         pvcs: 5
         storage: 200Mi
 
@@ -26,4 +26,4 @@ namespaces:
         memory: 3Gi
         cpu: 3
         pvcs: 5
-        storage: 3Gi
+        storage: 30Gi

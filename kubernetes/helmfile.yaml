@@ -29,9 +29,6 @@ repositories:
   - name: traefik
     url: https://helm.traefik.io/traefik
 
-  - name: jetstack
-    url: https://charts.jetstack.io
-
   - name: k8s-at-home
     url: https://k8s-at-home.com/charts
 
@@ -44,11 +41,10 @@ repositories:
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
 
+  # - name: bitnami
+  #   url: https://charts.bitnami.com/bitnami
+
 releases:
-  - name: cert-manager
-    namespace: kube-network
-    chart: jetstack/cert-manager
-    <<: *default
 
   - name: traefik
     namespace: kube-network
@@ -89,3 +85,8 @@ releases:
     namespace: kube-monitor
     chart: ./charts/monitor-config
     <<: *default
+
+  # - name: keycloak
+  #   namespace: kube-auth
+  #   chart: bitnami/keycloak
+  #   <<: *default

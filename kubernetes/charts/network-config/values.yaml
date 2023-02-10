@@ -1,5 +1,23 @@
 ---
+
 envType: "sandbox"
-url: "dashboard.foo.com"
-ipWhitelist:
-  - 192.168.0.0/16
+traefik:
+  url: "traefik.foo.com"
+  ipWhitelist:
+    - 192.168.0.0/16
+
+middleware:
+  basicAuth:
+    user: admin
+    password: password
+
+whoami:
+  url: whoami.foo.com
+  imageVersion: v1.8.6
+  quotas:
+    requests:
+      memory: 50Mi
+      cpu: 50m
+    limits:
+      memory: 100Mi
+      cpu: 100m

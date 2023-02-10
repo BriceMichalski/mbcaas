@@ -8,13 +8,6 @@ quotas:
   # limits:
   #   memory: 400Mi
   #   cpu: 400m
-  certmanager:
-    requests:
-      memory: 0Mi
-      cpu: 0m
-    limits:
-      memory: 0Mi
-      cpu: 0m
   traefik:
     requests:
       memory: 100Mi
@@ -114,3 +107,25 @@ quotas:
     limits:
       memory: 100Mi
       cpu: 100m
+  # kube-auth
+  #
+  # requests:
+  #   memory: 400Mi
+  #   cpu: 400m
+  # limits:
+  #   memory: 750Mi
+  #   cpu: 750m
+  keycloak:
+    requests:
+      memory: 300Mi
+      cpu: 300m
+    limits:
+      memory: 500Mi
+      cpu: 500m
+  authpostgres:
+    requests:
+      memory: 100Mi
+      cpu: 100m
+    limits:
+      memory: 250Mi
+      cpu: 250m

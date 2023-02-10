@@ -21,6 +21,8 @@ REBUILD(){
 }
 
 IAAS(){
+    vagrant destroy -f && vagrant up
+
     cd infrastructure/bare-metal
     ansible-playbook -i inventories/dev/hosts playbook/infrastructure.yml -t hardening::upgrade
     ansible-playbook -i inventories/dev/hosts playbook/infrastructure.yml
@@ -29,8 +31,7 @@ IAAS(){
 
 UP_NS(){
     cd kubernetes
-    cd namespaces
-    helmfile -e dev sync
+    helmfile -f helmfile-ns.yaml -q -e dev sync
     cd ..
 }
 
