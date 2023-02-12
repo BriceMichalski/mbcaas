@@ -8,7 +8,7 @@ ingress:
   main:
     enabled: true
     annotations:
-      {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
+      {{ toYaml .Values.helper.ingress.annotations.common | nindent 6 }}
     hosts:
       - host: {{ .Values.dns.errorPages}}
         paths:

@@ -1,0 +1,16 @@
+---
+
+nameOverride: e-dns-cloudflare
+provider: cloudflare
+policy: sync
+sources:
+  - ingress
+
+cloudflare:
+  apiKey: {{ .Values.secrets.cloudflare.key }}
+  email: {{ .Values.secrets.email }}
+  proxied: true
+
+annotationFilter: "traefik.ingress.kubernetes.io/router.entrypoints=websecure"
+resources:
+  {{- toYaml .Values.quotas.ednscloudflare | nindent 2 }}

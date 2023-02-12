@@ -12,6 +12,7 @@ helmDefaults:
 
 releases:
   - name: namespace
+    namespace: kube-system
     chart: ./charts/namespaces
     values:
       - envs/{{ $.Environment.Name }}/namespaces.yaml

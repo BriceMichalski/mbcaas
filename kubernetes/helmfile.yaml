@@ -41,10 +41,15 @@ repositories:
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
 
-  # - name: bitnami
-  #   url: https://charts.bitnami.com/bitnami
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
 
 releases:
+
+  - name: e-dns-cloudflare
+    namespace: kube-network
+    chart: bitnami/external-dns
+    <<: *default
 
   - name: traefik
     namespace: kube-network

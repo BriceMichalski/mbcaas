@@ -26,4 +26,4 @@ namespaces:
         memory: 3Gi
         cpu: 3
         pvcs: 5
-        storage: 30Gi
+        storage: 110Gi

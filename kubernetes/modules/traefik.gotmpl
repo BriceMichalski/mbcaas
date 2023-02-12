@@ -58,6 +58,7 @@ certResolvers:
     dnschallenge:
       provider: cloudflare
 
+# TODO - Use secrets for CF creds
 env:
   - name: CF_API_EMAIL
     value: {{ .Values.secrets.email }}
@@ -80,10 +81,10 @@ service:
 
 logs:
   general:
-    format: common
+    format: json
     level: "{{ .Values.traefik.logs.general.level }}"
   access:
-    format: common
+    format: json
     enabled: false
 
 ingressClass:

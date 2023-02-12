@@ -22,7 +22,7 @@ metadata:
     app.kubernetes.io/version: "{{ .Values.whoami.imageVersion }}"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    {{- toYaml .Values.whoami.ingress.annotations | nindent 4 }}
 spec:
   rules:
     - host: "{{ .Values.whoami.url }}"

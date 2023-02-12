@@ -1,6 +1,7 @@
 ---
 
 loki:
+  isDefault: false
   persistence:
     enabled: true
     accessModes:
@@ -12,5 +13,10 @@ loki:
     {{ toYaml .Values.quotas.loki | nindent 4 }}
 
 promtail:
+  enabled: true
+  config:
+    snippets:
+      pipelineStages:
+        - cri: {}
   resources:
     {{ toYaml .Values.quotas.promtail | nindent 4 }}

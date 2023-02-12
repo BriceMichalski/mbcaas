@@ -12,6 +12,10 @@ middleware:
 
 whoami:
   url: {{ .Values.dns.whoami }}
+  ingress:
+    annotations:
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
+
   imageVersion: {{ .Values.apps.version.whoami }}
   quotas:
     {{- toYaml .Values.quotas.whoami | nindent 4 }}

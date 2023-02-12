@@ -13,6 +13,8 @@ middleware:
 
 whoami:
   url: whoami.foo.com
+  ingress:
+    annotations: {}
   imageVersion: v1.8.6
   quotas:
     requests:

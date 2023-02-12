@@ -21,4 +21,4 @@ ingress:
   tls: true
   tlsSecret: "longhorn-dashoard-tls"
   annotations:
-    {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
+    {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}

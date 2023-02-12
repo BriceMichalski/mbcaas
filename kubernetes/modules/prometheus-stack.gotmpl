@@ -38,7 +38,7 @@ alertmanager:
   ingress:
     enabled: true
     annotations:
-      {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
     hosts:
       - {{ .Values.dns.alertManager }}
   storage:
@@ -89,24 +89,15 @@ grafana:
   ingress:
     enabled: true
     annotations:
-      {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
     hosts:
       - {{ .Values.dns.grafana }}
   defaultDashboardsTimezone: Europe/Paris
   defaultDashboardsEnabled: false
-  forceDeployDatasources: true
-  adminPassword: {{ .Values.secrets.grafana.adminPassword }}
+  forceDeployDatasources: false
+  adminPassword: {{ .Values.secrets.admin.password }}
   env:
     GF_SECURITY_COOKIE_SAMESITE: disabled
-
-  additionalDataSources:
-    - name: Loki
-      type: loki
-      uid: loki
-      isDefault: False
-      access: proxy
-      url: http://loki-stack:3100
-      version: 1
 
   sidecar:
     resources:
@@ -120,7 +111,7 @@ prometheus:
   ingress:
     enabled: true
     annotations:
-      {{ toYaml .Values.helper.ingress.annotations | nindent 6 }}
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
     hosts:
       - {{ .Values.dns.prometheus }}
 
