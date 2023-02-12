@@ -21,8 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 2,
-  "id": 28,
-  "iteration": 1670007397896,
+  "iteration": 1676213160801,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -492,7 +491,7 @@
       }
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -500,284 +499,11 @@
         "y": 15
       },
       "id": 10,
-      "panels": [
-        {
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "smooth",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "reqps"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 12,
-            "x": 0,
-            "y": 16
-          },
-          "id": 8,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "right"
-            },
-            "tooltip": {
-              "mode": "single"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "exemplar": true,
-              "expr": "sum(rate(traefik_service_requests_total{service=~\"$NS.*$APP.*\"}[1m])) by (code,method)",
-              "interval": "",
-              "legendFormat": "{{ method }} - {{ code }} ",
-              "refId": "A"
-            }
-          ],
-          "title": "Requests Rate",
-          "type": "timeseries"
-        },
-        {
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "bars",
-                "fillOpacity": 100,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "smooth",
-                "lineWidth": 0,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 12,
-            "x": 12,
-            "y": 16
-          },
-          "id": 15,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "right"
-            },
-            "tooltip": {
-              "mode": "single"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "exemplar": true,
-              "expr": "sum(increase(traefik_service_requests_total{service=~\"$NS.*$APP.*\"}[1m])) by (code,method)",
-              "interval": "1m",
-              "legendFormat": "{{ method }} - {{ code }} ",
-              "refId": "A"
-            }
-          ],
-          "title": "Requests Count",
-          "type": "timeseries"
-        },
-        {
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "bars",
-                "fillOpacity": 100,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "smooth",
-                "lineWidth": 0,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 24,
-            "x": 0,
-            "y": 22
-          },
-          "id": 21,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "right"
-            },
-            "tooltip": {
-              "mode": "single"
-            }
-          },
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "exemplar": true,
-              "expr": "increase(traefik_service_request_duration_seconds_sum{service=~\"$NS.*$APP.*\"}[1m]) / increase(traefik_service_request_duration_seconds_count{service=~\"$NS.*$APP.*\"}[1m])",
-              "interval": "1m",
-              "legendFormat": "{{ method }} {{ code }}",
-              "refId": "A"
-            }
-          ],
-          "title": "Average Response Time",
-          "type": "timeseries"
-        }
-      ],
+      "panels": [],
       "title": "Requests",
       "type": "row"
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 16
-      },
-      "id": 14,
-      "panels": [],
-      "title": "Logs",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -787,7 +513,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
+            "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
@@ -795,7 +521,7 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -824,22 +550,23 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 24,
+        "h": 6,
+        "w": 12,
         "x": 0,
-        "y": 17
+        "y": 16
       },
-      "id": 18,
+      "id": 8,
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "right"
         },
         "tooltip": {
           "mode": "single"
@@ -848,19 +575,187 @@
       "targets": [
         {
           "datasource": {
-            "type": "loki",
-            "uid": "loki"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
-          "expr": "sum without(filename,pod)(rate({namespace=\"$NS\",container=\"$APP\",pod=~\"$POD\"}[$__interval]))",
-          "instant": false,
-          "legendFormat": "{{ app }}",
-          "range": true,
-          "refId": "A",
-          "resolution": 3
+          "exemplar": true,
+          "expr": "sum(rate(traefik_service_requests_total{service=~\"$NS.*$APP.*\"}[1m])) by (code,method)",
+          "interval": "",
+          "legendFormat": "{{ method }} - {{ code }} ",
+          "refId": "A"
         }
       ],
-      "title": "Rate",
-      "transparent": true,
+      "title": "Requests Rate",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 0,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(traefik_service_requests_total{service=~\"$NS.*$APP.*\"}[1m])) by (code,method)",
+          "interval": "1m",
+          "legendFormat": "{{ method }} - {{ code }} ",
+          "refId": "A"
+        }
+      ],
+      "title": "Requests Count",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 0,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 21,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "exemplar": true,
+          "expr": "increase(traefik_service_request_duration_seconds_sum{service=~\"$NS.*$APP.*\"}[1m]) / increase(traefik_service_request_duration_seconds_count{service=~\"$NS.*$APP.*\"}[1m])",
+          "interval": "1m",
+          "legendFormat": "{{ method }} {{ code }}",
+          "refId": "A"
+        }
+      ],
+      "title": "Average Response Time",
       "type": "timeseries"
     },
     {
@@ -872,7 +767,7 @@
         "h": 15,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 29
       },
       "id": 16,
       "options": {
@@ -932,8 +827,8 @@
       {
         "current": {
           "selected": true,
-          "text": "prometheus",
-          "value": "prometheus"
+          "text": "loki",
+          "value": "loki"
         },
         "definition": "label_values(kube_pod_container_info{namespace=\"$NS\"}, container)",
         "hide": 0,
@@ -989,6 +884,6 @@
   "timezone": "",
   "title": "Applications",
   "uid": "S6GQXiKVk",
-  "version": 8,
+  "version": 1,
   "weekStart": "monday"
 }
