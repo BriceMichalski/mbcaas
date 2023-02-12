@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+REBUILD(){
+    echo "***************"
+    echo "* Rebuild env *"
+    echo "***************"
+
+    IAAS
+
+    sed -i 's/10\.0\.2\.15/192\.168\.60\.10/g' kubeconfig-dev
+
+    UP_NS
+
+    HSYNCLONGHORN
+
+    HSYNC
+
+    echo "***************"
+    echo "*    Done     *"
+    echo "***************"
+}
+
+IAAS(){
+    vagrant destroy -f && vagrant up
+
+    cd infrastructure/bare-metal
+    ansible-playbook -i inventories/dev/hosts playbook/infrastructure.yml -t hardening::upgrade
+    ansible-playbook -i inventories/dev/hosts playbook/infrastructure.yml
+    cd ../..
+}
+
+UP_NS(){
+    cd kubernetes
+    helmfile -f helmfile-ns.yaml -q -e dev sync
+    cd ..
+}
+
+HSYNCLONGHORN(){
+    cd kubernetes
+    helmfile -e dev -l name=longhorn sync
+    sleep 60
+    cd ..
+}
+
+HSYNC(){
+    cd kubernetes
+    helmfile -e dev sync
+    cd ..
+    sleep 10
+    kubectl get pods --all-namespaces
+}
+
+
+case $1 in
+    "REBUILD")
+        REBUILD
+        ;;
+    "UP_NS")
+        UP_NS
+        ;;
+    "HSYNC")
+        HSYNC
+        ;;
+esac

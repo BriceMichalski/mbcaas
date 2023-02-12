@@ -1,0 +1,14 @@
+mbcaas01-dev
+
+[dev:children]
+knode
+nfs
+
+[knode:children]
+kmaster
+
+[kmaster]
+mbcaas01-dev
+
+[nfs]
+mbcaas01-dev

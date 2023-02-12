@@ -1,0 +1,16 @@
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: hourly-backup
+  namespace: kube-storage
+spec:
+  name: hourly-backup
+  task: backup
+  concurrency: 1
+  cron: 0 * * * *
+  groups:
+    - hourly-backup-group
+  labels:
+    frequency: hourly
+  retain: 48

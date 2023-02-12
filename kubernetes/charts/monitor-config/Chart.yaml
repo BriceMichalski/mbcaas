@@ -1,0 +1,6 @@
+---
+apiVersion: v2
+name: monitor-config
+description: Apply monitoring configuration to my cluster
+type: application
+version: 1.0.0

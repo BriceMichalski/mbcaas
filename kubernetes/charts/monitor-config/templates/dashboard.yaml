@@ -1,0 +1,20 @@
+---
+{{- $files := .Files.Glob "dashboards/*.json" }}
+{{- if $files }}
+apiVersion: v1
+kind: ConfigMapList
+items:
+{{- range $path, $fileContents := $files }}
+{{- $dashboardName := regexReplaceAll "(^.*/)(.*)\\.json$" $path "${2}" }}
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: {{ $dashboardName }}-dashboard-cm
+    namespace: kube-monitor
+    labels:
+      grafana_dashboard: "1"
+      app: kube-prometheus-stack-grafana
+  data:
+    {{ $dashboardName }}.json: {{ $.Files.Get $path | toJson }}
+{{- end }}
+{{- end }}

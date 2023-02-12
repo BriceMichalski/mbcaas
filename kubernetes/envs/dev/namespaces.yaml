@@ -1,0 +1,41 @@
+---
+namespaces:
+  - name: kube-network
+    system: true
+    quotas:
+      requests:
+        memory: 300Mi
+        cpu: 300m
+      limits:
+        memory: 500Mi
+        cpu: 500m
+        pvcs: 5
+        storage: 200Mi
+
+  - name: kube-storage
+    system: true
+    disableQuotas: true
+
+  - name: kube-monitor
+    system: true
+    quotas:
+      requests:
+        memory: 1400Mi
+        cpu: 2
+      limits:
+        memory: 3Gi
+        cpu: 3
+        pvcs: 5
+        storage: 3Gi
+
+  # - name: kube-auth
+  #   system: true
+  #   quotas:
+  #     requests:
+  #       memory: 400Mi
+  #       cpu: 400m
+  #     limits:
+  #       memory: 750Mi
+  #       cpu: 750m
+  #       pvcs: 5
+  #       storage: 3Gi

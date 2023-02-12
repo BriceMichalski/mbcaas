@@ -1,0 +1,22 @@
+---
+
+loki:
+  isDefault: false
+  persistence:
+    enabled: true
+    accessModes:
+    - ReadWriteOnce
+    size: {{ .Values.monitor.logs.storage }}
+    storageClassName: {{ .Values.monitor.logs.storageClass }}
+
+  resources:
+    {{ toYaml .Values.quotas.loki | nindent 4 }}
+
+promtail:
+  enabled: true
+  config:
+    snippets:
+      pipelineStages:
+        - cri: {}
+  resources:
+    {{ toYaml .Values.quotas.promtail | nindent 4 }}

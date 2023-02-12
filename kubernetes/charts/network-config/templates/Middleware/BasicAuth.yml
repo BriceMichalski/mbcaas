@@ -1,0 +1,21 @@
+# Declaring the user list
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: admin-basic-auth
+  namespace: kube-network
+spec:
+  basicAuth:
+    secret: admin-auth-secret
+    removeHeader: true
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: admin-auth-secret
+  namespace: kube-network
+type: kubernetes.io/basic-auth
+data:
+  username: {{ .Values.middleware.basicAuth.user | b64enc }}
+  password: {{ .Values.middleware.basicAuth.password | b64enc }}

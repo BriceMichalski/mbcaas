@@ -1,0 +1,21 @@
+---
+envType: {{ .Values.envType }}
+traefik:
+  url: {{ .Values.dns.traefik }}
+  ipWhitelist:
+    {{ .Values.traefik.ipWhitelist | toYaml | nindent 4}}
+
+middleware:
+  basicAuth:
+    user: {{ .Values.secrets.admin.username }}
+    password: {{ .Values.secrets.admin.password }}
+
+whoami:
+  url: {{ .Values.dns.whoami }}
+  ingress:
+    annotations:
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
+
+  imageVersion: {{ .Values.apps.version.whoami }}
+  quotas:
+    {{- toYaml .Values.quotas.whoami | nindent 4 }}

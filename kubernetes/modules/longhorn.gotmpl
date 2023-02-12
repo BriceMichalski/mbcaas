@@ -1,0 +1,24 @@
+---
+
+namespaceOverride: kube-storage
+
+persistence:
+  defaultClass: false
+
+defaultSettings:
+  backupTarget: nfs://{{ .Values.storage.backup.target }}:{{ .Values.storage.backup.path }}
+  defaultDataPath: {{ .Values.storage.dataPath }}
+
+csi:
+  attacherReplicaCount: 1
+  provisionerReplicaCount: 1
+  resizerReplicaCount: 1
+  snapshotterReplicaCount: 1
+
+ingress:
+  enabled: true
+  host: {{ .Values.dns.longhorn }}
+  tls: true
+  tlsSecret: "longhorn-dashoard-tls"
+  annotations:
+    {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}

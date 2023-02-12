@@ -1,4 +1,0 @@
----
-applications:
-  # - "{{ thesis }}"
-  - "{{ omq }}"

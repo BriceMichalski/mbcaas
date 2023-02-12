@@ -1,0 +1,10 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: public-ip-whitelist
+  namespace: "kube-network"
+spec:
+  ipWhiteList:
+    sourceRange:
+    {{- .Values.traefik.ipWhitelist | toYaml | nindent 6 }}

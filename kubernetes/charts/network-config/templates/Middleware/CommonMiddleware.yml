@@ -1,0 +1,11 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: common
+spec:
+  chain:
+    middlewares:
+    - name: public-ip-whitelist
+    # - name: errors-handler
+    - name: x-forwarded-proto

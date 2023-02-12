@@ -1,0 +1,53 @@
+---
+
+- name: Manage User
+  become: true
+  block:
+  - name: Create user group
+    ansible.builtin.group:
+      name: "{{ user.value.group }}"
+      gid: "{{ user.value.gid }}"
+      state: present
+
+  - name: 'Create user accounts'
+    ansible.builtin.user:
+      name: "{{ user.key }}"
+      append: true
+      group: "{{ user.value.group }}"
+      groups: "{{ user.value.groups }}"
+      uid: "{{ user.value.uid }}"
+      state: 'present'
+      home: "/home/{{ user.key }}"
+      shell: "/bin/bash"
+
+  - name: "Force home owner"
+    ansible.builtin.file:
+      path: "/home/{{ user.key }}"
+      state: "directory"
+      owner: "{{ user.key }}"
+      group: "{{ user.value.group }}"
+
+  - name: 'Put ssh key in user ssh folder'
+    ansible.posix.authorized_key:
+      user: "{{ user.key }}"
+      state: 'present'
+      key: "{{ public_key }}"
+    loop: "{{ user.value.public_keys }}"
+    loop_control:
+      loop_var: public_key
+    when: user.value.public_keys is defined
+
+  - name: "Grant admin rights to {{ user.key }} via sudo without password"
+    ansible.builtin.template:
+      src: 'sudoer_user.j2'
+      dest: "/etc/sudoers.d/{{ user.key }}"
+      owner: 'root'
+      group: 'root'
+      mode: '0440'
+    when: user.value.admin is defined and user.value.admin
+
+  - name: "Remove admin rights to {{ user.key }} via sudo without password"
+    ansible.builtin.file:
+      path: "/etc/sudoers.d/{{ user.key  }}"
+      state: "absent"
+    when: user.value.admin is not defined or not user.value.admin

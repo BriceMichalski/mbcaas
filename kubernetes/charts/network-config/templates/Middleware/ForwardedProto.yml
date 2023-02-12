@@ -1,0 +1,16 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: x-forwarded-proto
+spec:
+  headers:
+    customRequestHeaders:
+      {{- if eq .Values.envType "production" }}
+      X-Forwarded-Proto: "https"
+      {{- end }}
+      {{- if eq .Values.envType "sandbox" }}
+      X-Forwarded-Proto: "http"
+      X-Forwarded-Host: "192.168.60.10:30443"
+      X-Forwarded-Port: "30443"
+      {{- end }}

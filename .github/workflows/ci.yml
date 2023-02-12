@@ -5,16 +5,36 @@ on: [push]
 
 jobs:
   lint:
-    name: Lint yaml
+    name: Lint Code
     runs-on: ubuntu-latest
-
     steps:
-      - name: Lint > Checkout Code
-        uses: actions/checkout@v2
+      - name: Age Binary Installer
+        uses: adnsio/setup-age-action@v1.2.0
 
-      - name: Lint > run super linter
+      - name: Sops Binary Installer
+        uses: mdgreenwald/mozilla-sops-action@v1.4.0
+
+      - name: Setup helmfile
+        uses: mamezou-tech/setup-helmfile@v1.2.0
+
+      - name: Install Helm secrets plugin
+        run: |
+          helm plugin install https://github.com/jkroepke/helm-secrets --version v3.8.3
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run super linter
         uses: github/super-linter@v4
         env:
           VALIDATE_MARKDOWN: true
           VALIDATE_YAML: true
+          FILTER_REGEX_EXCLUDE: "(kubernetes/.*/templates/.*)|(.*secrets.sops.yaml)|(.*helmfile.*.yaml)"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run helmfile lint
+        working-directory: kubernetes
+        env:
+          SOPS_AGE_KEY: ${{secrets.AGE_KEY}}
+        run: |
+          helmfile -e dev lint

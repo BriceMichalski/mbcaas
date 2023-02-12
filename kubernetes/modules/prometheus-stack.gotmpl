@@ -1,0 +1,166 @@
+---
+namespaceOverride: kube-monitor
+defaultRules:
+  create: true
+  rules:
+    alertmanager: true
+    etcd: true
+    configReloaders: true
+    general: true
+    k8s: true
+    kubeApiserverAvailability: true
+    kubeApiserverBurnrate: true
+    kubeApiserverHistogram: true
+    kubeApiserverSlos: true
+    kubeControllerManager: true
+    kubelet: true
+    kubeProxy: true
+    kubePrometheusGeneral: true
+    kubePrometheusNodeRecording: true
+    kubernetesApps: true
+    kubernetesResources: true
+    kubernetesStorage: true
+    kubernetesSystem: true
+    kubeSchedulerAlerting: true
+    kubeSchedulerRecording: true
+    kubeStateMetrics: true
+    network: true
+    node: true
+    nodeExporterAlerting: true
+    nodeExporterRecording: true
+    prometheus: true
+    prometheusOperator: false
+
+alertmanager:
+  image:
+    tag: {{ .Values.apps.version.alertManager }}
+  externalUrl: {{ .Values.dns.alertManager }}
+  ingress:
+    enabled: true
+    annotations:
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
+    hosts:
+      - {{ .Values.dns.alertManager }}
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: {{ .Values.monitor.logs.storageClass }}
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.monitor.alert.storage }}
+  config:
+    route:
+      group_by: ['...']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'telegram'
+      routes:
+      - receiver: 'null'
+        matchers:
+          - alertname =~ "InfoInhibitor|Watchdog"
+      - receiver: 'telegram'
+        matchers:
+          - severity =~ "warning|error"
+    receivers:
+      - name: 'null'
+      - name: telegram
+        telegram_configs:
+          - api_url: "https://api.telegram.org"
+            bot_token: {{ .Values.secrets.telegram.alertbot.token }}
+            chat_id: {{ .Values.secrets.telegram.alertbot.chatid }}
+            message: |-
+              {{` {{ template "telegram.alert.mbcaas" . }} `}}
+            parse_mode: HTML
+  templateFiles:
+    alertmanager-alert-template.tmpl: |-
+      {{ readFile "files/alertmanager-alert-template.tmpl" | nindent 6 }}
+  alertmanagerSpec:
+    resources:
+      {{ toYaml .Values.quotas.alertmanager | nindent 6 }}
+
+
+grafana:
+  image:
+    tag: {{ .Values.apps.version.grafana }}
+  resources:
+    {{ toYaml .Values.quotas.grafana | nindent 4 }}
+  ingress:
+    enabled: true
+    annotations:
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
+    hosts:
+      - {{ .Values.dns.grafana }}
+  defaultDashboardsTimezone: Europe/Paris
+  defaultDashboardsEnabled: false
+  forceDeployDatasources: false
+  adminPassword: {{ .Values.secrets.admin.password }}
+  env:
+    GF_SECURITY_COOKIE_SAMESITE: disabled
+
+  sidecar:
+    resources:
+      {{ toYaml .Values.quotas.sidecar | nindent 6 }}
+
+kube-state-metrics:
+  resources:
+    {{ toYaml .Values.quotas.kubeStateMetrics | nindent 4 }}
+
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
+    hosts:
+      - {{ .Values.dns.prometheus }}
+
+  prometheusSpec:
+    retention: {{ .Values.monitor.metrics.retention }}
+    scrapeInterval: "15s"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: {{ .Values.monitor.metrics.storageClass }}
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: {{ .Values.monitor.metrics.storage }}
+    resources:
+      {{ toYaml .Values.quotas.prometheus | nindent 6 }}
+    additionalScrapeConfigs:
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+            selectors:
+              - role: pod
+                label: "app.kubernetes.io/name=traefik"
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+            action: replace
+            target_label: __scheme__
+            regex: (https?)
+
+prometheusOperator:
+  admissionWebhooks:
+    patch:
+      resources:
+        {{ toYaml .Values.quotas.prometheusAdmission | nindent 8 }}
+  resources:
+    {{ toYaml .Values.quotas.prometheusOperator | nindent 8 }}
+
+prometheus-node-exporter:
+  resources:
+    {{ toYaml .Values.quotas.nodeExporter | nindent 4 }}

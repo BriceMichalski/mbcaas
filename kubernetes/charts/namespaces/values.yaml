@@ -1,0 +1,12 @@
+---
+namespaces: []
+default:
+  quotas:
+    requests:
+      cpu: 50m
+      memory: 100m
+    limits:
+      cpu: 100m
+      memory: 200m
+      pvcs: 5
+      storage: 1Gi

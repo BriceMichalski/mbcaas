@@ -1,0 +1,13 @@
+name: mbcaas01-dev
+box: bento/ubuntu-20.04
+ip: 192.168.60.10
+memory: 8096
+cpu: 4
+disk_directory: "/home/bricemichalski/data/vagrant"
+disks:
+  - name: mbcaas01-dev-disk1
+    size: 40
+    port: 2
+  - name: mbcaas01-dev-disk2
+    size: 10
+    port: 3
