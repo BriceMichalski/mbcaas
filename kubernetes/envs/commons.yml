@@ -12,6 +12,7 @@ releases:
     prometheus-stack: 40.5.0
     monitor-config: 1.0.0
     keycloak: 13.0.0
+    ha-redirect: 1.0.0
 
   installed:
     traefik: true
@@ -24,6 +25,7 @@ releases:
     prometheus-stack: true
     monitor-config: true
     keycloak: true
+    ha-redirect: true
 
 apps:
   version:
