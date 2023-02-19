@@ -109,7 +109,8 @@ Now i have a Kubernetes Cluster with dynamic storage enable, but nothing listeni
 
 This is the role of Ingress Controller, it's listen on node port, and forward request based on Ingress rules like domain or path matching.
 
-Several [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) can be use, i start with [nginx](https://docs.nginx.com/nginx-ingress-controller/intro/overview/) but a few moment later I switch to [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) for his user friendly dashboard and for his [middleware](https://doc.traefik.io/traefik/middlewares/overview/) concept.
+Several [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) can be use, i start with [nginx](https://docs.nginx.com/nginx-ingress-controller/intro/overview/).
+After That I switch to [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) for his user friendly dashboard and for his [middleware](https://doc.traefik.io/traefik/middlewares/overview/) concept.
 With Traefik middleware, i can easily setup whitelist or blacklist, limit request rate or add basic-auth for my ingress.
 
 Another very comfortable functionality provided by Traefik is the certificate management: I delegate him the generation and renewal of my domains certificates.
