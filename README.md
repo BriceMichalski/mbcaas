@@ -36,7 +36,7 @@ And when i say "ansible galaxy", i mean [Jeff Geerling](https://github.com/geerl
 Thanks for your work.
 When i start this project, it seems to me that the roles I needed recommended to use Ubuntu Focal. But maybe it's not true and I chose this distribution arbitrarily.
 
-### ♾️ Provisioning
+### Provisioning
 
 For the hardening of my cluster i wrote a [hardening ansible role](infrastructure/bare-metal/roles/hardening) that handle following stuff:
 
@@ -119,15 +119,22 @@ This is mandatory for use cloudflare in full encryption proxy mode.
 > [My values](./kubernetes/modules/traefik.gotmpl)
 
 
-## Usefull link
+### Observability
 
-- [Nginx Ingress controller](https://kubernetes.github.io/ingress-nginx/)
-- [Nginx ingress controller - baremetal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/)
-- [Metallb installation](https://metallb.universe.tf/installation/)
-- [External-dns](https://github.com/kubernetes-sigs/external-dns)
-- [External-dns with Cloudflare](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/cloudflare.md)
-- [Cloudflare token generation](https://support.cloudflare.com/hc/fr-fr/articles/200167836-Gestion-des-jetons-et-cl%C3%A9s-de-l-API#12345680)
-- [Force External-dns to target my internet box public IP](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md#are-other-ingress-controllers-supported)
-- [Cert Manager install](https://cert-manager.io/docs/installation/)
-- [Cert Manager LetsEncrypt ACME](https://cert-manager.io/docs/configuration/acme/)
-- [Cert Manager DNS01 Challenge with cloudflare](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
+Now before deploy any application, i must have monitoring system to help me debugging and troubleshoot.
+
+For metrics [Prometheus](https://prometheus.io/) is one of the most popular tools and the kubernetes community seems to have adopted it.
+Like other kubernetes tools, prometheus provide an helm chart named `kube-prometheus-stack` with a lot of tools embedded like prometheus database, custom resource definition (CRD) like `ServiceMonitor`, [Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/) for fire alerts and [Grafana](https://grafana.com/) for render chart.
+
+For logs, I hesitated between a lot of stack : [ELK](https://www.elastic.co/what-is/elk-stack), [Fluentbit](https://docs.fluentbit.io/manual/), but finally i chose [Loki](https://grafana.com/oss/loki/) and [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/).
+Elastic and Kibana are very powerful tools but expensive in resources. I don't need indexing or parsing of my logs, a simple centralization with the possibility to do raw search in it is largely enough for my need. Here is what guided my choice, the lightness of Loki and Promtail. Like other tools, grafan provide a helm chart for that.
+
+> Prometheus useful link:
+> [Prometheus git repository](https://github.com/prometheus/prometheus) |
+> [Prometheus-stack helm chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) |
+> [My values](./kubernetes/modules/prometheus-stack.gotmpl)
+
+> Loki useful link:
+> [Loki git repository](https://github.com/grafana/loki) |
+> [Loki-stack helm chart](https://github.com/grafana/helm-charts/tree/main/charts/loki-stack) |
+> [My values](./kubernetes/modules/loki-stack.gotmpl)
