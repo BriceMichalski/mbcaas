@@ -67,7 +67,7 @@ In my case, and because i user my ISP box on `router` mode and not as `bridge` w
 ```mermaid
 flowchart LR
     WAN --> BOX(ISP Box <br> port :443);
-    BOX(ISP Box <br> port :443) --> MNODE(Master Node <br> port :30443);
+    BOX(ISP Box <br> :443) --> MNODE(Master Node <br> :30443);
 ```
 
 For test this forwarding run `python -m http.server 30443` in some directory, open your web browser and type `http://{YOUR_ISP_BOX_PUBLIC_IP}:443`, you will see the content of the folder where you launch the pytho<br>n http.server module.
