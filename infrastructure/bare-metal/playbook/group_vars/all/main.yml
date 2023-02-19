@@ -15,3 +15,6 @@ usual_apt_package:
 usual_pip_package:
   - openshift==0.12
   - PyYAML
+
+
+k9s_version: "v0.26.3"

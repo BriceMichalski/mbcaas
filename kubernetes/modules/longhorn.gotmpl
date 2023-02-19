@@ -18,7 +18,5 @@ csi:
 ingress:
   enabled: true
   host: {{ .Values.dns.longhorn }}
-  tls: true
-  tlsSecret: "longhorn-dashoard-tls"
   annotations:
     {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
