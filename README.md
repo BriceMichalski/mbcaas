@@ -5,8 +5,11 @@
 My self hosted Kubernetes cluster.
 
 ## Hosted Domain
+
+[michalski.fr](michalski.fr) | [mbcaas.com](mbcaas.com)
+
 > Managed by [cloudflare](https://www.cloudflare.com/).
-michalski.fr | mbcaas.com
+> <br/>
 > There is not necessarily a web page on the roots of these domains
 
 ## Bare Metal
