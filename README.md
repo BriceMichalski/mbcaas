@@ -5,11 +5,8 @@
 My self hosted Kubernetes cluster.
 
 ## Hosted Domain
-
-michalski.fr | mbcaas.com
-
 > Managed by [cloudflare](https://www.cloudflare.com/).
-
+michalski.fr | mbcaas.com
 > There is not necessarily a web page on the roots of these domains
 
 ## Bare Metal
@@ -95,7 +92,8 @@ Container stop and start is also operated during application update.
 
 For allowing keep your data after container restart, kubernetes volume can be use, and the most basics one is the `hostPath` volume that bind one path of your host inside your container. But some [Container Storage Interface](https://kubernetes.io/blog/2019/01/15/container-storage-interface-ga/) come with most advanced feature like backup and replication.
 
-All Clouds provider provide their own solution, but cause I'm on bare-metal infrastructure I have do install my own CSI. After some research, I retain 2 open-source candidate, [minio](https://min.io/) and [longhorn](https://longhorn.io/). Minio look more popular and maybe offer more feature, but it look more complex too. I chose longhorn. It offer me dynamic storage solution with backup,snapshot and replication for when I have more than one node.
+All Clouds provider provide their own solution, but cause I'm on bare-metal infrastructure I have do install my own CSI. After some research, I retain 2 open-source candidate, [minio](https://min.io/) and [longhorn](https://longhorn.io/). Minio look more popular and maybe offer more feature, but it look more complex too. I chose longhorn.
+It offer me dynamic storage solution with backup,snapshot and replication for when I have more than one node.
 
 > Longhorn useful link :
 > [Longhorn git repository](https://github.com/longhorn/longhorn) |
@@ -108,7 +106,8 @@ Now i have a Kubernetes Cluster with dynamic storage enable, but nothing listeni
 
 This is the role of Ingress Controller, it's listen on node port, and forward request based on Ingress rules like domain or path matching.
 
-Several [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) can be use, i start with [nginx](https://docs.nginx.com/nginx-ingress-controller/intro/overview/) but a few moment later I switch to [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) for his user friendly dashboard and for his [middleware](https://doc.traefik.io/traefik/middlewares/overview/) concept. With Traefik middleware, i can easily setup whitelist or blacklist, limit request rate or add basic-auth for my ingress.
+Several [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) can be use, i start with [nginx](https://docs.nginx.com/nginx-ingress-controller/intro/overview/) but a few moment later I switch to [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) for his user friendly dashboard and for his [middleware](https://doc.traefik.io/traefik/middlewares/overview/) concept.
+With Traefik middleware, i can easily setup whitelist or blacklist, limit request rate or add basic-auth for my ingress.
 
 Another very comfortable functionality provided by Traefik is the certificate management: I delegate him the generation and renewal of my domains certificates.
 This is mandatory for use cloudflare in full encryption proxy mode.
@@ -133,7 +132,7 @@ Elastic and Kibana are very powerful tools but expensive in resources. I don't n
 > [Prometheus git repository](https://github.com/prometheus/prometheus) |
 > [Prometheus-stack helm chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) |
 > [My values](./kubernetes/modules/prometheus-stack.gotmpl)
-
+> <br/>
 > Loki useful link:
 > [Loki git repository](https://github.com/grafana/loki) |
 > [Loki-stack helm chart](https://github.com/grafana/helm-charts/tree/main/charts/loki-stack) |
