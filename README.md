@@ -2,7 +2,7 @@
 
 [![Continuous Integration](https://github.com/BriceMichalski/mbcaas/actions/workflows/ci.yml/badge.svg)](https://github.com/BriceMichalski/mbcaas/actions/workflows/ci.yml)
 
-My self hosted kubernetes cluster.
+My self hosted Kubernetes cluster.
 
 ## Hosted Domain
 
@@ -33,7 +33,7 @@ And when i say "ansible galaxy", i mean [Jeff Geerling](https://github.com/geerl
 Thanks for your work.
 When i start this project, it seems to me that the roles I needed recommended to use Ubuntu Focal. But maybe it's not true and I chose this distribution arbitrarily.
 
-### Provisioning.
+### Provisioning
 
 For the hardening of my cluster i wrote a [hardening ansible role](infrastructure/bare-metal/roles/hardening) that handle following stuff:
 
@@ -64,8 +64,6 @@ Like all Internet Service Provider, my ISP give me a public IP on WAN, i can fou
 For now when i call this ip, nothing respond me. I need to set up à port forwarding between my ISP box and my single node.
 In my case, and because i user my ISP box on `router` mode and not as `bridge` with some professional router behind, this step is manual and can be done on my ISP router configuration interface. For the moment i just want to allow HTTPS flow, so i open the port `443` of my box and forward it to my home server.
 
-
-
 ```
  ___________            ___________              ____________
 |           |          |           |            |            |
@@ -74,11 +72,34 @@ In my case, and because i user my ISP box on `router` mode and not as `bridge` w
 
 ```
 
+For test this forwarding run `python -m http.server 30443` in some directory, open your web browser and type `http://{YOUR_ISP_BOX_PUBLIC_IP}:443`, you will see the content of the folder where you launch the python http.server module.
 
 ## Kubernetes Cluster
 
+So now, with some skills and Geerlingguy help, i have a single node raw Kubernetes nodes. The objective is now to set up an ecosystem allowing me to quickly expose web applications. I'm not going to invent anything, I'll just use existing software.
 
+### Deployment
 
+To deploy workload on kubernetes we can use `kubectl` command to apply `manifest` but most popular kubernetes software provide `helm chart`, which is a collection of manifest template. This second approach is useful for customize some parameters of deployed manifest.
+
+But as said above, i need different software and sometime they have to shared commons variables. For this reason I use [Helmfile](https://github.com/roboll/helmfile) that allow me to define custom value file for each helm chart.
+
+You can found all the chart I use in my [helmfile.yaml](./kubernetes/helmfile.yaml).
+
+### Container Storage Interface
+
+Do to the nature of docker, when a container re-start, all the files that not in the source image or in a `volume` will be deleted.
+By designed, kubernetes can restart container/pod for me, if they are unhealthy or for rescheduling (not on single note cluster).
+Container stop and start is also operated during application update.
+
+For allowing keep your data after container restart, kubernetes volume can be use, and the most basics one is the `hostPath` volume that bind one path of your host inside your container. But some [Container Storage Interface](https://kubernetes.io/blog/2019/01/15/container-storage-interface-ga/) come with most advanced feature like backup and replication.
+
+All Clouds provider provide their own solution, but cause I'm on bare-metal infrastructure I have do install my own CSI. After some research, I retain 2 open-source candidate, [minio](https://min.io/) and [longhorn](https://longhorn.io/). Minio look more popular and maybe offer more feature, but it look more complex too. I chose longhorn. It offer me dynamic storage solution with backup,snapshot and replication for when I have more than one node.
+
+> Longhorn useful link :
+> [Longhorn git repository](https://github.com/longhorn/longhorn) |
+> [Longhorn helm chart](https://github.com/longhorn/charts) |
+> [My values](./kubernetes/modules/longhorn.gotmpl)
 
 ## PlaybookIl
 
