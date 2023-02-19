@@ -4,7 +4,7 @@
 
 My self hosted Kubernetes cluster.
 
-## Hosted Domain
+**Hosted Domain**
 
 [michalski.fr](michalski.fr) | [mbcaas.com](mbcaas.com)
 
