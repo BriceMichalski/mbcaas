@@ -6,8 +6,11 @@ My self hosted Kubernetes cluster.
 
 ## Hosted Domain
 
-- michalski.fr
-- mbcaas.com
+michalski.fr | mbcaas.com
+
+> Managed by [cloudflare](https://www.cloudflare.com/).
+
+> There is not necessarily a web page on the roots of these domains
 
 ## Bare Metal
 
@@ -99,52 +102,9 @@ All Clouds provider provide their own solution, but cause I'm on bare-metal infr
 > [Longhorn helm chart](https://github.com/longhorn/charts) |
 > [My values](./kubernetes/modules/longhorn.gotmpl)
 
-## PlaybookIl
-
-- `playbook/infrastructure.yml`: it allows the configuration and deployment of my home kubernetes cluster.
-- `playbook/applications.yml`: deploy all my apps on kubernetes cluster
-
-## How to use it
-
-Install requirements:
-
-```bash
-ansible-galaxy install -r requirements.yml
-```
-
-Launch playbook:
-
-```bash
-ansible-playbook --inventory inventories/prod/hosts playbook/infrastructure.yml --vault-pass-file ./pwd.vault
-ansible-playbook --inventory inventories/prod/hosts playbook/applications.yml --vault-pass-file ./pwd.vault
-```
-
-## Infrastructure playbook tags list in execution order
-
-|     Tag Name                      | What it does    |
-|     ---                           | ---               |
-|     **HARDENING**                 |                   |
-|     hardening::users              |  Manage users, privileges and ssh keys |
-|     hardening::timezone           |  Set Timezone to Europe/Paris |
-|     hardening::upgrade            |  Updating system packages and removing unnecessary ones |
-|     hardening::partition          |  Manage disks, partitions, mountpoint |
-|     hardening::backup             |  Deploy backup script |
-|     hardening::swap               |  Disable swap (kubernetes prerequisite) |
-|     hardening::usual              |  Installing utilities that I frequently use |
-|     ---                           |                   |
-|     **NFS**                       |  Install nfs server and expose partitions |
-|     ---                           |                   |
-|     **KUBERNETES**                |                   |
-|     kubernetes::cluster           |  Install raw Kubernetes using [geerlingguy's](https://github.com/geerlingguy) roles |
-|     kubernetes::core              |  Installation and configuration of my core platform including storage class, metallb, traefik, cert-manager, external-dns, prometheus stack and portainer |
-|     kubernetes::data              |  Installation and configuration of shared database. [Documentation](./docs/database.md) |
-|     kubernetes::gitops            |  Installation and configuration  of gitops part of my plateforme using argocd |
-|     kubernetes::portal            |  Intallation of my homelab portal using [homer](https://github.com/bastienwirtz/homer) |
+###
 
 
-
-
-- on-mange-quoi.com
 
 Managed by [cloudflare](https://www.cloudflare.com/).
 
