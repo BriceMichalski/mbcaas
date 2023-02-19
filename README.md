@@ -65,8 +65,9 @@ For now when i call this ip, nothing respond me. I need to set up à port forwar
 In my case, and because i user my ISP box on `router` mode and not as `bridge` with some professional router behind, this step is manual and can be done on my ISP router configuration interface. For the moment i just want to allow HTTPS flow, so i open the port `443` of my box and forward it to my home server.
 
 ```mermaid
-   "WAN" --> ":443 ISP Box";
-   ":443 ISP Box" --> ":30443 Master Node";
+flowchart LR
+    WAN --> BOX(:443 ISP Box);
+    BOX(:443 ISP Box) --> MNODE(:30443 Master Node);
 ```
 
 For test this forwarding run `python -m http.server 30443` in some directory, open your web browser and type `http://{YOUR_ISP_BOX_PUBLIC_IP}:443`, you will see the content of the folder where you launch the python http.server module.
