@@ -27,3 +27,15 @@ namespaces:
         cpu: 3
         pvcs: 5
         storage: 110Gi
+
+  - name: home
+    system: false
+    quotas:
+      requests:
+        memory: 200Mi
+        cpu: 200m
+      limits:
+        memory: 200Mi
+        cpu: 200m
+        pvcs: 1
+        storage: 200Mi

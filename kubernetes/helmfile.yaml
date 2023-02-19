@@ -91,6 +91,12 @@ releases:
     chart: ./charts/monitor-config
     <<: *default
 
+  - name: ha-redirect
+    namespace: home
+    chart: ./charts/http-redirect
+    <<: *default
+
+
   # - name: keycloak
   #   namespace: kube-auth
   #   chart: bitnami/keycloak
