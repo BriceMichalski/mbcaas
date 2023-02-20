@@ -118,6 +118,7 @@ prometheus:
   prometheusSpec:
     retention: {{ .Values.monitor.metrics.retention }}
     scrapeInterval: "15s"
+    serviceMonitorSelectorNilUsesHelmValues: false
     storageSpec:
       volumeClaimTemplate:
         spec:
