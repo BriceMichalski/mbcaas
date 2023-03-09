@@ -28,6 +28,17 @@ namespaces:
         pvcs: 5
         storage: 110Gi
 
+  - name: data-store
+    quotas:
+      requests:
+        memory: 2Gi
+        cpu: 2
+      limits:
+        memory: 3Gi
+        cpu: 3
+        pvcs: 5
+        storage: 5Gi
+
   - name: home
     system: false
     quotas:

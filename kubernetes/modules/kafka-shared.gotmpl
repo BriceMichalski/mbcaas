@@ -1,0 +1,32 @@
+name: kafka-shared
+
+topics:
+  {{ .Values.dataStore.kafkaShared.topics | toYaml | nindent 4 }}
+
+kafka:
+  storage:
+    class: {{ .Values.dataStore.kafkaShared.kafka.storage.class }}
+    size: {{ .Values.dataStore.kafkaShared.kafka.storage.size }}
+    deleteClaim: {{ .Values.dataStore.kafkaShared.kafka.storage.deleteClaim }}
+  resources:
+    {{ .Values.quotas.kafkaShared | toYaml | nindent 4 }}
+
+zookeeper:
+  storage:
+    class: {{ .Values.dataStore.kafkaShared.zookeeper.storage.class }}
+    size: {{ .Values.dataStore.kafkaShared.zookeeper.storage.size }}
+    deleteClaim: {{ .Values.dataStore.kafkaShared.zookeeper.storage.deleteClaim }}
+  resources:
+    {{ .Values.quotas.zookeeperShared | toYaml | nindent 4 }}
+
+topicOperator:
+  resources:
+    {{ .Values.quotas.topicOperator | toYaml | nindent 4 }}
+
+userOperator:
+  resources:
+    {{ .Values.quotas.userOperator | toYaml | nindent 4 }}
+
+tlsSidecar:
+  resources:
+    {{ .Values.quotas.tlsSidecar | toYaml | nindent 4 }}
