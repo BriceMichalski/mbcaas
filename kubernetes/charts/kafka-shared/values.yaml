@@ -1,0 +1,64 @@
+
+name: sample-kafka
+
+topics: {}
+  # sample-one:
+    # partitions: 1
+    # policy: delete
+    # retention: 86400000
+  # second-sample:
+    # partitions: 2
+    # policy: compact
+
+kafka:
+  storage:
+    class: standard
+    size: 5Gi
+    deleteClaim: False
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 1024Mi
+      cpu: 1
+
+zookeeper:
+  storage:
+    class: standard
+    size: 5Gi
+    deleteClaim: False
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 1024Mi
+      cpu: 1
+
+topicOperator:
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 1024Mi
+      cpu: 1
+
+userOperator:
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 1024Mi
+      cpu: 1
+
+tlsSidecar:
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+    limits:
+      memory: 1024Mi
+      cpu: 1
