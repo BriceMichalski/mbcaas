@@ -116,7 +116,7 @@ releases:
     chart: akhq/akhq
     <<: *default
 
-  # - name: keycloak
-  #   namespace: kube-auth
-  #   chart: bitnami/keycloak
-  #   <<: *default
+  - name: keycloak
+    namespace: iam
+    chart: bitnami/keycloak
+    <<: *default

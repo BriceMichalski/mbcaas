@@ -15,6 +15,7 @@ releases:
     kafka-shared: 1.0.0
     akhq: 0.3.1
     ha-redirect: 1.0.0
+    keycloak: 15.1.6
 
   installed:
     traefik: true
@@ -30,6 +31,7 @@ releases:
     kafka-shared: true
     akhq: true
     ha-redirect: true # TODO: move it
+    keycloak: true
 
 apps:
   version:

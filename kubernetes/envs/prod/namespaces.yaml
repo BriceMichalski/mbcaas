@@ -39,6 +39,18 @@ namespaces:
         pvcs: 5
         storage: 5Gi
 
+  - name: iam
+    system: true
+    quotas:
+      requests:
+        memory: 1024Mi
+        cpu: 600m
+      limits:
+        memory: 1024Mi
+        cpu: 800m
+        pvcs: 5
+        storage: 10Gi
+
   - name: home
     system: false
     quotas:
