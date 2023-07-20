@@ -1,0 +1,19 @@
+{{- $root := .Values -}}
+{{- $release := .Release -}}
+{{- range $topicName, $topicConfig := $root.topics }}
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: {{ $topicName }}
+  labels:
+    strimzi.io/cluster: {{ $root.name | default $release.name }}
+spec:
+  replicas: 1
+  partitions: {{ $topicConfig.partitions | default 1 }}
+  config:
+    cleanup.policy: {{ $topicConfig.policy | default "delete" }}
+    {{- if eq ($topicConfig.policy | default "delete") "delete" }}
+    delete.retention.ms: {{ $topicConfig.retention | int | default 86400000 }}
+    {{- end }}
+{{- end }}

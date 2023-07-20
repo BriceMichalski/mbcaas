@@ -1,0 +1,25 @@
+---
+
+auth:
+  adminUser: {{ .Values.secrets.admin.username }}
+  adminPassword: {{ .Values.secrets.admin.password }}
+
+production: true
+proxy: edge
+
+resources:
+  {{ toYaml .Values.quotas.keycloak | nindent 2}}
+
+
+ingress:
+  enabled: true
+  hostname: {{ .Values.dns.keycloak }}
+  annotations:
+    {{ toYaml .Values.helper.ingress.annotations.common | nindent 6 }}
+
+
+postgresql:
+  enable: true
+  primary:
+    resources:
+      {{ toYaml .Values.quotas.keycloakpg | nindent 6}}

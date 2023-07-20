@@ -1,0 +1,45 @@
+resources:
+  {{ .Values.quotas.akhq | toYaml | nindent 2 }}
+
+secrets:
+  akhq:
+    ui-options:
+      topic.default-view :
+      topic-data:
+        sort: NEWEST
+    server:
+      access-log:
+        enabled: false
+        name: org.akhq.log.access
+    connections:
+      kafka-shared:
+        properties:
+          bootstrap.servers: kafka-shared-kafka-brokers:9092
+          security.protocol: PLAINTEXT
+          sasl.mechanism: PLAIN
+    security:
+      default-group: no-roles
+      basic-auth:
+        - username: {{ .Values.secrets.admin.username }}
+          password: {{ .Values.secrets.admin.password | sha256sum }}
+          groups:
+            - admin
+
+  micronaut:
+    security:
+      enabled: true
+      token:
+        jwt:
+          signatures:
+            secret:
+              generator:
+                secret: {{ .Values.secrets.akhq.signatures }}
+
+ingress:
+  enabled: true
+  annotations:
+    {{ toYaml .Values.helper.ingress.annotations.common | nindent 4 }}
+  paths:
+    - /
+  hosts:
+    - {{ .Values.dns.akhq }}

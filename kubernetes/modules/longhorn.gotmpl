@@ -8,6 +8,8 @@ persistence:
 defaultSettings:
   backupTarget: nfs://{{ .Values.storage.backup.target }}:{{ .Values.storage.backup.path }}
   defaultDataPath: {{ .Values.storage.dataPath }}
+  guaranteedEngineManagerCPU: 5
+  guaranteedReplicaManagerCPU: 5
 
 csi:
   attacherReplicaCount: 1
@@ -18,7 +20,5 @@ csi:
 ingress:
   enabled: true
   host: {{ .Values.dns.longhorn }}
-  tls: true
-  tlsSecret: "longhorn-dashoard-tls"
   annotations:
     {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}

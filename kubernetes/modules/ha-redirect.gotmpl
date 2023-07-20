@@ -1,0 +1,13 @@
+---
+nameOverride: ha-redirect
+flow:
+  domain: {{ .Values.secrets.home.ha.domain }}
+  dest: http://{{ .Values.secrets.home.ha.ip }}:8123
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi

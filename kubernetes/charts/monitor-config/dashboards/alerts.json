@@ -1,0 +1,565 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 7,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "camptocamp-prometheus-alertmanager-datasource",
+          "uid": "WUhZlOJVz"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "camptocamp-prometheus-alertmanager-datasource",
+              "uid": "WUhZlOJVz"
+            },
+            "filters": "severity=critical",
+            "refId": "A"
+          }
+        ],
+        "title": "CRITICAL",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "camptocamp-prometheus-alertmanager-datasource",
+          "uid": "WUhZlOJVz"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "semi-dark-green",
+                  "value": null
+                },
+                {
+                  "color": "dark-yellow",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "camptocamp-prometheus-alertmanager-datasource",
+              "uid": "WUhZlOJVz"
+            },
+            "filters": "severity=warning",
+            "refId": "A"
+          }
+        ],
+        "title": "WARN",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "camptocamp-prometheus-alertmanager-datasource",
+          "uid": "WUhZlOJVz"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "semi-dark-green",
+                  "value": null
+                },
+                {
+                  "color": "dark-yellow",
+                  "value": 2
+                },
+                {
+                  "color": "dark-orange",
+                  "value": 5
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 12,
+          "y": 0
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "camptocamp-prometheus-alertmanager-datasource",
+              "uid": "WUhZlOJVz"
+            },
+            "filters": "severity=info",
+            "refId": "A"
+          }
+        ],
+        "title": "INFO",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "camptocamp-prometheus-alertmanager-datasource",
+          "uid": "WUhZlOJVz"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "semi-dark-green",
+                  "value": null
+                },
+                {
+                  "color": "dark-yellow",
+                  "value": 2
+                },
+                {
+                  "color": "dark-orange",
+                  "value": 5
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        },
+        "id": 9,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "camptocamp-prometheus-alertmanager-datasource",
+              "uid": "WUhZlOJVz"
+            },
+            "filters": "severity=none",
+            "refId": "A"
+          }
+        ],
+        "title": "NONE",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "camptocamp-prometheus-alertmanager-datasource",
+          "uid": "WUhZlOJVz"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "text",
+              "mode": "fixed"
+            },
+            "custom": {
+              "align": "auto",
+              "displayMode": "color-text",
+              "filterable": true
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "container"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 166
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "namespace"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 124
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "description"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 442
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "summary"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 596
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "SeverityValue"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "1": {
+                          "color": "dark-red",
+                          "index": 0,
+                          "text": "CRITICAL"
+                        },
+                        "2": {
+                          "color": "dark-orange",
+                          "index": 1,
+                          "text": "WARN"
+                        },
+                        "3": {
+                          "color": "light-green",
+                          "index": 2,
+                          "text": "INFO"
+                        },
+                        "4": {
+                          "color": "semi-dark-blue",
+                          "index": 3,
+                          "text": "NONE"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Name"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 283
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Time"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 155
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Severity"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 89
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "alertname"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 280
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 20,
+          "w": 24,
+          "x": 0,
+          "y": 4
+        },
+        "id": 2,
+        "options": {
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "Time"
+            }
+          ]
+        },
+        "pluginVersion": "8.3.3",
+        "targets": [
+          {
+            "active": true,
+            "datasource": {
+              "type": "camptocamp-prometheus-alertmanager-datasource",
+              "uid": "WUhZlOJVz"
+            },
+            "filters": "",
+            "inhibited": false,
+            "refId": "A",
+            "silenced": false
+          }
+        ],
+        "title": "ALERTS",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "SeverityValue": false,
+                "alertstatus": true,
+                "alertstatus_code": true,
+                "endpoint": true,
+                "instance": true,
+                "integration": true,
+                "job": true,
+                "pod": true,
+                "prometheus": true,
+                "resource": true,
+                "resourcequota": true,
+                "runbook_url": true,
+                "service": true,
+                "severity": true
+              },
+              "indexByName": {
+                "SeverityValue": 1,
+                "Time": 0,
+                "alertname": 3,
+                "alertstatus": 18,
+                "alertstatus_code": 19,
+                "container": 9,
+                "description": 5,
+                "endpoint": 13,
+                "instance": 16,
+                "integration": 11,
+                "job": 17,
+                "namespace": 8,
+                "pod": 10,
+                "prometheus": 7,
+                "resource": 14,
+                "resourcequota": 15,
+                "runbook_url": 6,
+                "service": 12,
+                "severity": 2,
+                "summary": 4
+              },
+              "renameByName": {
+                "SeverityValue": "Severity"
+              }
+            }
+          }
+        ],
+        "transparent": true,
+        "type": "table"
+      }
+    ],
+    "schemaVersion": 34,
+    "style": "dark",
+    "tags": [
+      "admin"
+    ],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Alerts",
+    "uid": "W0Z5udJ4k",
+    "version": 7,
+    "weekStart": ""
+  }

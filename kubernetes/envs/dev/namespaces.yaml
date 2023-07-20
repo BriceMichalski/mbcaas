@@ -28,14 +28,25 @@ namespaces:
         pvcs: 5
         storage: 3Gi
 
-  # - name: kube-auth
-  #   system: true
-  #   quotas:
-  #     requests:
-  #       memory: 400Mi
-  #       cpu: 400m
-  #     limits:
-  #       memory: 750Mi
-  #       cpu: 750m
-  #       pvcs: 5
-  #       storage: 3Gi
+  - name: data-store
+    quotas:
+      requests:
+        memory: 2Gi
+        cpu: 2
+      limits:
+        memory: 3Gi
+        cpu: 3
+        pvcs: 5
+        storage: 5Gi
+
+  - name: iam
+    system: true
+    quotas:
+      requests:
+        memory: 1024Mi
+        cpu: 600m
+      limits:
+        memory: 1024Mi
+        cpu: 800m
+        pvcs: 5
+        storage: 10Gi

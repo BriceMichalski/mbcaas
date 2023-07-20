@@ -36,7 +36,7 @@ partitions:
     size: 100
 
 nfs_exports:
-  - "/data/mbcaas01-disk2 127.0.0.1(rw,sync,no_root_squash)"
+  - "/data/mbcaas01-disk2 *(rw,sync,no_root_squash)"
 
 #######################
 #  Kubernetes roles   #

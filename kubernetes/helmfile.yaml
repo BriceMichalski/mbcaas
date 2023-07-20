@@ -44,8 +44,15 @@ repositories:
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
 
+  - name: strimzi
+    url: https://strimzi.io/charts/
+
+  - name: akhq
+    url: https://akhq.io/
+
 releases:
 
+  # Network
   - name: e-dns-cloudflare
     namespace: kube-network
     chart: bitnami/external-dns
@@ -66,6 +73,7 @@ releases:
     chart: ./charts/network-config
     <<: *default
 
+  # Storage
   - name: longhorn
     namespace: kube-storage
     chart: longhorn/longhorn
@@ -76,6 +84,7 @@ releases:
     chart: ./charts/storage-config
     <<: *default
 
+  # Observability
   - name: loki-stack
     namespace: kube-monitor
     chart: grafana/loki-stack
@@ -91,7 +100,23 @@ releases:
     chart: ./charts/monitor-config
     <<: *default
 
-  # - name: keycloak
-  #   namespace: kube-auth
-  #   chart: bitnami/keycloak
-  #   <<: *default
+  # Data Store
+  - name: strimzi-kafka-operator
+    namespace: data-store
+    chart: strimzi/strimzi-kafka-operator
+    <<: *default
+
+  - name: kafka-shared
+    namespace: data-store
+    chart: ./charts/kafka-shared
+    <<: *default
+
+  - name: akhq
+    namespace: data-store
+    chart: akhq/akhq
+    <<: *default
+
+  - name: keycloak
+    namespace: iam
+    chart: bitnami/keycloak
+    <<: *default

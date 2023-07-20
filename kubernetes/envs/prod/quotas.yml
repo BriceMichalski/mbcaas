@@ -116,3 +116,81 @@ quotas:
     limits:
       memory: 100Mi
       cpu: 100m
+  # data-store
+  #
+  # requests:
+  #    memory: 2Gi
+  #    cpu: 2
+  #  limits:
+  #    memory: 3Gi
+  #    cpu: 3
+  #    pvcs: 5
+  #    storage: 5Gi
+  #
+  kafkaShared:
+    requests:
+      memory: 300Mi
+      cpu: 200m
+    limits:
+      memory: 600Mi
+      cpu: 600m
+  zookeeperShared:
+    requests:
+      memory: 100Mi
+      cpu: 50m
+    limits:
+      memory: 200Mi
+      cpu: 100m
+  akhq:
+    requests:
+      memory: 400Mi
+      cpu: 100m
+    limits:
+      memory: 500Mi
+      cpu: 200m
+  topicOperator:
+    requests:
+      memory: 100Mi
+      cpu: 50m
+    limits:
+      memory: 200Mi
+      cpu: 100m
+  userOperator:
+    requests:
+      memory: 100Mi
+      cpu: 100m
+    limits:
+      memory: 200Mi
+      cpu: 200m
+  tlsSidecar:
+    requests:
+      memory: 100Mi
+      cpu: 50m
+    limits:
+      memory: 200Mi
+      cpu: 100m
+  # iam
+  #
+  # requests:
+  #   memory: 1024Mi
+  #   cpu: 600m
+  # limits:
+  #   memory: 1024Mi
+  #   cpu: 800m
+  #   pvcs: 5
+  #   storage: 3Gi
+  #
+  keycloak:
+    requests:
+      cpu: "400m"
+      memory: "600Mi"
+    limits:
+      cpu: "500m"
+      memory: "600Mi"
+  keycloakpg:
+    requests:
+      cpu: "200m"
+      memory: "300Mi"
+    limits:
+      cpu: "300m"
+      memory: "300Mi"
