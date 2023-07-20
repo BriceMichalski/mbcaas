@@ -29,14 +29,8 @@
   name: Raw Kubernetes cluster
   become: true
   roles:
-    - geerlingguy.docker
-    - geerlingguy.helm
+    - geerlingguy.containerd
     - geerlingguy.kubernetes
-  post_tasks:
-    - name: Install Helm diff plugin
-      kubernetes.core.helm_plugin:
-        plugin_path: https://github.com/databus23/helm-diff
-        state: present
   tags:
     - kubernetes
     - kubernetes::cluster
