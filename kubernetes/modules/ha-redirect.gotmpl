@@ -1,5 +1,5 @@
 ---
-nameOverride: ha-redirect
+fullnameOverride: ha-redirect
 flow:
   domain: {{ .Values.secrets.home.ha.domain }}
   dest: http://{{ .Values.secrets.home.ha.ip }}:8123

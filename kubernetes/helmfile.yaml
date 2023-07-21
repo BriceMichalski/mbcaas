@@ -116,7 +116,14 @@ releases:
     chart: akhq/akhq
     <<: *default
 
+  # IAM
   - name: keycloak
     namespace: iam
     chart: bitnami/keycloak
+    <<: *default
+
+  # APPS
+  - name: ha-redirect
+    namespace: home
+    chart: ./charts/http-redirect
     <<: *default
