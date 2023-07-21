@@ -20,6 +20,7 @@ ingress:
 
 postgresql:
   enable: true
+  storageClass: standard
   primary:
     resources:
       {{ toYaml .Values.quotas.keycloakpg | nindent 6}}
