@@ -1,0 +1,4 @@
+#######################
+#  Kubernetes roles   #
+#######################
+kubernetes_role: node

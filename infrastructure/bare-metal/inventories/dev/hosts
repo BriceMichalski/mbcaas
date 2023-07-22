@@ -1,14 +1,18 @@
 mbcaas01-dev
 
 [dev:children]
-knode
+kubernetes
 nfs
 
-[knode:children]
+[kubernetes:children]
 kmaster
+kworker
 
 [kmaster]
 mbcaas01-dev
+
+[kworker]
+
 
 [nfs]
 mbcaas01-dev

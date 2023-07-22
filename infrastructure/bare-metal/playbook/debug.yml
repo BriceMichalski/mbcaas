@@ -1,0 +1,11 @@
+- hosts: all
+  gather_facts: true
+  tasks:
+    # - name: Collect only facts returned by facter
+    #   ansible.builtin.setup:
+    #     gather_subset:
+    #       - architecture
+
+    - name: foo
+      ansible.builtin.debug:
+        var: ansible_default_ipv4.address

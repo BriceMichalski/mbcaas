@@ -29,6 +29,7 @@ namespaces:
         storage: 110Gi
 
   - name: data-store
+    system: true
     quotas:
       requests:
         memory: 2Gi
@@ -37,7 +38,7 @@ namespaces:
         memory: 3Gi
         cpu: 3
         pvcs: 5
-        storage: 5Gi
+        storage: 200Gi
 
   - name: iam
     system: true

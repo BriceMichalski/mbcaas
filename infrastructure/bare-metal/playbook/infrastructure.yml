@@ -24,8 +24,7 @@
   tags:
     - nfs
 
-- hosts: knode
-  gather_facts: false
+- hosts: kubernetes
   name: Raw Kubernetes cluster
   become: true
   roles:
