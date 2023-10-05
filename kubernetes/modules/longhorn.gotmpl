@@ -8,8 +8,8 @@ persistence:
 defaultSettings:
   backupTarget: nfs://{{ .Values.storage.backup.target }}:{{ .Values.storage.backup.path }}
   defaultDataPath: {{ .Values.storage.dataPath }}
-  guaranteedEngineManagerCPU: 5
-  guaranteedReplicaManagerCPU: 5
+  guaranteedEngineManagerCPU: 12
+  guaranteedReplicaManagerCPU: 12
 
 csi:
   attacherReplicaCount: 1

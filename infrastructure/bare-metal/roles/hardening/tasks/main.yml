@@ -106,24 +106,36 @@
     - hardening::swap
 
 #######################
-#     Usual tips      #
+#   Install package   #
 #######################
 
-- name: Install usual package
+- name: Install package
   become: true
   block:
     - name: Install usual apt package
       apt:
         name: "{{ item }}"
         state: present
-      with_items: "{{ usual_apt_package }}"
+      with_items: "{{ apt_packages }}"
 
     - name: Install usual python package
       pip:
         name: "{{ item }}"
         state: present
         executable: pip3
-      with_items: "{{ usual_pip_package }}"
+      with_items: "{{ pip_packages }}"
   tags:
     - hardening
-    - hardening::usual
+    - hardening::package
+
+
+#######################
+#    Raspberry pi     #
+#######################
+
+- name: Raspberry pi hardening
+  include_tasks: pi.yml
+  when: '"pi" in ansible_hostname'
+  tags:
+    - hardening
+    - hardening::pi

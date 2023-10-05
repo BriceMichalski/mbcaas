@@ -4,15 +4,16 @@
 #######################
 cluster_admin: brice_michalski
 
-usual_apt_package:
+apt_packages:
   - git
   - jq
   - curl
   - python3-pip
   - tree
   - util-linux
+  - open-iscsi
 
-usual_pip_package:
+pip_packages:
   - openshift==0.12
   - PyYAML
 

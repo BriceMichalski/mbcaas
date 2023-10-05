@@ -27,6 +27,11 @@
 - hosts: kubernetes
   name: Raw Kubernetes cluster
   become: true
+  pre_tasks:
+    - ansible.builtin.service:
+        name: systemd-resolved
+        state: started
+        enabled: yes
   roles:
     - geerlingguy.containerd
     - geerlingguy.kubernetes
