@@ -1,0 +1,54 @@
+---
+
+- name: Pi Hardening
+  become: true
+  block:
+    - name: Enable container features
+      ansible.builtin.replace:
+        path: /boot/cmdline.txt
+        regexp: '^([\w](?!.*\b{{ item }}\b).*)$'
+        replace: '\1 {{ item }}'
+      with_items:
+        - "cgroup_memory=1"
+        - "cgroup_enable=memory"
+      notify: reboot
+
+    - name: Ensure modprobe modules is enabled.
+      community.general.modprobe:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - overlay
+        - br_netfilter
+      notify: reboot
+
+    - name: Let iptables see bridged traffic.
+      ansible.posix.sysctl:
+        name: "{{ item }}"
+        value: '1'
+        state: present
+      loop:
+        - net.bridge.bridge-nf-call-iptables
+        - net.bridge.bridge-nf-call-ip6tables
+        - net.ipv4.ip_forward
+      notify: reboot
+
+    - name: Check if swap enabled
+      ansible.builtin.shell: swapon -s | wc -l
+      changed_when: false
+      register: swap_enabled
+
+    - name: Disable swap
+      ansible.builtin.shell: "{{ item }}"
+      with_items:
+        - dphys-swapfile swapoff
+        - dphys-swapfile uninstall
+        - update-rc.d dphys-swapfile disable
+      when: swap_enabled.stdout | int > 0
+      notify: reboot
+
+    - name: Trigger handlers
+      ansible.builtin.meta: flush_handlers
+  tags:
+    - hardening
+    - hardening::pi
