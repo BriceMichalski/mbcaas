@@ -1,15 +1,18 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "files.associations": {
-      "*.gotmpl": "helm",
-      "helmfile.yaml": "helm",
-      "helmfile-ns.yaml": "helm"
-    },
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "files.exclude": {
-      ".vagrant/": true,
-      ".github/": true
-    }
+  "files.associations": {
+    "*.gotmpl": "helm",
+    "helmfile.yaml": "helm",
+    "helmfile-ns.yaml": "helm"
+  },
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    ".vagrant/": true,
+    ".github/": true
+  },
+  "sops.defaults": {
+    "ageKeyFile": "keys.txt"
+  }
 }

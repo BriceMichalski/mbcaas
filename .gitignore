@@ -17,3 +17,7 @@ __pycache__
 vagrant-settings.yml
 test.sh
 .envrc
+
+# Secret
+vault-pwd
+keys.txt
