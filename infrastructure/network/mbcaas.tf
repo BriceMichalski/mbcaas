@@ -63,11 +63,14 @@ resource "unifi_device" "udm_se" {
 }
 
 
-# MBCaaS Devices
+# Port Forward to VIP
 
-# locals {
-#     devices = yamldecode
-# }
-# resource "unifi_device" "mbcaas_device" {
+resource "unifi_port_forward" "mbcaas_https" {
+    name = "MBCaaS VIP - Https"
+    log = false
 
-# }
+    dst_port = data.sops_file.secrets.data["mbcaas.forward.https.port.src"]
+
+    fwd_ip = data.sops_file.secrets.data["mbcaas.forward.https.ip"]
+    fwd_port = data.sops_file.secrets.data["mbcaas.forward.https.port.dest"]
+}
