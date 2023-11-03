@@ -1,0 +1,58 @@
+#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+if [[ "$1" != "SKIPDIFF" ]]; then
+    ERROR_OUTPUT_DIFF=$(mktemp)
+    KUBECONFIG="$MBCAAS_ROOT_DIR/kubeconfig-prod" helmfile $@ diff --detailed-exitcode 2>$ERROR_OUTPUT_DIFF
+    DIFF_CODE=$?
+    ERROR_CONTENT_DIFF=$(cat "$ERROR_OUTPUT_DIFF")
+
+    if [[ $DIFF_CODE -eq 0 ]]; then
+        echo -e "${GREEN}Nothing to do${NC}"
+        exit 0
+    fi
+
+    if [[ $DIFF_CODE -eq 1 ]]; then
+        echo -e "${RED}ERROR OCCURED${NC}"
+        echo -e "${YELLOW}$ERROR_CONTENT_DIFF${NC}"
+        exit $DIFF_CODE
+    fi
+
+
+    echo ""
+    echo "Type 'yes' if you want to apply diff"
+    read response
+
+    # Convertit la réponse en minuscules pour la comparaison
+    response_lowercase=$(echo "$response" | tr '[:upper:]' '[:lower:]')
+
+    # Vérifie si la réponse est "yes" ou "oui"
+    if [[ "$response_lowercase" != "yes" ]]; then
+        echo ""
+        echo ""
+        echo -e "${YELLOW}Skipped${NC}"
+        exit 0
+    fi
+else
+    shift;
+    echo -e "${YELLOW}Diff Skipped, let sync ${NC}"
+fi
+
+ERROR_OUTPUT_SYNC=$(mktemp)
+KUBECONFIG="$MBCAAS_ROOT_DIR/kubeconfig-prod" helmfile $@ -q sync 2>$ERROR_OUTPUT_SYNC
+SYNC_CODE=$?
+ERROR_CONTENT_SYNC=$(cat "$ERROR_OUTPUT_SYNC")
+
+if [[ $SYNC_CODE -eq 0 ]]; then
+    echo -e "${GREEN}Done${NC}"
+    exit 0
+fi
+
+if [[ $SYNC_CODE -ne 0 ]]; then
+    echo -e "${RED}ERROR OCCURED${NC}"
+    echo -e "${YELLOW}$ERROR_CONTENT_SYNC${NC}"
+    exit $DIFF_CODE
+fi

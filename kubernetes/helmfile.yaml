@@ -12,6 +12,8 @@ environments:
       - envs/{{ . }}/secrets.sops.yaml
   {{- end }}
 
+---
+
 helmDefaults:
   timeout: 600
   force: false
@@ -49,6 +51,7 @@ repositories:
 
   - name: akhq
     url: https://akhq.io/
+
 
 releases:
 
@@ -119,4 +122,10 @@ releases:
   - name: keycloak
     namespace: iam
     chart: bitnami/keycloak
+    <<: *default
+
+  # APPS
+  - name: ha-redirect
+    namespace: home
+    chart: ./charts/http-redirect
     <<: *default

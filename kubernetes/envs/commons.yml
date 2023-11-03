@@ -30,7 +30,7 @@ releases:
     kafka-shared: false
     akhq: false
     ha-redirect: true # TODO: move it
-    keycloak: true
+    keycloak: false
 
 apps:
   version:

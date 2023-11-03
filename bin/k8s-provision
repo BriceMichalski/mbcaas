@@ -1,0 +1,33 @@
+#!/bin/bash
+
+CYAN='\033[1;36m'
+NC='\033[0m' # No Color
+
+function split {
+    echo ""
+    echo -e "${CYAN}===${NC}"
+    echo ""
+}
+
+figlet "k8s-provision"
+
+split
+helmfilew  -f $MBCAAS_ROOT_DIR/kubernetes/helmfile-ns.yaml -e prod
+
+split
+helmfilew  -f $MBCAAS_ROOT_DIR/kubernetes/helmfile.yaml -e prod -l name=longhorn
+
+split
+helmfilew SKIPDIFF  -f $MBCAAS_ROOT_DIR/kubernetes/helmfile.yaml -e prod -l name=prometheus-stack
+
+split
+helmfilew  -f $MBCAAS_ROOT_DIR/kubernetes/helmfile.yaml -e prod -l name=storage-config
+
+split
+helmfilew  -f $MBCAAS_ROOT_DIR/kubernetes/helmfile.yaml -e prod -l name=traefik
+
+split
+helmfilew  -f $MBCAAS_ROOT_DIR/kubernetes/helmfile.yaml -e prod -l name=network-config
+
+split
+helmfilew  -f $MBCAAS_ROOT_DIR/kubernetes/helmfile.yaml -e prod

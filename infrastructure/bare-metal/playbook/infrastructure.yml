@@ -11,7 +11,7 @@
   gather_facts: false
   name: Hardening
   roles:
-    - roles/hardening
+    - hardening
   tags:
     - hardening
 
