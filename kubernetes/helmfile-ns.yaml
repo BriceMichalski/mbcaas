@@ -5,6 +5,7 @@ environments:
   {{ . }}:
 {{- end }}
 
+---
 helmDefaults:
   timeout: 600
   force: false

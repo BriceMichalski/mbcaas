@@ -1,4 +1,3 @@
----
 
 releases:
   version:
@@ -27,11 +26,11 @@ releases:
     loki-stack: true
     prometheus-stack: true
     monitor-config: true
-    strimzi-kafka-operator: true
-    kafka-shared: true
-    akhq: true
+    strimzi-kafka-operator: false
+    kafka-shared: false
+    akhq: false
     ha-redirect: true # TODO: move it
-    keycloak: true
+    keycloak: false
 
 apps:
   version:
