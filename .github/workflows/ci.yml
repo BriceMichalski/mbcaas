@@ -1,4 +1,3 @@
----
 name: Continuous Integration
 
 on: [push]
@@ -8,33 +7,43 @@ jobs:
     name: Lint Code
     runs-on: ubuntu-latest
     steps:
-      - name: Age Binary Installer
-        uses: adnsio/setup-age-action@v1.2.0
+    - name: Age Binary Installer
+      uses: adnsio/setup-age-action@v1.2.0
 
-      - name: Sops Binary Installer
-        uses: mdgreenwald/mozilla-sops-action@v1.4.0
+    - name: Sops Binary Installer
+      uses: mdgreenwald/mozilla-sops-action@v1.4.0
 
-      - name: Setup helmfile
-        uses: mamezou-tech/setup-helmfile@v1.2.0
+    - name: Setup helmfile
+      uses: mamezou-tech/setup-helmfile@v1.2.0
 
-      - name: Install Helm secrets plugin
-        run: |
-          helm plugin install https://github.com/jkroepke/helm-secrets --version v3.8.3
+    - name: Install Helm secrets plugin
+      run: |
+        helm plugin install https://github.com/jkroepke/helm-secrets --version v3.8.3
 
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Run super linter
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_MARKDOWN: true
-          VALIDATE_YAML: true
-          FILTER_REGEX_EXCLUDE: "(kubernetes/.*/templates/.*)|(.*secrets.sops.yaml)|(.*helmfile.*.yaml)"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Run super linter
+      uses: github/super-linter@v4
+      env:
+        VALIDATE_MARKDOWN: true
+        VALIDATE_YAML: true
+        FILTER_REGEX_EXCLUDE: "(kubernetes/.*/templates/.*)|(.*secrets.sops.yaml)|(.*helmfile.*.yaml)"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run helmfile lint
-        working-directory: kubernetes
-        env:
-          SOPS_AGE_KEY: ${{secrets.AGE_KEY}}
-        run: |
-          helmfile -e dev lint
+    - name: Run helmfile lint
+      working-directory: kubernetes
+      env:
+        SOPS_AGE_KEY: ${{secrets.AGE_KEY}}
+      run: |
+        helmfile -e dev lint
+  scan:
+    name: Check for leaks
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
