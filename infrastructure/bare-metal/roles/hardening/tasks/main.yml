@@ -65,7 +65,6 @@
     - hardening
     - hardening::partition
 
-
 #######################
 #         SWAP        #
 #######################
@@ -127,3 +126,55 @@
   tags:
     - hardening
     - hardening::usual
+
+#######################
+#     Storage Req     #
+#######################
+
+- name: NFS requierements
+  become: true
+  block:
+    - name: Install nfs-common
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+  tags:
+    - hardening
+    - hardening::storage-req
+    - hardening::storage-req::nfs
+
+- name: ISCSI requierements
+  become: true
+  block:
+    - name: Install iscsi apt package
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - "open-iscsi"
+        - "lsscsi"
+        - "sg3-utils"
+        - "multipath-tools"
+        - "scsitools"
+
+    - name: Multipath config
+      ansible.builtin.template:
+        src: multipath.conf.j2
+        dest: /etc/multipath.conf
+      notify: restart multipath-tools
+
+    - name: Enable and restart multipath-tools service
+      ansible.builtin.systemd:
+        name: multipath-tools.service
+        enabled: yes
+        state: started
+
+    - name: Enable and start open-iscsi service
+      ansible.builtin.systemd:
+        name: open-iscsi.service
+        enabled: yes
+        state: started
+  tags:
+    - hardening
+    - hardening::storage-req
+    - hardening::storage-req::iscsi
