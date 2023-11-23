@@ -15,15 +15,6 @@
   tags:
     - hardening
 
-- hosts: nfs
-  gather_facts: false
-  name: NFS for backup
-  become: true
-  roles:
-    - geerlingguy.nfs
-  tags:
-    - nfs
-
 - hosts: knode
   gather_facts: false
   name: Raw Kubernetes cluster

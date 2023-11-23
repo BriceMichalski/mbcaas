@@ -1,0 +1,51 @@
+csiDriver:
+  name: "com.mbcaas.storage.ssd.file"
+storageClasses:
+  - name: ssd-file
+    defaultClass: false
+    reclaimPolicy: Delete
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      fsType: nfs
+      detachedVolumesFromSnapshots: "false"
+    mountOptions:
+    - noatime
+    - nfsvers=3
+    secrets:
+      provisioner-secret:
+      controller-publish-secret:
+      node-stage-secret:
+      node-publish-secret:
+      controller-expand-secret:
+volumeSnapshotClasses:
+  - name:  ssd-file
+    parameters:
+      detachedSnapshots: "true"
+driver:
+  config:
+    driver: freenas-api-nfs
+    instance_id:
+    httpConnection:
+      protocol: http
+      host: {{ .Values.secrets.storage.ip }}
+      port: {{ .Values.secrets.storage.port }}
+      apiKey: {{ .Values.secrets.storage.api_key }}
+      allowInsecure: true
+    zfs:
+      datasetParentName: SSD/k8s/file/volume
+      detachedSnapshotsDatasetParentName: SSD/k8s/file/snapshot
+      datasetEnableQuotas: true
+      datasetEnableReservation: false
+      datasetPermissionsMode: "0777"
+      datasetPermissionsUser: 0
+      datasetPermissionsGroup: 0
+    nfs:
+      shareHost: {{ .Values.secrets.storage.ip }}
+      shareAlldirs: false
+      shareAllowedHosts: []
+      shareAllowedNetworks: []
+      shareMaprootUser: root
+      shareMaprootGroup: root
+      shareMapallUser: ""
+      shareMapallGroup: ""

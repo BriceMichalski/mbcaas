@@ -7,23 +7,7 @@ ansible_ssh_pass: vagrant
 #    Drives & Disk    #
 #######################
 partitions_unit: "%"
-partitions:
-  - device: /dev/sdb
-    number: 1
-    mountpoint: /data/mbcaas01-dev-disk1
-    fstype: ext4
-    start: 0
-    size: 100
-
-  - device: /dev/sdc
-    number: 1
-    mountpoint: /data/mbcaas01-dev-disk2
-    fstype: ext4
-    start: 0
-    size: 100
-
-nfs_exports:
-  - "/data/mbcaas01-dev-disk2 *(rw,sync,no_root_squash)"
+partitions: []
 
 #######################
 #  Kubernetes roles   #

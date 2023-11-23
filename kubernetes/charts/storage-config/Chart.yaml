@@ -1,5 +1,0 @@
-apiVersion: v2
-name: storage-config
-description: Apply storage configuration to my cluster
-type: application
-version: 1.0.0

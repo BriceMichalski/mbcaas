@@ -1,13 +1,31 @@
-name: mbcaas01-dev
-box: bento/ubuntu-20.04
-ip: 192.168.60.10
-memory: 10240
-cpu: 5
-disk_directory: "/home/bricemichalski/data/vagrant"
-disks:
-  - name: mbcaas01-dev-disk1
-    size: 40
-    port: 2
-  - name: mbcaas01-dev-disk2
-    size: 10
-    port: 3
+disk_directory: "/Users/brice/.vbdisk"
+nodes:
+  - name: master1.k8s.dev.mbcaas.com
+    box: bento/ubuntu-20.04
+    ip: 192.168.60.10
+    memory: 4096
+    cpu: 2
+    disks: []
+
+  - name: truenas.san.dev.mbcaas.com
+    box: ealvarenga/TrueNAS-SCALE
+    ip: 192.168.60.15
+    memory: 4096
+    cpu: 1
+    disks:
+      - name: wd-red-1
+        type: hdd
+        size: 10
+        port: 2
+      - name: wd-red-2
+        type: hdd
+        size: 10
+        port: 3
+      - name: wd-red-3
+        type: hdd
+        size: 10
+        port: 4
+      - name: wd-red-4
+        type: hdd
+        size: 10
+        port: 5

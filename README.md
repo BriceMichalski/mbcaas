@@ -87,7 +87,7 @@ But as said above, i need different software and sometime they have to shared co
 
 You can found all the chart I use in my [helmfile.yaml](./kubernetes/helmfile.yaml).
 
-### Container Storage Interface
+### Container Storage Interface (OUTDATED)
 
 Do to the nature of docker, when a container re-start, all the files that not in the source image or in a `volume` will be deleted.
 By designed, kubernetes can restart container/pod for me, if they are unhealthy or for rescheduling (not on single note cluster).
