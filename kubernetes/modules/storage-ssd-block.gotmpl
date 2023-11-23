@@ -1,0 +1,56 @@
+csiDriver:
+  name: "com.mbcaas.storage.ssd.block"
+storageClasses:
+  - name: ssd-block
+    defaultClass: false
+    reclaimPolicy: Delete
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      fsType: ext4
+      detachedVolumesFromSnapshots: "false"
+    mountOptions: []
+    secrets:
+      provisioner-secret:
+      controller-publish-secret:
+      node-stage-secret:
+      node-publish-secret:
+      controller-expand-secret:
+volumeSnapshotClasses:
+  - name: ssd-block
+    parameters:
+      detachedSnapshots: "true"
+driver:
+  config:
+    driver: freenas-api-iscsi
+    instance_id:
+    httpConnection:
+      protocol: http
+      host: {{ .Values.secrets.storage.ip }}
+      port: {{ .Values.secrets.storage.port }}
+      apiKey: {{ .Values.secrets.storage.api_key }}
+      allowInsecure: true
+    zfs:
+      datasetParentName: SSD/k8s/block/volume
+      detachedSnapshotsDatasetParentName: SSD/k8s/block/snapshot
+      zvolCompression:
+      zvolDedup:
+      zvolEnableReservation: false
+      zvolBlocksize:
+    iscsi:
+      targetPortal: "{{ .Values.secrets.storage.ip }}:3260"
+      targetPortals: []
+      interface:
+      namePrefix: csi-
+      nameSuffix: "-ssd-block"
+      targetGroups:
+        - targetGroupPortalGroup: 1
+          targetGroupInitiatorGroup: 2
+          targetGroupAuthType: None
+          targetGroupAuthGroup:
+      extentInsecureTpc: true
+      extentXenCompat: false
+      extentDisablePhysicalBlocksize: true
+      extentBlocksize: 512
+      extentRpm: "SSD"
+      extentAvailThreshold: 0

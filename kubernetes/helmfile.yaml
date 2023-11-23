@@ -52,6 +52,8 @@ repositories:
   - name: akhq
     url: https://akhq.io/
 
+  - name: democratic-csi
+    url: https://democratic-csi.github.io/charts/
 
 releases:
 
@@ -77,6 +79,32 @@ releases:
     <<: *default
 
   # Storage
+
+  - name: storage-snapshot-controller
+    namespace: kube-storage
+    chart: democratic-csi/snapshot-controller
+    version: 0.2.4
+
+  - name: storage-hdd-block
+    namespace: kube-storage
+    chart: democratic-csi/democratic-csi
+    <<: *default
+
+  - name: storage-hdd-file
+    namespace: kube-storage
+    chart: democratic-csi/democratic-csi
+    <<: *default
+
+  - name: storage-ssd-block
+    namespace: kube-storage
+    chart: democratic-csi/democratic-csi
+    <<: *default
+
+  - name: storage-ssd-file
+    namespace: kube-storage
+    chart: democratic-csi/democratic-csi
+    <<: *default
+
   - name: longhorn
     namespace: kube-storage
     chart: longhorn/longhorn
