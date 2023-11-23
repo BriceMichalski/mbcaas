@@ -56,30 +56,7 @@ repositories:
     url: https://democratic-csi.github.io/charts/
 
 releases:
-
-  # Network
-  - name: e-dns-cloudflare
-    namespace: kube-network
-    chart: bitnami/external-dns
-    <<: *default
-
-  - name: traefik
-    namespace: kube-network
-    chart: traefik/traefik
-    <<: *default
-
-  - name: error-pages
-    namespace: kube-network
-    chart: k8s-at-home/error-pages
-    <<: *default
-
-  - name: network-config
-    namespace: kube-network
-    chart: ./charts/network-config
-    <<: *default
-
   # Storage
-
   - name: storage-snapshot-controller
     namespace: kube-storage
     chart: democratic-csi/snapshot-controller
@@ -105,14 +82,25 @@ releases:
     chart: democratic-csi/democratic-csi
     <<: *default
 
-  - name: longhorn
-    namespace: kube-storage
-    chart: longhorn/longhorn
+  # Network
+  - name: e-dns-cloudflare
+    namespace: kube-network
+    chart: bitnami/external-dns
     <<: *default
 
-  - name: storage-config
-    namespace: kube-storage
-    chart: ./charts/storage-config
+  - name: traefik
+    namespace: kube-network
+    chart: traefik/traefik
+    <<: *default
+
+  - name: error-pages
+    namespace: kube-network
+    chart: k8s-at-home/error-pages
+    <<: *default
+
+  - name: network-config
+    namespace: kube-network
+    chart: ./charts/network-config
     <<: *default
 
   # Observability

@@ -29,13 +29,13 @@ releases:
     storage-hdd-file: true
     storage-ssd-block: true
     storage-ssd-file: true
+    longhorn: false
+    storage-config: false
     # NETWORK
     traefik: true
     e-dns-cloudflare: true
     error-pages: true
     network-config: true
-    longhorn: true
-    storage-config: true
     loki-stack: true
     prometheus-stack: true
     monitor-config: true
