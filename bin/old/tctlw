@@ -1,0 +1,120 @@
+#!/bin/bash
+
+ACCESS_FOLDER=$MBCAAS_ROOT_DIR/access
+
+declare -a TCTL_RESOURCE=("users" "roles")
+
+login(){
+    tsh login --proxy=teleport.mbcaas.com:443 --auth=local --user=brice_michalski teleport.mbcaas.com
+}
+
+help(){
+    echo ""
+    echo "usage: tctlw <action> <resources>"
+    echo ""
+    echo "Action:"
+    echo ""
+    echo -e "  pull\t pull configuration and update local file for <resources> resources"
+    echo -e "  push\t push configuration using local configuration file for <resources> resources"
+    echo ""
+    echo "resources:"
+    echo ""
+    for i in "${TCTL_RESOURCE[@]}"
+    do
+    echo -e "  $i\t <action> configuration for teleport $i"
+    done
+    echo -e "  all\t <action> for all allowed resource (see above)"
+    echo ""
+    echo "Examples:"
+    echo ""
+    echo -e "  $ tctlw pull users"
+    echo -e "  $ tctlw push all"
+}
+
+check_arg(){
+    resources=$1
+
+    RED='\033[0;31m'
+    NC='\033[0m' # No Color
+
+    if [[ ${TCTL_RESOURCE[@]} =~ $resources ]]
+    then
+        :
+    else
+        echo -e "${RED}resources $resources was not allowed ${NC}"
+        help
+        exit 1
+    fi
+}
+
+pull(){
+    resources=$1
+
+    check_arg $resources
+    echo "=> Pull $resources"
+    mkdir -p $resources
+    cd $resources
+    tctl get $resources | yq eval 'del(.metadata.id)' | yq -s '.metadata.name'
+    cd ..
+}
+
+pull_all(){
+    for i in "${TCTL_RESOURCE[@]}"
+    do
+        pull $i
+    done
+}
+
+push(){
+    resources=$1
+
+    check_arg $resources
+    echo "=> Push $resources"
+    cd $resource
+    files=(*)
+
+    for i in "${files[@]}"
+    do
+        tctl create -f $i
+    done
+    cd ..
+}
+
+push_all(){
+    for i in "${TCTL_RESOURCE[@]}"
+    do
+        push $i
+    done
+}
+
+cmd=$1
+shift 1
+
+current_dir=`pwd`
+cd $ACCESS_FOLDER
+
+login
+# PULL
+if [ "$cmd" = "pull" ]
+then
+    resource=$1
+    if [ "$resource" = "all" ]
+    then
+        pull_all
+    else
+        pull $1
+    fi
+elif [ "$cmd" = "push" ]
+then
+    resource=$1
+    if [ "$resource" = "all" ]
+    then
+        push_all
+    else
+        push $1
+    fi
+else
+    help
+fi
+
+cd $current_dir

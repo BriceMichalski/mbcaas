@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$#" -lt 1 ]; then
+    echo "Erreur : first arugement need to be user used to connect to mbcaas"
+    exit 1  # Quitter le script avec un code d'erreur
+fi
+
+docker run --rm -it -e "TERM=xterm-256color" -e "MBCAAS_USER=$1" -v ${PWD}:/workdir mbcaas $1

@@ -1,0 +1,28 @@
+clusterName: "{{ .Values.dns.teleport }}"
+proxyListenerMode: multiplex
+
+acme: false
+extraArgs:
+- "--insecure"
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  suppressAutomaticWildcards: true
+
+annotations:
+  service:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: kube-network-allow-insecure-https@kubernetescrd
+  ingress:
+    traefik.ingress.kubernetes.io/router.middlewares: kube-network-remove-proxy-headers@kubernetescrd
+    {{ toYaml .Values.helper.ingress.annotations.common | nindent 4 }}
+
+resources: {}
+
+persistence:
+  enabled: true
+  volumeSize: 30Gi
+  storageClassName: hdd-block

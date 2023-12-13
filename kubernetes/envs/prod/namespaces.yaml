@@ -28,6 +28,10 @@ namespaces:
         pvcs: 5
         storage: 110Gi
 
+  - name: kube-access
+    system: true
+    disableQuotas: true
+
   - name: data-store
     quotas:
       requests:
