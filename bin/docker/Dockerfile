@@ -1,14 +1,15 @@
 FROM ubuntu:22.04
 
-RUN mkdir mbcaas \
+ENV HELM_PLUGINS="/opt/helm/plugin"
+
+RUN cd /tmp \
     && apt update \
-    && apt install curl git python3 python3-pip -y \
+    && apt install curl git python3 python3-pip  age -y \
     # TELEPORT
     && curl https://goteleport.com/static/install.sh | bash -s 14.2.1 \
     # KUBECTL
     && curl -L -o /usr/bin/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
     # K9S
-    && cd /tmp \
     && curl -L -O https://github.com/derailed/k9s/releases/download/v0.28.2/k9s_Linux_amd64.tar.gz \
     && tar -xvf k9s_Linux_amd64.tar.gz \
     && mv k9s /usr/bin \
@@ -18,11 +19,16 @@ RUN mkdir mbcaas \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list \
     && apt-get update \
     && apt-get install helm \
+    # HELM PLUGINS
     && helm plugin install https://github.com/databus23/helm-diff \
+    && helm plugin install https://github.com/jkroepke/helm-secrets \
     ## HELMFILE
     && curl -L -O https://github.com/helmfile/helmfile/releases/download/v0.159.0/helmfile_0.159.0_linux_amd64.tar.gz \
     && tar -xvf helmfile_0.159.0_linux_amd64.tar.gz \
     && mv helmfile /usr/bin/helmfile \
+    # SOPS
+    && curl -LO https://github.com/getsops/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64 \
+    && mv sops-v3.8.1.linux.amd64 /usr/bin/sops \
     # TOOLS
     && cd /tmp \
     && curl -L -o /usr/bin/jq https://github.com/jqlang/jq/releases/download/jq-1.7/jq-linux-amd64 \
@@ -38,6 +44,7 @@ RUN mkdir mbcaas \
     && chown mbcaas-tools /workdir \
     # MAKE EXEC
     && chmod +x /usr/bin/*
+
 
 COPY --chmod=0755 ./entrypoint.sh /docker-entrypoint.sh
 
