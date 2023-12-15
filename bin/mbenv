@@ -13,6 +13,6 @@ if [[ -f $HOME/Library/Application\ Support/sops/age/keys.txt && -z $MBCAAS_SOPS
     SOPS_MOUNT=" -v \"$HOME/Library/Application Support/sops/age/keys.txt:$SOPS_MOUNT_TARGET\""
 fi
 
-docker_cmd="docker run --rm -it -e "TERM=xterm-256color" -e "MBCAAS_USER=$1" $SOPS_MOUNT:ro -v ${PWD}:/workdir docker.pkg.github.com/BriceMichalski/${{ github.event.repository.name }}/mbcaas-toolkit $1"
+docker_cmd="docker run --rm -it -e "TERM=xterm-256color" -e "MBCAAS_USER=$1" $SOPS_MOUNT:ro -v ${PWD}:/workdir ghcr.io/bricemichalski/mbcaas/mbcaas-toolkit:latest $1"
 
 eval $docker_cmd

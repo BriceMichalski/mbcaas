@@ -26,7 +26,10 @@ jobs:
         with:
           context: ./bin/docker
           push: true
-          tags: docker.pkg.github.com/bricemichalski/${{ github.event.repository.name }}/mbcaas-toolkit:${{ github.ref_name }}
+          tags: |
+            docker.pkg.github.com/bricemichalski/${{ github.event.repository.name }}/mbcaas-toolkit:latest
+            docker.pkg.github.com/bricemichalski/${{ github.event.repository.name }}/mbcaas-toolkit:${{ github.ref_name }}
+          platforms: linux/amd64,linux/arm64
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
