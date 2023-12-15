@@ -24,7 +24,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./bin/docker
           push: true
           tags: docker.pkg.github.com/bricemichalski/${{ github.event.repository.name }}/mbcaas-toolkit:${{ github.ref_name }}
           secrets: |
