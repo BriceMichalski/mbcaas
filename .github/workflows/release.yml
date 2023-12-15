@@ -13,8 +13,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: docker.pkg.github.com/BriceMichalski/${{ github.event.repository.name }}/mbcaas-toolkit:${{ github.ref_name }}
+          secrets: |
+            "github_token=${{ secrets.GITHUB_TOKEN }}"
+
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           title: "${{ github.ref_name }}"
+          files: |
+            bin/mbenv

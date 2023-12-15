@@ -34,9 +34,6 @@ repositories:
   - name: k8s-at-home
     url: https://k8s-at-home.com/charts
 
-  - name: longhorn
-    url: https://charts.longhorn.io
-
   - name: grafana
     url: https://grafana.github.io/helm-charts
 
@@ -54,6 +51,9 @@ repositories:
 
   - name: democratic-csi
     url: https://democratic-csi.github.io/charts/
+
+  - name: teleport
+    url: https://charts.releases.teleport.dev
 
 releases:
   # Storage
@@ -118,6 +118,14 @@ releases:
     namespace: kube-monitor
     chart: ./charts/monitor-config
     <<: *default
+
+  # Access
+  - name: teleport
+    namespace: kube-access
+    chart: teleport/teleport-cluster
+    <<: *default
+
+
 
   # Data Store
   - name: strimzi-kafka-operator

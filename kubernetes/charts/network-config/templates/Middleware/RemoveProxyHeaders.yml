@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: remove-proxy-headers
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-For: ""
+      X-Forwarded-Host: ""
+      X-Forwarded-Port: ""
+      X-Forwarded-Proto: ""
+      X-Forwarded-Server: ""
+      X-Real-Ip: ""

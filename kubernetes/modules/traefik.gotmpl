@@ -26,7 +26,8 @@ deployment:
           memory: 50Mi
 ports:
   web:
-    redirectTo: websecure
+    redirectTo:
+      port: websecure
   websecure:
     nodePort: 30443
     proxyProtocol:
