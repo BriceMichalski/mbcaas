@@ -129,8 +129,6 @@ releases:
     chart: teleport/teleport-cluster
     <<: *default
 
-
-
   # Data Store
   - name: strimzi-kafka-operator
     namespace: data-store
@@ -150,10 +148,4 @@ releases:
   - name: keycloak
     namespace: iam
     chart: bitnami/keycloak
-    <<: *default
-
-  # APPS
-  - name: ha-redirect
-    namespace: home
-    chart: ./charts/http-redirect
     <<: *default
