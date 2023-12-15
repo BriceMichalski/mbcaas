@@ -65,21 +65,25 @@ releases:
   - name: storage-hdd-block
     namespace: kube-storage
     chart: democratic-csi/democratic-csi
+    disableValidation: true
     <<: *default
 
   - name: storage-hdd-file
     namespace: kube-storage
     chart: democratic-csi/democratic-csi
+    disableValidation: true
     <<: *default
 
   - name: storage-ssd-block
     namespace: kube-storage
     chart: democratic-csi/democratic-csi
+    disableValidation: true
     <<: *default
 
   - name: storage-ssd-file
     namespace: kube-storage
     chart: democratic-csi/democratic-csi
+    disableValidation: true
     <<: *default
 
   # Network
