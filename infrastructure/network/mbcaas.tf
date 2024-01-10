@@ -67,6 +67,11 @@ resource "unifi_device" "udm_se" {
         port_profile_id     = resource.unifi_port_profile.mbcaas_no_poe.id
     }
 
+    port_override {
+        name                = "Port 8 - mbcaas-pi-01"
+        number              = 8
+        port_profile_id     = resource.unifi_port_profile.mbcaas_poe.id
+    }
 
 }
 

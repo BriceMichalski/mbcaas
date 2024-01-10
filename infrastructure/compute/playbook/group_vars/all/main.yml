@@ -1,19 +1,25 @@
----
 #######################
 #      Main Vars      #
 #######################
 cluster_admin: brice_michalski
 
-usual_apt_package:
-  - git
-  - jq
-  - curl
-  - python3-pip
-  - tree
-  - util-linux
+apt_package:
+- git
+- jq
+- curl
+- python3-pip
+- tree
+- util-linux
 
-usual_pip_package:
-  - openshift==0.12
-  - PyYAML
+pip_package:
+- openshift==0.12
+- PyYAML
 
 k9s_version: "v0.26.3"
+
+#######################
+#     System req      #
+#######################
+kernel_modules:
+- overlay
+- br_netfilter

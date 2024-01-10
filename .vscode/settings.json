@@ -10,7 +10,7 @@
   "files.insertFinalNewline": true,
   "files.exclude": {
     ".vagrant/": true,
-    ".github/": true
+    ".github/": false
   },
   "sops.defaults": {
     "ageKeyFile": "keys.txt"

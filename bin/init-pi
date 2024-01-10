@@ -1,0 +1,23 @@
+#!/bin/bash
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+#Init Var
+NODE_IP=`hostname -I | awk '{print $1}'`
+USER="ansible"
+PASSWORD=`openssl rand -base64 16`
+
+
+# Init ansible user
+sudo useradd -m $USER
+sudo usermod --password $(echo $PASSWORD | openssl passwd -1 -stdin) $USER
+sudo usermod -aG sudo $USER
+
+
+#Prompt
+echo "${GREEN}"
+echo "==="
+echo "NODE IP: $NODE_IP"
+echo "USER: $USER"
+echo "PASSWORD: $PASSWORD"
+echo "${NC}"

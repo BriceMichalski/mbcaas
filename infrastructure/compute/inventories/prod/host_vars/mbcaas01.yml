@@ -28,6 +28,6 @@ partitions_unit: "%"
 partitions: []
 
 #######################
-#  Kubernetes roles   #
+#   Logical variable  #
 #######################
-kubernetes_role: master
+host_family: nuc
