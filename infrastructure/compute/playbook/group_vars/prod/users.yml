@@ -1,11 +1,10 @@
----
 server_users:
   brice_michalski:
     uid: 1000
     gid: 1000
     admin: true
     group: brice_michalski
-    groups: adm,cdrom,sudo,dip,plugdev,lxd
+    groups: sudo
     comment: Brice Michalski
     public_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/oa/vf2NNMghjlV+wMc5Me6YDK6DMet5oH0yA+zS7cVihrTwNTm8EM1g8bOQODxgC5BaZlN6GBXqagyOfGmDyouDeGtccL/9leiDNlM23B1Kf8f6AQc1NcjNCVZSikKUDZy9ni/okiD5PsbyZa1atjk8aQZ/wxJsqwdBY59f/zA0Ou60xuYFVwrRsgPQ1/MTWa7SRGHyNdxnDNu/9qn7SwAGdnvtig8O4d9pKX9dMMyymOhrRkFTipmMa7NAISIQGxbBpYyiVDCS/Yhbl50odZOcMgAwcRoVrLZKFBUE38PLcoLwHdesLybsjWTIFFkplPonr9Wm3RevMpv4JpjpL" # yamllint disable-line
+    - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/oa/vf2NNMghjlV+wMc5Me6YDK6DMet5oH0yA+zS7cVihrTwNTm8EM1g8bOQODxgC5BaZlN6GBXqagyOfGmDyouDeGtccL/9leiDNlM23B1Kf8f6AQc1NcjNCVZSikKUDZy9ni/okiD5PsbyZa1atjk8aQZ/wxJsqwdBY59f/zA0Ou60xuYFVwrRsgPQ1/MTWa7SRGHyNdxnDNu/9qn7SwAGdnvtig8O4d9pKX9dMMyymOhrRkFTipmMa7NAISIQGxbBpYyiVDCS/Yhbl50odZOcMgAwcRoVrLZKFBUE38PLcoLwHdesLybsjWTIFFkplPonr9Wm3RevMpv4JpjpL" # yamllint disable-line

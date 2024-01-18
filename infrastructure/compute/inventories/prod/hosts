@@ -1,4 +1,5 @@
 mbcaas01
+mbcaas-pi-01
 
 [prod:children]
 knode
@@ -6,9 +7,13 @@ nfs
 
 [knode:children]
 kmaster
+kworker
 
 [kmaster]
 mbcaas01
+
+[kworker]
+mbcaas-pi-01
 
 [nfs]
 mbcaas01
