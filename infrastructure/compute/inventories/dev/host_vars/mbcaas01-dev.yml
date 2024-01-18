@@ -1,0 +1,15 @@
+---
+ansible_host: 192.168.60.10
+ansible_user: vagrant
+ansible_ssh_pass: vagrant
+
+#######################
+#    Drives & Disk    #
+#######################
+partitions_unit: "%"
+partitions: []
+
+#######################
+#  Kubernetes roles   #
+#######################
+kubernetes_role: master

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ANSIBLE_PATH="$MBCAAS_ROOT_DIR/infrastructure/bare-metal"
+ROLES_PATH="$ANSIBLE_PATH/roles"
+
+ANSIBLE_ROLES_PATH="$ROLES_PATH"  ansible-playbook -i $ANSIBLE_PATH/inventories/prod/hosts $ANSIBLE_PATH/playbook/infrastructure.yml --vault-password-file="$ANSIBLE_PATH/vault-pwd" -t kubernetes

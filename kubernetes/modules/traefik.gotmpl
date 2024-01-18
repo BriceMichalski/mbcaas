@@ -26,7 +26,8 @@ deployment:
           memory: 50Mi
 ports:
   web:
-    redirectTo: websecure
+    redirectTo:
+      port: websecure
   websecure:
     nodePort: 30443
     proxyProtocol:
@@ -70,6 +71,7 @@ persistence:
   enabled: true
   storageClass: standard
   name: data
+  storageClass: hdd-file
   accessMode: ReadWriteOnce
   size: 128Mi
   path: /data

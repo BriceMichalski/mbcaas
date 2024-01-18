@@ -1,0 +1,13 @@
+---
+roles:
+  - name: geerlingguy.containerd
+    version: 1.3.1
+
+  - name: geerlingguy.helm
+    version: 1.0.1
+
+  - name: geerlingguy.kubernetes
+    version: 7.1.1
+
+  - name: geerlingguy.nfs
+    version: 2.0.0
