@@ -21,12 +21,8 @@ releases:
     prometheus-stack: 40.5.0
     monitor-config: 1.0.0
 
-    # MESS
-    strimzi-kafka-operator: 0.33.2
-    kafka-shared: 1.0.0
-    akhq: 0.3.1
-    ha-redirect: 1.0.0
-    keycloak: 15.1.6
+    # EXTRA-OPERATOR
+    strimzi: 0.33.2
 
   installed:
     # STORAGE
@@ -48,11 +44,10 @@ releases:
     loki-stack: true
     prometheus-stack: true
     monitor-config: true
-    strimzi-kafka-operator: false
-    kafka-shared: false
-    akhq: false
-    ha-redirect: true # TODO: move it
-    keycloak: false
+
+    # EXTRA-OPERATOR
+    strimzi: true
+
 
 apps:
   version:

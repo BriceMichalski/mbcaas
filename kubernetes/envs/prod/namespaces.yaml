@@ -19,7 +19,7 @@ namespaces:
   system: true
   quotas:
     requests:
-      memory: 1400Mi
+      memory: 1800Mi
       cpu: 2
     limits:
       memory: 3Gi
