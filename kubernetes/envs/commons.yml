@@ -48,7 +48,6 @@ releases:
     # EXTRA-OPERATOR
     strimzi: true
 
-
 apps:
   version:
     traefik: v2.9

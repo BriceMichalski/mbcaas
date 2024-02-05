@@ -26,8 +26,14 @@ deployment:
           memory: 50Mi
 ports:
   web:
-    redirectTo:
-      port: websecure
+    proxyProtocol:
+      trustedIPs:
+        {{ .Values.traefik.ipWhitelist | toYaml | nindent 8 }}
+    forwardedHeaders:
+      trustedIPs:
+        {{ .Values.traefik.ipWhitelist | toYaml | nindent 8 }}
+    middlewares:
+      - "kube-network-common@kubernetescrd"
   websecure:
     nodePort: 30443
     proxyProtocol:
