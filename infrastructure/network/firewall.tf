@@ -23,7 +23,6 @@ resource "unifi_firewall_rule" "group_to_group" {
   protocol = each.value.protocol
   src_firewall_group_ids = [unifi_firewall_group.groups["${each.value.src}"].id]
   dst_firewall_group_ids = [unifi_firewall_group.groups["${each.value.dst}"].id]
-
 }
 
 resource "unifi_firewall_rule" "group_to_adress" {
@@ -77,4 +76,6 @@ resource "unifi_firewall_rule" "block_inter_vlan" {
 
     src_firewall_group_ids = [unifi_firewall_group.groups["rfc1918"].id]
     dst_firewall_group_ids = [unifi_firewall_group.groups["rfc1918"].id]
+
+      logging = true
 }
