@@ -33,7 +33,7 @@ resource "unifi_wlan" "iot_wifi" {
 # Port Profile
 
 resource "unifi_port_profile" "iot_no_poe" {
-    name = "MBCaaS VLAN - No PoE"
+    name = "IOT VLAN - No PoE"
 
     native_networkconf_id = unifi_network.iot.id
     dot1x_ctrl            = "auto"

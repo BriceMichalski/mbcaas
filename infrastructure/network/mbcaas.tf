@@ -62,12 +62,14 @@ resource "unifi_device" "udm_se" {
     }
 
     port_override {
+        aggregate_num_ports = null
         name                = "Port 7 - mbcaas01"
         number              = 7
         port_profile_id     = resource.unifi_port_profile.mbcaas_no_poe.id
     }
 
     port_override {
+        aggregate_num_ports = null
         name                = "Port 8 - mbcaas-pi-01"
         number              = 8
         port_profile_id     = resource.unifi_port_profile.mbcaas_poe.id
@@ -84,6 +86,16 @@ resource "unifi_port_forward" "mbcaas_https" {
 
     dst_port = data.sops_file.secrets.data["mbcaas.forward.https.port.src"]
 
-    fwd_ip = data.sops_file.secrets.data["mbcaas.forward.https.ip"]
+    fwd_ip = data.sops_file.secrets.data["mbcaas.forward.ip"]
     fwd_port = data.sops_file.secrets.data["mbcaas.forward.https.port.dest"]
+}
+
+resource "unifi_port_forward" "mbcaas_http" {
+    name = "MBCaaS VIP - Http"
+    log = false
+
+    dst_port = data.sops_file.secrets.data["mbcaas.forward.http.port.src"]
+
+    fwd_ip = data.sops_file.secrets.data["mbcaas.forward.ip"]
+    fwd_port = data.sops_file.secrets.data["mbcaas.forward.http.port.dest"]
 }
