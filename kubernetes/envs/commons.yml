@@ -14,7 +14,7 @@ releases:
     network-config: 1.1.0
 
     # ACCESS
-    teleport: 14.2.0
+    teleport: 14.3.0
 
     # MONITOR
     loki-stack: 2.7.0
