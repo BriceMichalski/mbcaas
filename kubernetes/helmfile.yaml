@@ -130,22 +130,7 @@ releases:
     <<: *default
 
   # Data Store
-  - name: strimzi-kafka-operator
-    namespace: data-store
+  - name: strimzi
+    namespace: extra-operator
     chart: strimzi/strimzi-kafka-operator
-    <<: *default
-
-  - name: kafka-shared
-    namespace: data-store
-    chart: ./charts/kafka-shared
-    <<: *default
-
-  - name: akhq
-    namespace: data-store
-    chart: akhq/akhq
-    <<: *default
-
-  - name: keycloak
-    namespace: iam
-    chart: bitnami/keycloak
     <<: *default

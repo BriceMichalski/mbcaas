@@ -137,6 +137,13 @@
     ansible.builtin.apt:
       name: nfs-common
       state: present
+
+  - name: Enable and start rpcbind service
+    ansible.builtin.systemd:
+      name: rpcbind.service
+      enabled: yes
+      state: started
+
   tags:
   - hardening
   - hardening::storage-req

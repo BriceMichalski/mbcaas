@@ -84,6 +84,16 @@ resource "unifi_port_forward" "mbcaas_https" {
 
     dst_port = data.sops_file.secrets.data["mbcaas.forward.https.port.src"]
 
-    fwd_ip = data.sops_file.secrets.data["mbcaas.forward.https.ip"]
+    fwd_ip = data.sops_file.secrets.data["mbcaas.forward.ip"]
     fwd_port = data.sops_file.secrets.data["mbcaas.forward.https.port.dest"]
+}
+
+resource "unifi_port_forward" "mbcaas_http" {
+    name = "MBCaaS VIP - Http"
+    log = false
+
+    dst_port = data.sops_file.secrets.data["mbcaas.forward.http.port.src"]
+
+    fwd_ip = data.sops_file.secrets.data["mbcaas.forward.ip"]
+    fwd_port = data.sops_file.secrets.data["mbcaas.forward.http.port.dest"]
 }
