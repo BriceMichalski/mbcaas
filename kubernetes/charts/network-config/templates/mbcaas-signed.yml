@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: mbcaas-root-selfsigned
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mbcaas-ca
+  namespace: kube-network
+spec:
+  isCA: true
+  commonName: mbcaas.com
+  secretName: mbcaas-ca-root
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: mbcaas-root-selfsigned
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: mbcaas-signed
+  namespace: kube-network
+spec:
+  ca:
+    secretName: mbcaas-ca-root

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token
+type: Opaque
+stringData:
+  api-key: {{ .Values.cloudflare.key }}
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    email: {{ .Values.admin.email | quote }}
+    server: "https://acme-v02.api.letsencrypt.org/directory"
+    privateKeySecretRef:
+      name: cluster-issuer-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          email: {{ .Values.admin.email }}
+          apiKeySecretRef:
+            name: cloudflare-api-token
+            key: api-key
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mbcaas.com
+  namespace: kube-network
+spec:
+  dnsNames:
+    - "mbcaas.com"
+    - "*.mbcaas.com"
+  secretName: mbcaas.com-cert
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: michalski.fr
+  namespace: kube-network
+spec:
+  dnsNames:
+    - "michalski.fr"
+    - "*.michalski.fr"
+  secretName: michalski.fr-cert
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer

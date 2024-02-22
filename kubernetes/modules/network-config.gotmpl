@@ -1,4 +1,10 @@
 ---
+
+admin:
+  email: {{ .Values.secrets.email }}
+cloudflare:
+  key: {{ .Values.secrets.cloudflare.key }}
+
 envType: {{ .Values.envType }}
 traefik:
   url: {{ .Values.dns.traefik }}

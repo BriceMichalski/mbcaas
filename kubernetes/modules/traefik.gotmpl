@@ -47,31 +47,31 @@ ports:
     {{- if .Values.traefik.websecure.tls }}
     tls:
       enabled: {{ .Values.traefik.websecure.tls }}
-      options: "default"
-      certResolver: letsencrypt
-      domains:
-      {{- range .Values.traefik.domains }}
-        - main: "{{ . }}"
-          sans:
-            - "*.{{ . }}"
-      {{- end }}
+      # options: "default"
+      # certResolver: letsencrypt
+      # domains:
+      # {{- range .Values.traefik.domains }}
+      #   - main: "{{ . }}"
+      #     sans:
+      #       - "*.{{ . }}"
+      # {{- end }}
     {{- end }}
 
-{{- if .Values.traefik.websecure.tls }}
-certResolvers:
-  letsencrypt:
-    email: {{ .Values.secrets.email }}
-    storage: /data/acme.json
-    dnschallenge:
-      provider: cloudflare
+# {{- if .Values.traefik.websecure.tls }}
+# certResolvers:
+#   letsencrypt:
+#     email: {{ .Values.secrets.email }}
+#     storage: /data/acme.json
+#     dnschallenge:
+#       provider: cloudflare
 
-# TODO - Use secrets for CF creds
-env:
-  - name: CF_API_EMAIL
-    value: {{ .Values.secrets.email }}
-  - name: CF_API_KEY
-    value: {{ .Values.secrets.cloudflare.key }}
-{{- end }}
+# # TODO - Use secrets for CF creds
+# env:
+#   - name: CF_API_EMAIL
+#     value: {{ .Values.secrets.email }}
+#   - name: CF_API_KEY
+#     value: {{ .Values.secrets.cloudflare.key }}
+# {{- end }}
 
 persistence:
   enabled: true

@@ -10,10 +10,13 @@ ingress:
     annotations:
       {{ toYaml .Values.helper.ingress.annotations.common | nindent 6 }}
     hosts:
-      - host: {{ .Values.dns.errorPages}}
+      - host:
         paths:
           - path: "/"
             pathType: Prefix
-
+  tls:
+  - hosts:
+      - {{ .Values.dns.errorPages}}
+    secretName: mbcaas.com-cert
 resources:
   {{ toYaml .Values.quotas.errorpages | nindent 2}}

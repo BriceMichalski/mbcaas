@@ -92,6 +92,10 @@ grafana:
       {{ toYaml .Values.helper.ingress.annotations.admin | nindent 6 }}
     hosts:
       - {{ .Values.dns.grafana }}
+    tls:
+      - secretName: mbcaas.com-cert
+        hosts:
+        - {{ .Values.dns.grafana }}
   defaultDashboardsTimezone: Europe/Paris
   defaultDashboardsEnabled: false
   forceDeployDatasources: false

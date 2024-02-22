@@ -1,55 +1,35 @@
 namespaces:
-- name: kube-network
-  system: true
-  quotas:
-    requests:
-      memory: 500Mi
-      cpu: 500m
-    limits:
-      memory: 800Mi
-      cpu: 800m
-      pvcs: 5
-      storage: 200Mi
+  - name: kube-network
+    system: true
+    disableQuotas: true
 
-- name: kube-storage
-  system: true
-  disableQuotas: true
+  - name: kube-storage
+    system: true
+    disableQuotas: true
 
-- name: kube-monitor
-  system: true
-  quotas:
-    requests:
-      memory: 1800Mi
-      cpu: 2
-    limits:
-      memory: 3Gi
-      cpu: 3
-      pvcs: 5
-      storage: 110Gi
+  - name: kube-access
+    system: true
+    disableQuotas: true
 
-- name: kube-access
-  system: true
-  disableQuotas: true
+  - name: kube-monitor
+    system: true
+    quotas:
+      requests:
+        memory: 1800Mi
+        cpu: 2
+      limits:
+        memory: 3Gi
+        cpu: 3
+        pvcs: 5
+        storage: 110Gi
 
-- name: extra-operator
-  quotas:
-    requests:
-      memory: 2Gi
-      cpu: 2
-    limits:
-      memory: 3Gi
-      cpu: 3
-      pvcs: 5
-      storage: 5Gi
-
-- name: iam
-  system: true
-  quotas:
-    requests:
-      memory: 1024Mi
-      cpu: 600m
-    limits:
-      memory: 1024Mi
-      cpu: 800m
-      pvcs: 5
-      storage: 10Gi
+  - name: extra-operator
+    quotas:
+      requests:
+        memory: 2Gi
+        cpu: 2
+      limits:
+        memory: 3Gi
+        cpu: 3
+        pvcs: 5
+        storage: 5Gi

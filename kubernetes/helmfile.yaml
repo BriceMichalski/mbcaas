@@ -55,6 +55,9 @@ repositories:
   - name: teleport
     url: https://charts.releases.teleport.dev
 
+  - name: jetstack
+    url: https://charts.jetstack.io
+
 releases:
   # Storage
   - name: storage-snapshot-controller
@@ -102,6 +105,11 @@ releases:
     chart: k8s-at-home/error-pages
     <<: *default
 
+  - name: cert-manager
+    namespace: kube-network
+    chart: jetstack/cert-manager
+    <<: *default
+
   - name: network-config
     namespace: kube-network
     chart: ./charts/network-config
@@ -129,7 +137,7 @@ releases:
     chart: teleport/teleport-cluster
     <<: *default
 
-  # Data Store
+  # Extra Opérator
   - name: strimzi
     namespace: extra-operator
     chart: strimzi/strimzi-kafka-operator

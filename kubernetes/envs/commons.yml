@@ -1,4 +1,5 @@
 releases:
+  # Chart version
   version:
     # STORAGE
     storage-snapshot-controller: 0.2.4
@@ -11,6 +12,7 @@ releases:
     traefik: v25.0.0
     e-dns-cloudflare: 6.13.2
     error-pages: 1.2.2
+    cert-manager: 1.14.2
     network-config: 1.1.0
 
     # ACCESS
@@ -35,6 +37,7 @@ releases:
     traefik: true
     e-dns-cloudflare: true
     error-pages: true
+    cert-manager: true
     network-config: true
 
     # ACCESS
