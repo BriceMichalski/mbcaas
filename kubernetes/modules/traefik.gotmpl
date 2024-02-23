@@ -44,19 +44,6 @@ ports:
         {{ .Values.traefik.ipWhitelist | toYaml | nindent 8 }}
     middlewares:
       - "kube-network-common@kubernetescrd"
-    {{- if .Values.traefik.websecure.tls }}
-    tls:
-      enabled: {{ .Values.traefik.websecure.tls }}
-      # options: "default"
-      # certResolver: letsencrypt
-      # domains:
-      # {{- range .Values.traefik.domains }}
-      #   - main: "{{ . }}"
-      #     sans:
-      #       - "*.{{ . }}"
-      # {{- end }}
-    {{- end }}
-
 # {{- if .Values.traefik.websecure.tls }}
 # certResolvers:
 #   letsencrypt:

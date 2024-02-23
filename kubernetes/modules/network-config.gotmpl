@@ -4,6 +4,7 @@ admin:
   email: {{ .Values.secrets.email }}
 cloudflare:
   key: {{ .Values.secrets.cloudflare.key }}
+  origin_ca_key:  {{ .Values.secrets.cloudflare.origin_ca_key }}
 
 envType: {{ .Values.envType }}
 traefik:
